@@ -1,0 +1,40 @@
+#stacks_in_2_page0_float {
+	float:left;
+	width:33%;
+}
+#stacks_in_31_page0 {
+	-moz-border-radius:  10px;
+	-webkit-border-radius:  10px;
+	border-radius:  10px;
+}
+
+#stacks_in_19_page0 .stacks_left {
+	float:left;
+	width:32%;
+}
+
+#stacks_in_19_page0 .stacks_right {
+	float:right;
+	width:32%;
+}
+
+#stacks_in_19_page0 .stacks_middle {
+	position:relative;
+	margin:0 auto;
+	width:32%;
+}
+#stacks_in_7_page0 .stacks_left {
+	float:left;
+	width:32%;
+}
+
+#stacks_in_7_page0 .stacks_right {
+	float:right;
+	width:32%;
+}
+
+#stacks_in_7_page0 .stacks_middle {
+	position:relative;
+	margin:0 auto;
+	width:32%;
+}
