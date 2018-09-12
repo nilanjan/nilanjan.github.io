@@ -1,11 +1,16 @@
-#stacks_in_2_page0_float {
+#stacks_in_52_page0_float {
 	float:left;
-	width:33%;
+	width:40%;
 }
-#stacks_in_31_page0 {
+#stacks_out_52_page0 {
+	margin-left:0;
+}
+
+#stacks_in_55_page0 {
 	-moz-border-radius:  10px;
 	-webkit-border-radius:  10px;
 	border-radius:  10px;
+	padding:  8px;
 }
 #stacks_in_37_page0>.s3_row {
 	margin: 0 -10px;
