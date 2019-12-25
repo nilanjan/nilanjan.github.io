@@ -6,12 +6,20 @@
 	margin-left:0;
 }
 
+#stacks_in_53_page0 {
+	font-size: 90%;
+}
+
 #stacks_in_55_page0 {
 	-moz-border-radius:  10px;
 	-webkit-border-radius:  10px;
 	border-radius:  10px;
 	margin:  7px;
 	padding:  8px;
+}
+
+#stacks_in_60_page0 {
+	font-size: 110%;
 }
 #stacks_in_37_page0>.s3_row {
 	margin: 0 -10px;
