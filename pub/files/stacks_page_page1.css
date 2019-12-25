@@ -3,13 +3,3 @@
 	margin:  2px;
 	padding:  5px;
 }
-
-#stacks_in_10_page1 .stacks_left {
-	float:left;
-	width:49%;
-}
-
-#stacks_in_10_page1 .stacks_right {
-	float:right;
-	width:49%;
-}
