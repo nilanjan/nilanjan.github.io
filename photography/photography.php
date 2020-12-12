@@ -25,28 +25,28 @@
 	<meta name="twitter:title" content="Photography | Nilanjan Goswami, Ph.D.">
 	<meta name="twitter:description" content="NilG Photography, Nature Photography, Portrait Photography, Architecture Photography, Rural India Photography, National Parks of America Photography">
 	<meta name="twitter:image" content="http://www.nilanjan.info/resources/NilG.png">
-	<meta name="twitter:url" content="http://www.nilanjan.info/nilgphotography/nilgphotography.php">
+	<meta name="twitter:url" content="http://www.nilanjan.info/photography/photography.php">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="Nilanjan Goswami, Ph.D.">
 	<meta property="og:title" content="Photography | Nilanjan Goswami, Ph.D.">
 	<meta property="og:description" content="NilG Photography, Nature Photography, Portrait Photography, Architecture Photography, Rural India Photography, National Parks of America Photography">
 	<meta property="og:image" content="http://www.nilanjan.info/resources/NilG.png">
-	<meta property="og:url" content="http://www.nilanjan.info/nilgphotography/nilgphotography.php"> 
+	<meta property="og:url" content="http://www.nilanjan.info/photography/photography.php"> 
 
 	<!-- Meta tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
 	<title>Photography | Nilanjan Goswami, Ph.D.</title>
-	<link rel="stylesheet" type="text/css" media="all" href="../rw_common/themes/Artful/consolidated-5.css?rwcache=629490541" />
+	<link rel="stylesheet" type="text/css" media="all" href="../rw_common/themes/Artful/consolidated-5.css?rwcache=629491343" />
 		
-	    		<link rel='stylesheet' type='text/css' media='all' href='../rw_common/plugins/stacks/stacks.css?rwcache=629490541' />
-		<link rel='stylesheet' type='text/css' media='all' href='files/stacks_page_page5.css?rwcache=629490541' />
-        <script type='text/javascript' charset='utf-8' src='../rw_common/plugins/stacks/jquery-2.2.4.min.js?rwcache=629490541'></script>
+	    		<link rel='stylesheet' type='text/css' media='all' href='../rw_common/plugins/stacks/stacks.css?rwcache=629491343' />
+		<link rel='stylesheet' type='text/css' media='all' href='files/stacks_page_page5.css?rwcache=629491343' />
+        <script type='text/javascript' charset='utf-8' src='../rw_common/plugins/stacks/jquery-2.2.4.min.js?rwcache=629491343'></script>
         
         
         
 		
-		<script type='text/javascript' charset='utf-8' src='files/stacks_page_page5.js?rwcache=629490541'></script>
+		<script type='text/javascript' charset='utf-8' src='files/stacks_page_page5.js?rwcache=629491343'></script>
         <meta name="formatter" content="Stacks v3.6.9 (4242)" >
 		<meta class="stacks3 stack version" id="de.futural.gallerystack3.imagepro" name="Image + Thumb Pro" content="3.0.0">
 		<meta class="stacks3 stack version" id="de.futural.gallerystack3" name="Gallery 3" content="3.11.1">
@@ -70,7 +70,7 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item"><a href="../pub/publication.html" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item active"><a href="nilgphotography.php" rel="" class="nav-link">Photography</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
+				<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item"><a href="../pub/publication.html" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item active"><a href="photography.php" rel="" class="nav-link">Photography</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
 			</div>
 		</div>
 	</nav>
@@ -193,12 +193,12 @@
 						For Photography reach me at one0blue@gmail.com
 					</div>
 
-					<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item"><a href="../pub/publication.html" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item has-dropdown active"><a href="nilgphotography.php" rel="" class="nav-link dropdown-toggle" data-toggle="dropdown" >Photography</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
+					<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item"><a href="../pub/publication.html" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item has-dropdown active"><a href="photography.php" rel="" class="nav-link dropdown-toggle" data-toggle="dropdown" >Photography</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../rw_common/themes/Artful/js/main.js?rwcache=629490541"></script>
+	<script type="text/javascript" src="../rw_common/themes/Artful/js/main.js?rwcache=629491343"></script>
 <script id="godaddy-security-s" src="https://cdn.sucuri.net/badge/badge.js" data-s="2049" data-i="149be1c38b868cb487e9d2ba46a5ceacf68525b157" data-p="r" data-c="l" data-t="g"></script></body>
 
 </html>
