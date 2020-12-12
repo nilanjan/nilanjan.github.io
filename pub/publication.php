@@ -26,22 +26,22 @@
 	<meta name="twitter:title" content="List of scholarly articles published">
 	<meta name="twitter:description" content="Professional webpage of Nilanjan Goswami, Ph.D. GPU Architect.">
 	<meta name="twitter:image" content="http://www.nilanjan.info/resources/6137EC20-9382-4055-85BD-21174D338228_1_201_a.jpeg">
-	<meta name="twitter:url" content="http://www.nilanjan.info/pub/publication.html">
+	<meta name="twitter:url" content="http://www.nilanjan.info/pub/publication.php">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="Nilanjan Goswami, Ph.D.">
 	<meta property="og:title" content="List of scholarly articles published">
 	<meta property="og:description" content="Professional webpage of Nilanjan Goswami, Ph.D. GPU Architect.">
 	<meta property="og:image" content="http://www.nilanjan.info/resources/6137EC20-9382-4055-85BD-21174D338228_1_201_a.jpeg">
-	<meta property="og:url" content="http://www.nilanjan.info/pub/publication.html"> 
+	<meta property="og:url" content="http://www.nilanjan.info/pub/publication.php"> 
 
 	<!-- Meta tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
 	<title>List of scholarly articles published</title>
-	<link rel="stylesheet" type="text/css" media="all" href="../rw_common/themes/Artful/consolidated-1.css?rwcache=629493535" />
+	<link rel="stylesheet" type="text/css" media="all" href="../rw_common/themes/Artful/consolidated-1.css?rwcache=629493483" />
 		
-	    		<link rel='stylesheet' type='text/css' media='all' href='../rw_common/plugins/stacks/stacks.css?rwcache=629493535' />
-		<link rel='stylesheet' type='text/css' media='all' href='files/stacks_page_page1.css?rwcache=629493535' />
+	    		<link rel='stylesheet' type='text/css' media='all' href='../rw_common/plugins/stacks/stacks.css?rwcache=629493483' />
+		<link rel='stylesheet' type='text/css' media='all' href='files/stacks_page_page1.css?rwcache=629493483' />
         
         
         
@@ -66,7 +66,7 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item active"><a href="publication.html" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
+				<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item active"><a href="publication.php" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item"><a href="../photos/photos.php" rel="" class="nav-link">Photos</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
 			</div>
 		</div>
 	</nav>
@@ -115,12 +115,12 @@
 						&copy; 2021 Nilanjan Goswami
 					</div>
 
-					<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item active"><a href="publication.html" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
+					<ul class="navbar-nav ml-auto"><li class="nav-item"><a href="../" rel="" class="nav-link">Home</a></li><li class="nav-item active"><a href="publication.php" rel="" class="nav-link">Publication</a></li><li class="nav-item"><a href="../service/service.html" rel="" class="nav-link">Service</a></li><li class="nav-item"><a href="../photos/photos.php" rel="" class="nav-link">Photos</a></li><li class="nav-item"><a href="../contact/contact.html" rel="" class="nav-link">Contact</a></li></ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../rw_common/themes/Artful/js/main.js?rwcache=629493535"></script>
+	<script type="text/javascript" src="../rw_common/themes/Artful/js/main.js?rwcache=629493483"></script>
 <script id="godaddy-security-s" src="https://cdn.sucuri.net/badge/badge.js" data-s="2049" data-i="149be1c38b868cb487e9d2ba46a5ceacf68525b157" data-p="r" data-c="l" data-t="g"></script></body>
 
 </html>
