@@ -3022,6 +3022,8 @@ $(function() {
 
             if (allowImageShuffle) {
                 
+                images = shuffleArray(images);
+                
             }
 
             if (stacks['stacks_in_9_page10'].initializeGrid) {
@@ -3217,6 +3219,10 @@ $(function() {
         initializeLibraries(images, true, true);
     }
 
+    
+    $('body').on('contextmenu', 'img', function(e){ 
+        return false; 
+    });
     
 
 });

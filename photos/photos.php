@@ -19,7 +19,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="referrer" content="same-origin" />
 		<meta name="robots" content="index, follow" />
-		<meta name="generator" content="RapidWeaver" />
 		
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Photos | Nilanjan Goswami, Ph.D.">
@@ -35,16 +34,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
 	<title>Photos | Nilanjan Goswami, Ph.D.</title>
-	<link rel="stylesheet" type="text/css" media="all" href="../rw_common/themes/Artful/consolidated-10.css?rwcache=629492417" />
+	<link rel="stylesheet" type="text/css" media="all" href="../rw_common/themes/Artful/consolidated-10.css?rwcache=629492981" />
 		
-	    		<link rel='stylesheet' type='text/css' media='all' href='../rw_common/plugins/stacks/stacks.css?rwcache=629492417' />
-		<link rel='stylesheet' type='text/css' media='all' href='files/stacks_page_page10.css?rwcache=629492417' />
-        <script type='text/javascript' charset='utf-8' src='../rw_common/plugins/stacks/jquery-2.2.4.min.js?rwcache=629492417'></script>
+	    		<link rel='stylesheet' type='text/css' media='all' href='../rw_common/plugins/stacks/stacks.css?rwcache=629492981' />
+		<link rel='stylesheet' type='text/css' media='all' href='files/stacks_page_page10.css?rwcache=629492981' />
+        <script type='text/javascript' charset='utf-8' src='../rw_common/plugins/stacks/jquery-2.2.4.min.js?rwcache=629492981'></script>
         
         
         
 		
-		<script type='text/javascript' charset='utf-8' src='files/stacks_page_page10.js?rwcache=629492417'></script>
+		<script type='text/javascript' charset='utf-8' src='files/stacks_page_page10.js?rwcache=629492981'></script>
         <meta name="formatter" content="Stacks v3.6.9 (4242)" >
 		<meta class="stacks3 stack version" id="de.futural.gallerystack3" name="Gallery 3" content="3.11.1">
 		<meta class="stacks3 stack version" id="de.futural.gallerystack3.lightbox.lightgallery" name="Lightbox: lightGallery" content="3.0.0">
@@ -196,7 +195,7 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../rw_common/themes/Artful/js/main.js?rwcache=629492417"></script>
+	<script type="text/javascript" src="../rw_common/themes/Artful/js/main.js?rwcache=629492981"></script>
 <script id="godaddy-security-s" src="https://cdn.sucuri.net/badge/badge.js" data-s="2049" data-i="149be1c38b868cb487e9d2ba46a5ceacf68525b157" data-p="r" data-c="l" data-t="g"></script></body>
 
 </html>
