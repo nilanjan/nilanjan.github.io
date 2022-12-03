@@ -58,6 +58,15 @@
   max-width: 100%;
 }
 
+.imageStyle.stacksImage {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
 .stacks_float_left {
   float: left;
   margin-right: 20px;
@@ -119,6 +128,30 @@
 .s3_column_right {
   float: right;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
