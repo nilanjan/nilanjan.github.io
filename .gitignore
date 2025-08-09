@@ -9,6 +9,11 @@ frontend/package-lock.json
 frontend/dist/
 backend/target/
 
+# Allow built files in root for GitHub Pages
+!index.html
+!assets/
+!vite.svg
+
 # Environment variables
 .env
 .env.local
