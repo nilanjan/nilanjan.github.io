@@ -1,0 +1,10 @@
+# testing/unit-tests.mdc
+rule "test-coverage" {
+  description = "Maintain test coverage standards"
+  when = "implementing new features"
+  then = "Create unit tests that:
+    - Cover all code paths
+    - Include edge cases
+    - Follow AAA pattern
+    - Use meaningful test names"
+}

@@ -1,0 +1,9 @@
+# style/formatting.mdc
+rule "consistent-formatting" {
+  description = "Enforce consistent code formatting"
+  when = "formatting code"
+  then = "Follow project style guide:
+    - Use 2 space indentation
+    - Place opening brace on same line
+    - Add spaces around operators"
+}
