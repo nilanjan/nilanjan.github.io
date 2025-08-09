@@ -1,0 +1,48 @@
+{
+  "name": "nilanjan-portfolio",
+  "version": "1.0.0",
+  "description": "Nilanjan Goswami's portfolio website built with React and Rust",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && cargo run",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && cargo build --release",
+    "start": "npm run start:backend",
+    "start:backend": "cd backend && cargo run",
+    "start:frontend": "cd frontend && npm run preview",
+    "install:all": "npm install && cd frontend && npm install",
+    "clean": "rm -rf frontend/dist backend/target",
+    "docker:build": "docker build -t portfolio:latest .",
+    "docker:run": "docker run -p 8080:80 -p 3001:3001 portfolio:latest",
+    "deploy": "./deploy.sh",
+    "deploy:local": "./deploy.sh local",
+    "deploy:docker": "./deploy.sh docker",
+    "deploy:production": "./deploy.sh production"
+  },
+  "keywords": [
+    "portfolio",
+    "react",
+    "rust",
+    "typescript",
+    "graphics-architecture",
+    "ar-vr",
+    "mobile-graphics"
+  ],
+  "author": "Nilanjan Goswami",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nilanjan/portfolio.git"
+  },
+  "homepage": "https://nilanjan.github.io"
+} 
