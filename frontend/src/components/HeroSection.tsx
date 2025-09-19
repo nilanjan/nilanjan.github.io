@@ -67,7 +67,7 @@ const HeroSection = () => {
           >
             <span className="gradient-text">Graphics Architect</span>
             <br />
-            <span className="text-dark-900 dark:text-white">System/Hardware</span>
+            <span className="text-gray-900 dark:text-white">System/Hardware</span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -75,7 +75,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl md:text-2xl text-dark-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
           >
             Principal Graphics Architect at Qualcomm Technologies Inc. specializing in 2D/3D graphics pipeline optimization, 
             AR/VR rendering, and mobile graphics architecture.
@@ -107,7 +107,7 @@ const HeroSection = () => {
               href="https://github.com/nilanjan"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white dark:bg-dark-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 text-dark-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
             >
               <Github className="w-6 h-6" />
             </a>
@@ -115,13 +115,13 @@ const HeroSection = () => {
               href="https://linkedin.com/in/nilanjan-goswami"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white dark:bg-dark-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 text-dark-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
             >
               <Linkedin className="w-6 h-6" />
             </a>
             <a
               href="mailto:nilanjan.goswami@gmail.com"
-              className="p-3 rounded-full bg-white dark:bg-dark-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 text-dark-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
             >
               <Mail className="w-6 h-6" />
             </a>
@@ -140,9 +140,9 @@ const HeroSection = () => {
           onClick={scrollToAbout}
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="p-2 rounded-full bg-white/20 dark:bg-dark-800/20 backdrop-blur-sm hover:bg-white/30 dark:hover:bg-dark-800/30 transition-colors duration-300"
+          className="p-2 rounded-full bg-white/20 dark:bg-gray-800/20 backdrop-blur-sm hover:bg-white/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
         >
-          <ChevronDown className="w-6 h-6 text-dark-700 dark:text-gray-300" />
+          <ChevronDown className="w-6 h-6 text-gray-700 dark:text-gray-300" />
         </motion.button>
       </motion.div>
     </section>

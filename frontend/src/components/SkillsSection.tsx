@@ -78,7 +78,7 @@ const SkillsSection = () => {
   ]
 
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-dark-900">
+    <section id="skills" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -90,7 +90,7 @@ const SkillsSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Technical <span className="gradient-text">Skills</span>
           </h2>
-          <p className="text-xl text-dark-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Expertise across graphics architecture, mobile development, and cutting-edge technologies
           </p>
         </motion.div>
@@ -110,7 +110,7 @@ const SkillsSection = () => {
                 <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg mr-4">
                   <category.icon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-dark-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                   {category.name}
                 </h3>
               </div>
@@ -126,7 +126,7 @@ const SkillsSection = () => {
                     viewport={{ once: true }}
                   >
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-medium text-dark-700 dark:text-gray-300">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                         {skill.name}
                       </span>
                       <span className="text-xs text-primary-600 dark:text-primary-400 font-medium">
@@ -135,7 +135,7 @@ const SkillsSection = () => {
                     </div>
                     
                     {/* Progress Bar */}
-                    <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.proficiency}%` }}
@@ -162,25 +162,25 @@ const SkillsSection = () => {
           className="mt-16 text-center"
         >
           <div className="bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-4 text-dark-900 dark:text-white">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
               Always Learning
             </h3>
-            <p className="text-lg text-dark-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
               I'm constantly exploring new technologies and methodologies to stay at the forefront 
               of graphics architecture and mobile development. Currently focused on AI-powered 
               rendering techniques and next-generation AR/VR experiences.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <span className="px-4 py-2 bg-white dark:bg-dark-800 rounded-full text-sm font-medium text-dark-700 dark:text-gray-300 shadow-sm">
+              <span className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm">
                 AI/ML Integration
               </span>
-              <span className="px-4 py-2 bg-white dark:bg-dark-800 rounded-full text-sm font-medium text-dark-700 dark:text-gray-300 shadow-sm">
+              <span className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm">
                 Real-time Ray Tracing
               </span>
-              <span className="px-4 py-2 bg-white dark:bg-dark-800 rounded-full text-sm font-medium text-dark-700 dark:text-gray-300 shadow-sm">
+              <span className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm">
                 Neural Rendering
               </span>
-              <span className="px-4 py-2 bg-white dark:bg-dark-800 rounded-full text-sm font-medium text-dark-700 dark:text-gray-300 shadow-sm">
+              <span className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm">
                 Quantum Computing
               </span>
             </div>

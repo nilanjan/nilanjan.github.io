@@ -189,7 +189,7 @@ const PublicationsSection = () => {
   }
 
   return (
-    <section id="publications" className="py-20 bg-white dark:bg-dark-900">
+    <section id="publications" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -201,7 +201,7 @@ const PublicationsSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Research <span className="gradient-text">Publications</span>
           </h2>
-          <p className="text-xl text-dark-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Peer-reviewed contributions to computer graphics, mobile GPU architecture, and rendering optimization research
           </p>
         </motion.div>
@@ -221,16 +221,16 @@ const PublicationsSection = () => {
                   <div className="flex items-start mb-3">
                     <BookOpen className="w-5 h-5 text-primary-600 dark:text-primary-400 mt-1 mr-3 flex-shrink-0" />
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-dark-900 dark:text-white leading-tight mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight mb-2">
                         {pub.title}
                       </h3>
                       
                       <div className="flex flex-wrap items-center gap-3 mb-3 text-sm">
-                        <div className="flex items-center text-dark-600 dark:text-gray-300">
+                        <div className="flex items-center text-gray-600 dark:text-gray-300">
                           <Users className="w-4 h-4 mr-1" />
                           {pub.authors.join(', ')}
                         </div>
-                        <div className="flex items-center text-dark-600 dark:text-gray-300">
+                        <div className="flex items-center text-gray-600 dark:text-gray-300">
                           <Calendar className="w-4 h-4 mr-1" />
                           {pub.year}
                         </div>
@@ -245,7 +245,7 @@ const PublicationsSection = () => {
                     </div>
                   </div>
 
-                  <p className="text-dark-600 dark:text-gray-300 leading-relaxed mb-4">
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                     {pub.abstract}
                   </p>
 
@@ -253,7 +253,7 @@ const PublicationsSection = () => {
                     {pub.keywords.map((keyword) => (
                       <span
                         key={keyword}
-                        className="px-2 py-1 bg-gray-100 dark:bg-dark-700 text-dark-600 dark:text-gray-300 text-xs rounded"
+                        className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs rounded"
                       >
                         {keyword}
                       </span>
@@ -267,12 +267,12 @@ const PublicationsSection = () => {
                       <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
                         {pub.citations}
                       </div>
-                      <div className="text-xs text-dark-500 dark:text-gray-400">Citations</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">Citations</div>
                     </div>
                     
                     <div className="flex items-center space-x-2">
                       <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
-                      <span className="text-sm text-dark-600 dark:text-gray-300">
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
                         {pub.type}
                       </span>
                     </div>
@@ -288,7 +288,7 @@ const PublicationsSection = () => {
                       <ExternalLink className="w-4 h-4 mr-1" />
                       View Paper
                     </a>
-                    <div className="text-xs text-dark-500 dark:text-gray-400">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       DOI: {pub.doi}
                     </div>
                   </div>
@@ -307,31 +307,31 @@ const PublicationsSection = () => {
           className="mt-16 text-center"
         >
           <div className="bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 text-dark-900 dark:text-white">
+            <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
               Research Impact (Google Scholar)
             </h3>
             <div className="grid md:grid-cols-5 gap-6">
               <div className="text-center">
                 <div className="text-3xl font-bold gradient-text mb-2">514</div>
-                <div className="text-sm text-dark-600 dark:text-gray-300">Total Citations</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">Total Citations</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold gradient-text mb-2">8</div>
-                <div className="text-sm text-dark-600 dark:text-gray-300">h-index</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">h-index</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold gradient-text mb-2">7</div>
-                <div className="text-sm text-dark-600 dark:text-gray-300">i10-index</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">i10-index</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold gradient-text mb-2">{publications.length}</div>
-                <div className="text-sm text-dark-600 dark:text-gray-300">Publications</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">Publications</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold gradient-text mb-2">
                   {publications.filter(p => p.impact === "High Impact" || p.impact === "Top Venue").length}
                 </div>
-                <div className="text-sm text-dark-600 dark:text-gray-300">High-Impact Venues</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">High-Impact Venues</div>
               </div>
             </div>
           </div>

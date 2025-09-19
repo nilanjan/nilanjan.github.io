@@ -32,11 +32,11 @@ const ProjectsSection = () => {
 
   if (loading) {
     return (
-      <section id="projects" className="py-20 bg-gray-50 dark:bg-dark-800">
+      <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-            <p className="mt-4 text-dark-600 dark:text-gray-300">Loading projects...</p>
+            <p className="mt-4 text-gray-600 dark:text-gray-300">Loading projects...</p>
           </div>
         </div>
       </section>
@@ -45,11 +45,11 @@ const ProjectsSection = () => {
 
   if (error) {
     return (
-      <section id="projects" className="py-20 bg-gray-50 dark:bg-dark-800">
+      <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-red-600 dark:text-red-400">{error}</p>
-            <p className="mt-2 text-dark-600 dark:text-gray-300">Please make sure the backend server is running.</p>
+            <p className="mt-2 text-gray-600 dark:text-gray-300">Please make sure the backend server is running.</p>
           </div>
         </div>
       </section>
@@ -69,7 +69,7 @@ const ProjectsSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Featured <span className="gradient-text">Projects</span>
           </h2>
-          <p className="text-xl text-dark-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             A showcase of my work in graphics architecture, research, and development
           </p>
         </motion.div>
@@ -94,11 +94,11 @@ const ProjectsSection = () => {
 
                 {/* Project Content */}
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold mb-3 text-dark-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
                     {project.title}
                   </h3>
                   
-                  <p className="text-dark-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     {project.description}
                   </p>
 
@@ -118,14 +118,14 @@ const ProjectsSection = () => {
                 </div>
 
                 {/* Project Links */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-dark-700">
+                <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex space-x-3">
                     {project.github_url && (
                       <a
                         href={project.github_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-gray-100 dark:bg-dark-700 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-dark-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
+                        className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
                       >
                         <Github className="w-5 h-5" />
                       </a>
@@ -135,7 +135,7 @@ const ProjectsSection = () => {
                         href={project.live_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-gray-100 dark:bg-dark-700 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-dark-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
+                        className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
                       >
                         <ExternalLink className="w-5 h-5" />
                       </a>
@@ -160,7 +160,7 @@ const ProjectsSection = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <p className="text-lg text-dark-600 dark:text-gray-300 mb-6">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
             Interested in collaborating on a project?
           </p>
           <button className="btn-primary">

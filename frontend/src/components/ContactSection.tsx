@@ -64,7 +64,7 @@ const ContactSection = () => {
   ]
 
   return (
-    <section id="contact" className="py-20 bg-gray-50 dark:bg-dark-800">
+    <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -73,10 +73,10 @@ const ContactSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
             Get In <span className="gradient-text">Touch</span>
           </h2>
-          <p className="text-xl text-dark-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Interested in discussing graphics architecture research, potential collaborations, or speaking opportunities? 
             Let's connect and explore how we can advance the field together.
           </p>
@@ -91,13 +91,13 @@ const ContactSection = () => {
             viewport={{ once: true }}
             className="card p-8"
           >
-            <h3 className="text-2xl font-semibold mb-6 text-dark-900 dark:text-white">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
               Send a Message
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-dark-700 dark:text-gray-300 mb-2">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Name
                 </label>
                 <input
@@ -107,13 +107,13 @@ const ContactSection = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-700 text-dark-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
                   placeholder="Your name"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-dark-700 dark:text-gray-300 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email
                 </label>
                 <input
@@ -123,13 +123,13 @@ const ContactSection = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-700 text-dark-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
                   placeholder="your.email@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-dark-700 dark:text-gray-300 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Message
                 </label>
                 <textarea
@@ -139,7 +139,7 @@ const ContactSection = () => {
                   onChange={handleInputChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-700 text-dark-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 resize-none"
                   placeholder="Tell me about your project or opportunity..."
                 />
               </div>
@@ -193,7 +193,7 @@ const ContactSection = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-semibold mb-6 text-dark-900 dark:text-white">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
                 Contact Information
               </h3>
               <div className="space-y-6">
@@ -205,14 +205,14 @@ const ContactSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="flex items-center space-x-4 p-4 rounded-lg bg-white dark:bg-dark-700 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors duration-200 group"
+                    className="flex items-center space-x-4 p-4 rounded-lg bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 group"
                   >
                     <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg group-hover:bg-primary-200 dark:group-hover:bg-primary-900/50 transition-colors duration-200">
                       <info.icon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-dark-500 dark:text-gray-400">{info.label}</p>
-                      <p className="text-dark-900 dark:text-white font-medium">{info.value}</p>
+                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{info.label}</p>
+                      <p className="text-gray-900 dark:text-white font-medium">{info.value}</p>
                     </div>
                   </motion.a>
                 ))}
@@ -221,26 +221,20 @@ const ContactSection = () => {
 
             {/* Professional Interests */}
             <div className="card p-6">
-              <h4 className="text-lg font-semibold mb-4 text-dark-900 dark:text-white">
+              <h4 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
                 Professional Interests
               </h4>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-dark-600 dark:text-gray-300">Research Collaboration</span>
+                  <span className="text-gray-600 dark:text-gray-300">Research Collaboration</span>
                   <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full">
                     Open
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-dark-600 dark:text-gray-300">Speaking Engagements</span>
+                  <span className="text-gray-600 dark:text-gray-300">Speaking Engagements</span>
                   <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium rounded-full">
                     Available
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-dark-600 dark:text-gray-300">Industry Consulting</span>
-                  <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm font-medium rounded-full">
-                    Selective
                   </span>
                 </div>
               </div>
@@ -248,7 +242,7 @@ const ContactSection = () => {
 
             {/* Response Time */}
             <div className="text-center p-6 bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-xl">
-              <p className="text-dark-600 dark:text-gray-300 mb-2">
+              <p className="text-gray-600 dark:text-gray-300 mb-2">
                 <strong>Typical Response Time:</strong>
               </p>
               <p className="text-2xl font-bold gradient-text">24-48 hours</p>

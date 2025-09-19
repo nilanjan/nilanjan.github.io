@@ -142,7 +142,7 @@ const PatentsSection = () => {
   ]
 
   return (
-    <section id="patents" className="py-20 bg-gray-50 dark:bg-dark-800">
+    <section id="patents" className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -154,7 +154,7 @@ const PatentsSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Patent <span className="gradient-text">Portfolio</span>
           </h2>
-          <p className="text-xl text-dark-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Innovative contributions to graphics architecture and mobile GPU technology through awarded and pending patents
           </p>
         </motion.div>
@@ -169,7 +169,7 @@ const PatentsSection = () => {
         >
           <div className="flex items-center mb-8">
             <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 mr-3" />
-            <h3 className="text-3xl font-bold text-dark-900 dark:text-white">
+            <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
               Granted Patents ({grantedPatents.length})
             </h3>
           </div>
@@ -186,7 +186,7 @@ const PatentsSection = () => {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-dark-900 dark:text-white mb-2 leading-tight">
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 leading-tight">
                       {patent.title}
                     </h4>
                     <div className="flex items-center text-sm text-green-600 dark:text-green-400 font-medium mb-2">
@@ -196,11 +196,11 @@ const PatentsSection = () => {
                   </div>
                 </div>
 
-                <p className="text-dark-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
                   {patent.description}
                 </p>
 
-                <div className="space-y-2 text-xs text-dark-500 dark:text-gray-400">
+                <div className="space-y-2 text-xs text-gray-500 dark:text-gray-400">
                   <div className="flex justify-between">
                     <span>Filed:</span>
                     <span>{new Date(patent.filingDate).toLocaleDateString()}</span>
@@ -231,7 +231,7 @@ const PatentsSection = () => {
         >
           <div className="flex items-center mb-8">
             <Clock className="w-8 h-8 text-yellow-600 dark:text-yellow-400 mr-3" />
-            <h3 className="text-3xl font-bold text-dark-900 dark:text-white">
+            <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
               Pending Patents ({pendingPatents.length})
             </h3>
           </div>
@@ -248,7 +248,7 @@ const PatentsSection = () => {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-dark-900 dark:text-white mb-2 leading-tight">
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 leading-tight">
                       {patent.title}
                     </h4>
                     <div className="flex items-center text-sm text-yellow-600 dark:text-yellow-400 font-medium mb-2">
@@ -258,11 +258,11 @@ const PatentsSection = () => {
                   </div>
                 </div>
 
-                <p className="text-dark-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
                   {patent.description}
                 </p>
 
-                <div className="space-y-2 text-xs text-dark-500 dark:text-gray-400">
+                <div className="space-y-2 text-xs text-gray-500 dark:text-gray-400">
                   <div className="flex justify-between">
                     <span>Filed:</span>
                     <span>{new Date(patent.filingDate).toLocaleDateString()}</span>
@@ -289,25 +289,25 @@ const PatentsSection = () => {
           className="mt-16 text-center"
         >
           <div className="bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 text-dark-900 dark:text-white">
+            <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
               Innovation Focus Areas
             </h3>
             <div className="grid md:grid-cols-4 gap-6">
               <div className="text-center">
                 <FileText className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                <div className="text-sm font-medium text-dark-700 dark:text-gray-300">Mobile GPU Optimization</div>
+                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Mobile GPU Optimization</div>
               </div>
               <div className="text-center">
                 <FileText className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                <div className="text-sm font-medium text-dark-700 dark:text-gray-300">AR/VR Rendering</div>
+                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">AR/VR Rendering</div>
               </div>
               <div className="text-center">
                 <FileText className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                <div className="text-sm font-medium text-dark-700 dark:text-gray-300">Ray Tracing Acceleration</div>
+                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Ray Tracing Acceleration</div>
               </div>
               <div className="text-center">
                 <FileText className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                <div className="text-sm font-medium text-dark-700 dark:text-gray-300">AI-Enhanced Graphics</div>
+                <div className="text-sm font-medium text-gray-700 dark:text-gray-300">AI-Enhanced Graphics</div>
               </div>
             </div>
           </div>

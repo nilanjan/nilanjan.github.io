@@ -20,7 +20,7 @@ const AboutSection = () => {
   ]
 
   return (
-    <section id="about" className="py-20 bg-white dark:bg-dark-900">
+    <section id="about" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -32,7 +32,7 @@ const AboutSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             About <span className="gradient-text">Me</span>
           </h2>
-          <p className="text-xl text-dark-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             A Principal Graphics Architect specializing in XR graphics, neural rendering, and system-level GPU optimization
           </p>
         </motion.div>
@@ -47,7 +47,7 @@ const AboutSection = () => {
             className="space-y-6"
           >
             <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="text-lg leading-relaxed text-dark-600 dark:text-gray-300">
+              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
                 I'm a <strong>Principal Graphics Architect</strong> at <strong>Qualcomm Technologies Inc.</strong>, 
                 based in Santa Clara, CA, where I specialize in designing and optimizing graphics architectures for 
                 cutting-edge extended reality (XR) applications. My work focuses on hardware-accelerated XR composition—covering 
@@ -55,20 +55,20 @@ const AboutSection = () => {
                 and augmented reality experiences.
               </p>
               
-              <p className="text-lg leading-relaxed text-dark-600 dark:text-gray-300">
+              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
                 I actively explore neural rendering techniques, including <strong>3D Gaussian Splatting–based neural composition</strong>, 
                 to push the boundaries of scene reconstruction and dynamic view synthesis on mobile platforms. These innovations 
                 enable high-fidelity visuals while meeting strict power and performance constraints.
               </p>
 
-              <p className="text-lg leading-relaxed text-dark-600 dark:text-gray-300">
+              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
                 My expertise also extends to <strong>system-level GPU optimization</strong> within system-on-chip (SoC) environments. 
                 Through architectural co-design and cross-subsystem tuning, I've contributed to significant performance-per-watt 
                 improvements across CPU, memory, and display pipelines—driving scalable, energy-efficient graphics solutions 
                 for next-generation devices.
               </p>
 
-              <p className="text-lg leading-relaxed text-dark-600 dark:text-gray-300">
+              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
                 I hold a <strong>Ph.D. in Computer Architecture</strong> from the University of Florida, where my 
                 research focused on deep learning, immersive computing, and real-time graphics systems. My work has been 
                 published in leading conferences and journals, reflecting a commitment to advancing the intersection of 
@@ -88,7 +88,7 @@ const AboutSection = () => {
                   className="text-center"
                 >
                   <div className="text-3xl font-bold gradient-text">{stat.value}</div>
-                  <div className="text-sm text-dark-500 dark:text-gray-400">{stat.label}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
@@ -109,9 +109,9 @@ const AboutSection = () => {
                   <Briefcase className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Principal Graphics Architect</h3>
+                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Principal Graphics Architect</h3>
                   <p className="text-primary-600 dark:text-primary-400 font-medium">Qualcomm Technologies Inc.</p>
-                  <p className="text-dark-500 dark:text-gray-400 text-sm">Santa Clara, CA • 2023 - Present</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">Santa Clara, CA • 2023 - Present</p>
                 </div>
               </div>
             </div>
@@ -123,9 +123,9 @@ const AboutSection = () => {
                   <GraduationCap className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Ph.D. Computer Architecture</h3>
+                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Ph.D. Computer Architecture</h3>
                   <p className="text-green-600 dark:text-green-400 font-medium">University of Florida</p>
-                  <p className="text-dark-500 dark:text-gray-400 text-sm">Department of Electrical and Computer Engineering</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">Department of Electrical and Computer Engineering</p>
                 </div>
               </div>
             </div>
@@ -137,7 +137,7 @@ const AboutSection = () => {
                   <Award className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold mb-4">Areas of Expertise</h3>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Areas of Expertise</h3>
                   <div className="grid grid-cols-2 gap-2">
                     {expertise.map((skill, index) => (
                       <motion.div
@@ -149,7 +149,7 @@ const AboutSection = () => {
                         className="flex items-center space-x-2"
                       >
                         <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
-                        <span className="text-sm text-dark-600 dark:text-gray-300">{skill}</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-300">{skill}</span>
                       </motion.div>
                     ))}
                   </div>
