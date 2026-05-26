@@ -72,6 +72,14 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
     setUseIframe(true)
   }, [])
 
+  const challengePageUrl = getChallengePageUrl()
+  const siteKeySuffix = getTurnstileSiteKey().trim().slice(-8)
+
+  const openChallengeTab = useCallback(() => {
+    if (!challengePageUrl) return
+    window.open(challengePageUrl, 'turnstile-verify', 'width=420,height=360')
+  }, [challengePageUrl])
+
   if (checking) {
     return (
       <div
@@ -88,14 +96,6 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   }
 
   if (verified) return <>{children}</>
-
-  const siteKeySuffix = getTurnstileSiteKey().trim().slice(-8)
-  const challengePageUrl = getChallengePageUrl()
-
-  const openChallengeTab = useCallback(() => {
-    if (!challengePageUrl) return
-    window.open(challengePageUrl, 'turnstile-verify', 'width=420,height=360')
-  }, [challengePageUrl])
 
   return (
     <div
