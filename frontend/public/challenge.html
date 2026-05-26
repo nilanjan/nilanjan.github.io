@@ -86,12 +86,12 @@
         }
 
         window.onTurnstileError = function () {
-          fail('Turnstile could not run. Lower Brave Shields for this site and reload.')
+          fail('Turnstile could not run on this page. Reload and try again.')
         }
 
         timeoutId = setTimeout(function () {
           if (!window.turnstile) {
-            fail('Turnstile did not start. Lower Brave Shields for this site and reload.')
+            fail('Turnstile did not start. Reload and try again.')
           }
         }, 35000)
       })()

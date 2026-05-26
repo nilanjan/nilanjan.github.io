@@ -57,7 +57,6 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
     data-callback="onTurnstileSuccess"
     data-error-callback="onTurnstileError"
   ></div>
-  <p class="hint">Brave: Shields down for this tab and nilanjan.github.io</p>
   <script>
     (function () {
       var parentOrigin = ${JSON.stringify(parent)};
@@ -97,7 +96,7 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
 
       timeoutId = setTimeout(function () {
         if (!window.turnstile) {
-          fail('Brave Shields is blocking Turnstile. Click the lion icon → Shields down for this site, then reload.');
+          fail('Turnstile did not start. Reload and try again.');
         }
       }, 35000);
     })();
