@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react'
-import { ShieldCheck, Loader2 } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { ExternalLink, Loader2, ShieldCheck } from 'lucide-react'
+import MeshBackground from './MeshBackground'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
 import TurnstileChallengeFrame from './TurnstileChallengeFrame'
@@ -13,6 +14,21 @@ interface HumanAccessGateProps {
   children: ReactNode
 }
 
+function VerificationAlert({
+  children,
+  actions,
+}: {
+  children: ReactNode
+  actions?: ReactNode
+}) {
+  return (
+    <div className="verification-alert" role="alert">
+      <div className="verification-alert-body">{children}</div>
+      {actions ? <div className="verification-alert-actions">{actions}</div> : null}
+    </div>
+  )
+}
+
 const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const { verified, checking, blockedReason, verifyAccess } = useHumanAccess()
   const [verifying, setVerifying] = useState(false)
@@ -22,18 +38,25 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const [useInlineWidget, setUseInlineWidget] = useState(false)
   const [challengeKey, setChallengeKey] = useState(0)
   const [widgetKey, setWidgetKey] = useState(0)
+  const verifyInFlightRef = useRef(false)
 
-  const handleTurnstileToken = useCallback(async (token: string) => {
-    setVerifyFailed(false)
-    setScriptBlocked(false)
-    setVerifying(true)
-    try {
-      const ok = await verifyAccess(token)
-      if (!ok) setVerifyFailed(true)
-    } finally {
-      setVerifying(false)
-    }
-  }, [verifyAccess])
+  const handleTurnstileToken = useCallback(
+    async (token: string) => {
+      if (verifyInFlightRef.current) return
+      verifyInFlightRef.current = true
+      setVerifyFailed(false)
+      setScriptBlocked(false)
+      setVerifying(true)
+      try {
+        const ok = await verifyAccess(token)
+        if (!ok) setVerifyFailed(true)
+      } finally {
+        setVerifying(false)
+        verifyInFlightRef.current = false
+      }
+    },
+    [verifyAccess],
+  )
 
   const handleChallengeFrameError = useCallback(() => {
     setUseInlineWidget(true)
@@ -49,6 +72,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
     setLoadError(null)
     setVerifyFailed(false)
     setUseInlineWidget(false)
+    verifyInFlightRef.current = false
     setChallengeKey((key) => key + 1)
     setWidgetKey((key) => key + 1)
   }, [])
@@ -57,7 +81,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
   const openChallengeTab = useCallback(() => {
     if (!challengePageUrl) return
-    window.open(challengePageUrl, 'turnstile-verify', 'width=420,height=360')
+    window.open(challengePageUrl, 'turnstile-verify', 'width=420,height=400')
   }, [challengePageUrl])
 
   useEffect(() => {
@@ -74,63 +98,85 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
   if (checking) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center px-4 safe-x"
-        style={{
-          backgroundColor: 'var(--bg)',
-          paddingTop: 'var(--safe-top)',
-          paddingBottom: 'var(--safe-bottom)',
-        }}
-      >
-        <Loader2 className="w-6 h-6 animate-spin" style={{ color: 'var(--accent)' }} aria-label="Loading" />
+      <div className="verification-gate">
+        <MeshBackground />
+        <div className="verification-gate-center safe-x">
+          <Loader2 className="verification-spinner" aria-label="Loading" />
+          <p className="verification-loading-label">Checking access…</p>
+        </div>
       </div>
     )
   }
 
   if (verified) return <>{children}</>
 
+  const showConfigError = !isVerifyApiConfigured()
+  const showBlocked =
+    Boolean(blockedReason) && !verifyFailed && !scriptBlocked && !showConfigError
+  const showScriptError = scriptBlocked && isVerifyApiConfigured()
+  const showVerifyError = verifyFailed && isVerifyApiConfigured()
+  const showWidget = isVerifyApiConfigured() && !scriptBlocked && !showConfigError
+
+  let scriptErrorMessage =
+    'The verification challenge timed out. Allow challenges.cloudflare.com in your browser settings, then try again.'
+  if (loadError === 'script-blocked') {
+    scriptErrorMessage =
+      'Verification could not load. Allow challenges.cloudflare.com in your blocker or try a private window.'
+  } else if (loadError === 'script-loaded-no-api') {
+    scriptErrorMessage =
+      'Verification loaded but did not start. Retry below or open the challenge in a new tab.'
+  }
+
   return (
-    <div
-      className="min-h-screen flex items-center justify-center px-4 safe-x"
-      style={{
-        backgroundColor: 'var(--bg)',
-        paddingTop: 'var(--safe-top)',
-        paddingBottom: 'var(--safe-bottom)',
-      }}
-    >
-      <div className="card max-w-md w-full card-pad text-center">
-        <div
-          className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full"
-          style={{ backgroundColor: 'var(--accent-subtle)', color: 'var(--accent)' }}
-        >
-          <ShieldCheck className="h-6 w-6" aria-hidden="true" />
-        </div>
+    <div className="verification-gate">
+      <MeshBackground />
+      <div className="verification-gate-body safe-x">
+        <div className="verification-panel">
+          <div className="verification-panel-header">
+            <div className="verification-icon" aria-hidden="true">
+              <ShieldCheck className="h-5 w-5" strokeWidth={1.75} />
+            </div>
+            <div className="verification-panel-copy">
+              <p className="eyebrow verification-eyebrow">Portfolio access</p>
+              <h1 className="verification-title">Confirm you&apos;re human</h1>
+              <p className="verification-subtitle">
+                A quick Cloudflare check keeps automated scrapers off this site.
+              </p>
+            </div>
+          </div>
 
-        <h1 className="text-2xl font-semibold tracking-tight mb-2">Human Verification Required</h1>
-        <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
-          Complete the Cloudflare check below to continue.
-        </p>
+          {showConfigError && (
+            <VerificationAlert>
+              Verification is not configured for this deployment.
+            </VerificationAlert>
+          )}
 
-        {!isVerifyApiConfigured() && (
-          <p className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300">
-            Verification service is not configured.
-          </p>
-        )}
+          {showBlocked && (
+            <VerificationAlert actions={
+              <button type="button" onClick={handleRetry} className="btn-secondary verification-btn">
+                Try again
+              </button>
+            }>
+              {blockedReason}
+            </VerificationAlert>
+          )}
 
-        {blockedReason && (
-          <p className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300">
-            {blockedReason}
-          </p>
-        )}
-
-        {isVerifyApiConfigured() && (
-          <div className="mb-4 space-y-3">
-            {!scriptBlocked && (
-              <>
+          {showWidget && (
+            <div className="verification-widget-section">
+              <div
+                className="verification-widget-shell"
+                data-verifying={verifying || undefined}
+                aria-busy={verifying}
+              >
+                {verifying && (
+                  <div className="verification-widget-overlay" aria-hidden="true">
+                    <Loader2 className="verification-spinner verification-spinner--sm" />
+                    <span>Verifying…</span>
+                  </div>
+                )}
                 {!useInlineWidget ? (
                   <TurnstileChallengeFrame
                     key={challengeKey}
-                    onToken={handleTurnstileToken}
                     onError={handleChallengeFrameError}
                   />
                 ) : (
@@ -140,74 +186,59 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                     onScriptError={handleInlineScriptError}
                   />
                 )}
-                {challengePageUrl && (
-                  <button
-                    type="button"
-                    onClick={openChallengeTab}
-                    className="btn-ghost !min-h-9 !py-2 !px-4 text-xs w-full"
-                  >
-                    Open verification in new tab
-                  </button>
-                )}
-              </>
-            )}
+              </div>
 
-            {scriptBlocked && (
-              <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
-                {loadError === 'script-blocked' ? (
-                  <p>
-                    Turnstile could not download. Allow{' '}
-                    <code className="text-xs">challenges.cloudflare.com</code> in your blocker or try a private
-                    window.
-                  </p>
-                ) : loadError === 'script-loaded-no-api' ? (
-                  <p>
-                    Turnstile&apos;s script loaded but the challenge did not start. Try again or use the new-tab
-                    option below.
-                  </p>
-                ) : (
-                  <p>
-                    Turnstile timed out. Check that <code className="text-xs">challenges.cloudflare.com</code> is
-                    not blocked, then retry.
-                  </p>
-                )}
-                <div className="flex flex-col gap-2">
-                  <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
+              {challengePageUrl && !useInlineWidget && (
+                <button
+                  type="button"
+                  onClick={openChallengeTab}
+                  className="verification-alt-link"
+                >
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  Open challenge in new tab
+                </button>
+              )}
+            </div>
+          )}
+
+          {showScriptError && (
+            <VerificationAlert
+              actions={
+                <>
+                  <button type="button" onClick={handleRetry} className="btn-secondary verification-btn">
                     Retry
                   </button>
                   {challengePageUrl && (
-                    <button
-                      type="button"
-                      onClick={openChallengeTab}
-                      className="btn-primary !min-h-9 !py-2 !px-4 text-xs w-full"
-                    >
-                      Open verification in new tab
+                    <button type="button" onClick={openChallengeTab} className="btn-primary verification-btn">
+                      New tab
                     </button>
                   )}
-                </div>
-              </div>
-            )}
+                </>
+              }
+            >
+              {scriptErrorMessage}
+            </VerificationAlert>
+          )}
 
-            {verifyFailed && (
-              <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
-                <p>
-                  Challenge completed but server verification failed. Wait a moment and try again, or
-                  use the new-tab option below.
-                </p>
-                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
-                  Retry
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {verifying && (
-          <p className="text-sm flex items-center justify-center gap-2" style={{ color: 'var(--text-muted)' }}>
-            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-            Verifying…
-          </p>
-        )}
+          {showVerifyError && (
+            <VerificationAlert
+              actions={
+                <>
+                  <button type="button" onClick={handleRetry} className="btn-secondary verification-btn">
+                    Retry
+                  </button>
+                  {challengePageUrl && (
+                    <button type="button" onClick={openChallengeTab} className="btn-primary verification-btn">
+                      New tab
+                    </button>
+                  )}
+                </>
+              }
+            >
+              The challenge passed but the server could not confirm it. Wait a moment and retry, or use a new tab.
+            </VerificationAlert>
+          )}
+        </div>
       </div>
     </div>
   )

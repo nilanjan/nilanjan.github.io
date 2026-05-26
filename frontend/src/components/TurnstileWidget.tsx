@@ -45,6 +45,7 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
               sitekey: siteKey,
               callback: (token: string) => onTokenRef.current(token),
               theme: 'auto',
+              size: 'flexible',
               appearance: 'always',
             })
             setStatus('ready')
@@ -80,23 +81,17 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
   }, [siteKey])
 
   if (!siteKey) {
-    return (
-      <p className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300">
-        Turnstile site key is not configured.
-      </p>
-    )
+    return <p className="verification-inline-hint">Turnstile site key is not configured.</p>
   }
 
   return (
-    <div className="flex flex-col items-center gap-2 min-w-[300px] mx-auto">
+    <div className="verification-inline-widget">
       {status === 'loading' && (
-        <p className="text-xs py-2" style={{ color: 'var(--text-muted)' }}>
-          Loading verification…
-        </p>
+        <p className="verification-inline-hint">Loading challenge…</p>
       )}
       <div
         ref={containerRef}
-        className="flex justify-center min-h-[65px] w-full"
+        className="verification-inline-mount"
         aria-label="Cloudflare Turnstile challenge"
         aria-busy={status === 'loading'}
       />

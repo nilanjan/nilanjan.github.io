@@ -58,7 +58,7 @@ export function HumanAccessProvider({ children }: { children: ReactNode }) {
       setBlockedReason(null)
       setVerified(true)
     } else {
-      setBlockedReason('Verification failed. Please try again.')
+      setBlockedReason(null)
       setVerified(false)
     }
     return ok

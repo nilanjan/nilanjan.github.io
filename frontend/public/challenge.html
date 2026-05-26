@@ -9,35 +9,45 @@
       * {
         box-sizing: border-box;
       }
+      html,
       body {
         margin: 0;
-        min-height: 120px;
-        padding: 12px;
+        padding: 0;
+        overflow: hidden;
+        background: transparent;
+      }
+      body {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        font-family: system-ui, sans-serif;
-        background: transparent;
+        padding: 0.25rem 0.5rem;
+        font-family: system-ui, -apple-system, sans-serif;
       }
       #status {
-        font-size: 13px;
-        color: #444;
+        margin: 0 0 0.35rem;
+        font-size: 12px;
+        line-height: 1.4;
         text-align: center;
-        max-width: 22rem;
-        line-height: 1.45;
+        color: #6f6654;
       }
       #status.err {
-        color: #b91c1c;
+        color: #9f1239;
+      }
+      #widget-mount {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
       }
       .cf-turnstile {
-        min-height: 65px;
+        width: 100%;
+        max-width: 100%;
       }
     </style>
   </head>
   <body>
-    <p id="status">Loading challenge…</p>
+    <p id="status" hidden>Loading…</p>
     <div id="widget-mount"></div>
     <script>
       ;(function () {
@@ -57,11 +67,18 @@
           }
         }
 
+        function reportHeight() {
+          var height = Math.ceil(document.documentElement.scrollHeight || document.body.scrollHeight)
+          notifyParent({ type: 'turnstile-resize', height: height })
+        }
+
         function fail(msg) {
           clearTimeout(timeoutId)
+          status.hidden = false
           status.textContent = msg
           status.className = 'err'
           notifyParent({ type: 'turnstile-error', message: msg })
+          reportHeight()
         }
 
         if (!sitekey || sitekey.indexOf('__TURNSTILE') === 0) {
@@ -73,16 +90,18 @@
         widget.className = 'cf-turnstile'
         widget.setAttribute('data-sitekey', sitekey)
         widget.setAttribute('data-theme', 'auto')
+        widget.setAttribute('data-size', 'flexible')
         widget.setAttribute('data-callback', 'onTurnstileSuccess')
         widget.setAttribute('data-error-callback', 'onTurnstileError')
         mount.appendChild(widget)
 
         window.onTurnstileSuccess = function (token) {
           clearTimeout(timeoutId)
+          status.hidden = true
           status.textContent = ''
           notifyParent({ type: 'turnstile-token', token: token })
+          reportHeight()
           if (window.opener && !window.opener.closed) {
-            status.textContent = 'Verified. Returning to site…'
             setTimeout(function () {
               window.close()
             }, 400)
@@ -90,7 +109,7 @@
         }
 
         window.onTurnstileError = function () {
-          fail('Turnstile could not run on this page. Reload and try again.')
+          fail('Turnstile could not run. Reload and try again.')
         }
 
         timeoutId = setTimeout(function () {
@@ -98,6 +117,13 @@
             fail('Turnstile did not start. Reload and try again.')
           }
         }, 35000)
+
+        if (typeof ResizeObserver !== 'undefined') {
+          new ResizeObserver(reportHeight).observe(document.body)
+        }
+        window.addEventListener('load', reportHeight)
+        setTimeout(reportHeight, 100)
+        setTimeout(reportHeight, 500)
       })()
     </script>
   </body>

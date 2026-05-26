@@ -15,6 +15,7 @@ interface TurnstileRenderOptions {
   'error-callback'?: () => void
   'expired-callback'?: () => void
   theme?: 'light' | 'dark' | 'auto'
+  size?: 'normal' | 'compact' | 'flexible'
   appearance?: 'always' | 'execute' | 'interaction-only'
 }
 

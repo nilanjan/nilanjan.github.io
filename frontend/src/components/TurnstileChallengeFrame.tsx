@@ -1,18 +1,16 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { getChallengePageUrl } from '../utils/verifyApi'
 
 interface TurnstileChallengeFrameProps {
-  onToken: (token: string) => void
   onError?: () => void
 }
 
-/** Same-origin challenge.html — uses implicit Turnstile (most reliable on Brave). */
-const TurnstileChallengeFrame = ({ onToken, onError }: TurnstileChallengeFrameProps) => {
-  const onTokenRef = useRef(onToken)
+/** Same-origin challenge.html — implicit Turnstile; height reported via postMessage. */
+const TurnstileChallengeFrame = ({ onError }: TurnstileChallengeFrameProps) => {
   const onErrorRef = useRef(onError)
   const src = useMemo(() => getChallengePageUrl(), [])
+  const [frameHeight, setFrameHeight] = useState(72)
 
-  onTokenRef.current = onToken
   onErrorRef.current = onError
 
   useEffect(() => {
@@ -20,9 +18,9 @@ const TurnstileChallengeFrame = ({ onToken, onError }: TurnstileChallengeFramePr
 
     const onMessage = (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return
-      const data = event.data as { type?: string; token?: string }
-      if (data?.type === 'turnstile-token' && data.token) {
-        onTokenRef.current(data.token)
+      const data = event.data as { type?: string; height?: number }
+      if (data?.type === 'turnstile-resize' && typeof data.height === 'number') {
+        setFrameHeight(Math.min(Math.max(Math.ceil(data.height), 72), 200))
       }
       if (data?.type === 'turnstile-error') {
         onErrorRef.current?.()
@@ -39,8 +37,10 @@ const TurnstileChallengeFrame = ({ onToken, onError }: TurnstileChallengeFramePr
     <iframe
       title="Cloudflare Turnstile verification"
       src={src}
-      className="w-full min-h-[140px] border-0 rounded-lg"
+      className="verification-iframe"
+      style={{ height: frameHeight }}
       referrerPolicy="strict-origin-when-cross-origin"
+      scrolling="no"
     />
   )
 }

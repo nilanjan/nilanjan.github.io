@@ -476,4 +476,171 @@
     @apply w-6 h-px;
     background-color: var(--border);
   }
+
+  .verification-gate {
+    @apply relative flex flex-col;
+    min-height: 100dvh;
+    background-color: var(--bg);
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .verification-gate-center {
+    @apply flex flex-1 flex-col items-center justify-center gap-3 px-4;
+  }
+
+  .verification-gate-body {
+    @apply flex flex-1 items-center justify-center px-4 sm:px-6 py-8 sm:py-12 md:py-16;
+  }
+
+  .verification-panel {
+    @apply w-full mx-auto rounded-2xl;
+    max-width: 26rem;
+    padding: clamp(1.25rem, 4.5vw, 1.75rem);
+    background-color: var(--surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 40%, transparent);
+  }
+
+  @media (min-width: 640px) {
+    .verification-panel {
+      max-width: 28rem;
+      padding: clamp(1.5rem, 3vw, 2rem);
+    }
+  }
+
+  .verification-panel-header {
+    @apply flex gap-3.5 sm:gap-4 mb-6 sm:mb-7;
+  }
+
+  .verification-icon {
+    @apply flex shrink-0 items-center justify-center rounded-xl;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--accent-subtle);
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  @media (min-width: 640px) {
+    .verification-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
+  .verification-panel-copy {
+    @apply min-w-0 flex-1 text-left;
+  }
+
+  .verification-eyebrow {
+    @apply mb-1.5;
+  }
+
+  .verification-title {
+    @apply text-lg sm:text-xl font-semibold tracking-tight leading-snug;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .verification-subtitle {
+    @apply mt-1.5 text-sm leading-relaxed;
+    color: var(--text-muted);
+  }
+
+  .verification-widget-section {
+    @apply flex flex-col gap-3;
+  }
+
+  .verification-widget-shell {
+    @apply relative w-full overflow-hidden rounded-xl;
+    min-height: 4.75rem;
+    background-color: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .verification-widget-shell[data-verifying='true'] .verification-iframe,
+  .verification-widget-shell[data-verifying='true'] .verification-inline-widget {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .verification-widget-overlay {
+    @apply absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-sm font-medium;
+    color: var(--text-muted);
+    background-color: color-mix(in srgb, var(--surface-elevated) 55%, transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  .verification-iframe {
+    @apply block w-full border-0;
+    min-height: 4.5rem;
+    max-height: 12.5rem;
+  }
+
+  .verification-inline-widget {
+    @apply flex w-full flex-col items-center justify-center px-2 py-2;
+    min-height: 4.5rem;
+  }
+
+  .verification-inline-mount {
+    @apply flex w-full max-w-full justify-center;
+    min-height: 4rem;
+  }
+
+  .verification-inline-hint {
+    @apply text-xs py-1;
+    color: var(--text-muted);
+  }
+
+  .verification-alt-link {
+    @apply inline-flex w-full items-center justify-center gap-1.5 text-sm font-medium transition-colors;
+    min-height: 2.5rem;
+    color: var(--accent);
+    border-radius: 9999px;
+  }
+  .verification-alt-link:hover {
+    background-color: var(--accent-subtle);
+  }
+
+  .verification-alert {
+    @apply rounded-xl text-sm leading-relaxed;
+    margin-top: 1rem;
+    padding: 0.875rem 1rem;
+    background-color: color-mix(in srgb, #9f1239 5%, var(--surface-elevated));
+    border: 1px solid color-mix(in srgb, #9f1239 14%, var(--border-subtle));
+    color: var(--text);
+  }
+
+  .verification-alert-body {
+    @apply text-left;
+  }
+
+  .verification-alert-actions {
+    @apply flex flex-col sm:flex-row gap-2 mt-3;
+  }
+
+  .verification-btn {
+    @apply w-full sm:w-auto sm:flex-1;
+    min-height: 2.5rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  .verification-spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 1s linear infinite;
+    color: var(--accent);
+  }
+
+  .verification-spinner--sm {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .verification-loading-label {
+    @apply text-sm;
+    color: var(--text-muted);
+  }
 }
