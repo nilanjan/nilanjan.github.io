@@ -45,7 +45,7 @@ const learningTags = [
 ]
 
 const SkillsSection = () => (
-  <section id="skills" className="section section-alt">
+  <section id="skills" className="section">
     <div className="section-inner">
       <SectionHeader
         eyebrow="Capabilities"

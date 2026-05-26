@@ -50,7 +50,7 @@ const cards = [
 ]
 
 const ArchitectureFocusSection = () => (
-  <section id="architecture" className="section section-alt">
+  <section id="architecture" className="section">
     <div className="section-inner">
       <SectionHeader
         eyebrow="Architecture Focus"

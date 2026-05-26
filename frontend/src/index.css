@@ -5,9 +5,9 @@
 @layer base {
   :root {
     --bg: #f8f4e8;
-    --bg-secondary: #efe7d4;
+    --bg-secondary: #ebe3cf;
     --surface: #fffdf7;
-    --surface-elevated: #efe7d4;
+    --surface-elevated: #f2ebda;
     --border: #ddd4bc;
     --border-subtle: #ebe3cf;
     --text: #1c1810;
@@ -36,9 +36,9 @@
 
   .dark {
     --bg: #100e08;
-    --bg-secondary: #1a1710;
+    --bg-secondary: #1c1912;
     --surface: #1e1b13;
-    --surface-elevated: #2b271c;
+    --surface-elevated: #262318;
     --border: #3d382a;
     --border-subtle: #302c20;
     --text: #f3ecd8;
@@ -172,7 +172,17 @@
     border: 1px solid var(--border-subtle);
   }
 
-  .section-alt {
+  /* Zebra stripes: explicit ids so hero does not throw off alternation */
+  #about,
+  #experience,
+  #publications,
+  #contact {
+    background-color: var(--bg);
+  }
+
+  #architecture,
+  #patents,
+  #skills {
     background-color: var(--bg-secondary);
   }
 
@@ -417,6 +427,11 @@
   .section {
     @apply py-8 sm:py-10 md:py-14 lg:py-16;
     scroll-margin-top: calc(var(--safe-top) + var(--nav-height) + var(--section-bar-height));
+  }
+
+  /* Legacy class — keep in sync with id rules above */
+  .section-alt {
+    background-color: var(--bg-secondary);
   }
 
   .section-inner {

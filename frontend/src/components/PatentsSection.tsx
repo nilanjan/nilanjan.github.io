@@ -19,7 +19,7 @@ const PatentsSection = () => {
   ]
 
   return (
-    <section id="patents" className="section section-alt">
+    <section id="patents" className="section">
       <div className="section-inner">
         <SectionHeader
           eyebrow="Patents"
