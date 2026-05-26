@@ -4,6 +4,19 @@ import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
 import { getTurnstileSiteKey, isVerifyApiConfigured } from '../utils/verifyApi'
 
+function turnstileErrorHint(code?: string): string {
+  if (!code) {
+    return 'If the challenge does not appear, disable ad blockers for challenges.cloudflare.com and retry.'
+  }
+  if (code.includes('110200') || code.includes('110')) {
+    return 'Domain mismatch — confirm nilanjan.github.io is listed under Hostname Management for this widget.'
+  }
+  if (code.includes('110100')) {
+    return 'Invalid site key — copy the Site Key (not Secret Key) from the Nilanjan Portfolio widget.'
+  }
+  return `Cloudflare reported: ${code}`
+}
+
 interface HumanAccessGateProps {
   children: ReactNode
 }
@@ -11,25 +24,28 @@ interface HumanAccessGateProps {
 const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const { verified, checking, blockedReason, verifyAccess } = useHumanAccess()
   const [verifying, setVerifying] = useState(false)
-  const [turnstileError, setTurnstileError] = useState(false)
+  const [turnstileErrorCode, setTurnstileErrorCode] = useState<string | undefined>()
   const [widgetKey, setWidgetKey] = useState(0)
 
   const handleTurnstileToken = useCallback(async (token: string) => {
-    setTurnstileError(false)
+    setTurnstileErrorCode(undefined)
     setVerifying(true)
     try {
-      await verifyAccess(token)
+      const ok = await verifyAccess(token)
+      if (!ok) {
+        setTurnstileErrorCode('verify-failed')
+      }
     } finally {
       setVerifying(false)
     }
   }, [verifyAccess])
 
-  const handleTurnstileError = useCallback(() => {
-    setTurnstileError(true)
+  const handleTurnstileError = useCallback((code?: string) => {
+    setTurnstileErrorCode(code ?? 'unknown')
   }, [])
 
   const handleRetry = useCallback(() => {
-    setTurnstileError(false)
+    setTurnstileErrorCode(undefined)
     setWidgetKey((key) => key + 1)
   }, [])
 
@@ -49,6 +65,8 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   }
 
   if (verified) return <>{children}</>
+
+  const siteKeySuffix = getTurnstileSiteKey().slice(-8)
 
   return (
     <div
@@ -80,32 +98,33 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
           </p>
         )}
 
-        {blockedReason && !turnstileError && (
+        {blockedReason && (
           <p className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300">
             {blockedReason}
           </p>
         )}
 
         {isVerifyApiConfigured() && (
-          <div className="mb-4">
-            {turnstileError ? (
-              <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-3">
-                <p>
-                  Turnstile could not load. In Cloudflare → Turnstile → <strong>Nilanjan Portfolio</strong>,
-                  confirm the site key ends with{' '}
-                  <code className="text-xs">{getTurnstileSiteKey().slice(-8)}</code>, disable ad blockers
-                  for <code className="text-xs">challenges.cloudflare.com</code>, then retry.
+          <div className="mb-4 space-y-3">
+            <TurnstileWidget
+              key={widgetKey}
+              onToken={handleTurnstileToken}
+              onError={handleTurnstileError}
+            />
+
+            {turnstileErrorCode && (
+              <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
+                <p>{turnstileErrorHint(turnstileErrorCode)}</p>
+                {turnstileErrorCode === 'verify-failed' && (
+                  <p>Turnstile passed but server verification failed. Worker secret may not match this widget.</p>
+                )}
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  Widget site key suffix: <code>{siteKeySuffix}</code>
                 </p>
-                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs">
+                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
                   Retry
                 </button>
               </div>
-            ) : (
-              <TurnstileWidget
-                key={widgetKey}
-                onToken={handleTurnstileToken}
-                onError={handleTurnstileError}
-              />
             )}
           </div>
         )}

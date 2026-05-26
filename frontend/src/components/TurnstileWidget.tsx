@@ -1,13 +1,15 @@
-import { Turnstile } from '@marsidev/react-turnstile'
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
+import { useRef } from 'react'
 import { getTurnstileSiteKey } from '../utils/verifyApi'
 
 interface TurnstileWidgetProps {
   onToken: (token: string) => void
-  onError?: () => void
+  onError?: (code?: string) => void
 }
 
 const TurnstileWidget = ({ onToken, onError }: TurnstileWidgetProps) => {
   const siteKey = getTurnstileSiteKey()
+  const turnstileRef = useRef<TurnstileInstance>(null)
 
   if (!siteKey) {
     return (
@@ -18,18 +20,18 @@ const TurnstileWidget = ({ onToken, onError }: TurnstileWidgetProps) => {
   }
 
   return (
-    <div className="flex justify-center min-h-[65px]">
+    <div className="flex flex-col items-center gap-2 min-h-[65px]">
       <Turnstile
+        ref={turnstileRef}
         siteKey={siteKey}
         onSuccess={onToken}
         onError={() => onError?.()}
-        onExpire={() => {
-          // Managed widgets refresh automatically; do not treat expiry as a fatal error.
+        scriptOptions={{
+          defer: true,
         }}
         options={{
           theme: 'auto',
-          refreshExpired: 'auto',
-          retry: 'auto',
+          size: 'normal',
         }}
       />
     </div>
