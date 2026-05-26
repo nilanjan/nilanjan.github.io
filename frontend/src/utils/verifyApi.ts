@@ -9,7 +9,7 @@ function resolveApiBase(): string {
 }
 
 function resolveSiteKey(): string {
-  const fromEnv = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ''
+  const fromEnv = (import.meta.env.VITE_TURNSTILE_SITE_KEY ?? '').trim()
   if (fromEnv) return fromEnv
   if (import.meta.env.PROD) return PROD_TURNSTILE_SITE_KEY
   return ''

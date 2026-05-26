@@ -4,19 +4,6 @@ import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
 import { getTurnstileSiteKey, isVerifyApiConfigured } from '../utils/verifyApi'
 
-function turnstileErrorHint(code?: string): string {
-  if (!code) {
-    return 'If the challenge does not appear, disable ad blockers for challenges.cloudflare.com and retry.'
-  }
-  if (code.includes('110200') || code.includes('110')) {
-    return 'Domain mismatch — confirm nilanjan.github.io is listed under Hostname Management for this widget.'
-  }
-  if (code.includes('110100')) {
-    return 'Invalid site key — copy the Site Key (not Secret Key) from the Nilanjan Portfolio widget.'
-  }
-  return `Cloudflare reported: ${code}`
-}
-
 interface HumanAccessGateProps {
   children: ReactNode
 }
@@ -24,28 +11,29 @@ interface HumanAccessGateProps {
 const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const { verified, checking, blockedReason, verifyAccess } = useHumanAccess()
   const [verifying, setVerifying] = useState(false)
-  const [turnstileErrorCode, setTurnstileErrorCode] = useState<string | undefined>()
+  const [scriptBlocked, setScriptBlocked] = useState(false)
+  const [verifyFailed, setVerifyFailed] = useState(false)
   const [widgetKey, setWidgetKey] = useState(0)
 
   const handleTurnstileToken = useCallback(async (token: string) => {
-    setTurnstileErrorCode(undefined)
+    setVerifyFailed(false)
+    setScriptBlocked(false)
     setVerifying(true)
     try {
       const ok = await verifyAccess(token)
-      if (!ok) {
-        setTurnstileErrorCode('verify-failed')
-      }
+      if (!ok) setVerifyFailed(true)
     } finally {
       setVerifying(false)
     }
   }, [verifyAccess])
 
-  const handleTurnstileError = useCallback((code?: string) => {
-    setTurnstileErrorCode(code ?? 'unknown')
+  const handleScriptError = useCallback(() => {
+    setScriptBlocked(true)
   }, [])
 
   const handleRetry = useCallback(() => {
-    setTurnstileErrorCode(undefined)
+    setScriptBlocked(false)
+    setVerifyFailed(false)
     setWidgetKey((key) => key + 1)
   }, [])
 
@@ -66,7 +54,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
   if (verified) return <>{children}</>
 
-  const siteKeySuffix = getTurnstileSiteKey().slice(-8)
+  const siteKeySuffix = getTurnstileSiteKey().trim().slice(-8)
 
   return (
     <div
@@ -87,14 +75,12 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
         <h1 className="text-2xl font-semibold tracking-tight mb-2">Human Verification Required</h1>
         <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--text-muted)' }}>
-          Complete the check below to continue. Automated crawlers, scrapers, and AI agents are not
-          authorized to access personal or professional information on this site.
+          Complete the Cloudflare check below to continue.
         </p>
 
         {!isVerifyApiConfigured() && (
           <p className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300">
-            Verification service is not configured. The site owner must set{' '}
-            <code className="text-xs">VITE_VERIFY_API_URL</code> before this gate can work.
+            Verification service is not configured.
           </p>
         )}
 
@@ -109,17 +95,27 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
             <TurnstileWidget
               key={widgetKey}
               onToken={handleTurnstileToken}
-              onError={handleTurnstileError}
+              onScriptError={handleScriptError}
             />
 
-            {turnstileErrorCode && (
+            {scriptBlocked && (
               <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
-                <p>{turnstileErrorHint(turnstileErrorCode)}</p>
-                {turnstileErrorCode === 'verify-failed' && (
-                  <p>Turnstile passed but server verification failed. Worker secret may not match this widget.</p>
-                )}
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  Widget site key suffix: <code>{siteKeySuffix}</code>
+                <p>
+                  Turnstile could not load — usually an ad blocker or privacy extension blocking{' '}
+                  <code className="text-xs">challenges.cloudflare.com</code>. Try incognito with extensions off.
+                </p>
+                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
+                  Retry
+                </button>
+              </div>
+            )}
+
+            {verifyFailed && (
+              <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
+                <p>
+                  Challenge completed but server verification failed. Update the worker{' '}
+                  <code className="text-xs">TURNSTILE_SECRET</code> to match the Secret Key on your
+                  &quot;Nilanjan Portfolio&quot; widget (same widget as site key …{siteKeySuffix}).
                 </p>
                 <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
                   Retry
@@ -137,7 +133,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
         )}
 
         <p className="mt-4 text-[11px]" style={{ color: 'var(--text-muted)' }}>
-          Protected by Cloudflare Turnstile. Session expires after 8 hours or when you close this tab.
+          Protected by Cloudflare Turnstile · key …{siteKeySuffix}
         </p>
       </div>
     </div>
