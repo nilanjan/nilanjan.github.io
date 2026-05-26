@@ -1,251 +1,215 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import { MapPin, Send, CheckCircle, AlertCircle, Mail } from 'lucide-react'
 import type { ContactMessage } from '../../../shared/types'
+import SectionHeader from './SectionHeader'
+import { canSendContactMessage, LOCATION, openContactEmail } from '../utils/contact'
+import { useHumanAccess } from '../context/HumanAccessContext'
+import { MIN_POINTER_MOVES } from '../utils/humanAccess'
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState<ContactMessage>({
-    name: '',
-    email: '',
-    message: ''
-  })
+  const { verified } = useHumanAccess()
+  const formRef = useRef<HTMLFormElement>(null)
+  const [formData, setFormData] = useState<ContactMessage>({ name: '', email: '', message: '' })
+  const [honeypot, setHoneypot] = useState('')
+  const [consent, setConsent] = useState(false)
+  const [humanConfirmed, setHumanConfirmed] = useState(false)
+  const [formPointerMoves, setFormPointerMoves] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
 
+  useEffect(() => {
+    const form = formRef.current
+    if (!form) return
+
+    const onMove = () => setFormPointerMoves((count) => count + 1)
+    form.addEventListener('pointermove', onMove, { passive: true })
+    return () => form.removeEventListener('pointermove', onMove)
+  }, [])
+
+  const canSubmit =
+    verified &&
+    consent &&
+    humanConfirmed &&
+    formPointerMoves >= MIN_POINTER_MOVES &&
+    canSendContactMessage()
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!canSubmit || honeypot) return
+
     setIsSubmitting(true)
     setSubmitStatus('idle')
 
     try {
-      // For GitHub Pages deployment, we'll use a mailto link as fallback
-      // In production, you can replace this with a service like Formspree, Netlify Forms, or EmailJS
-      
-      const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
-      const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
-      const mailtoUrl = `mailto:nilanjan.goswami@gmail.com?subject=${subject}&body=${body}`
-      
-      window.open(mailtoUrl, '_blank')
-      
+      if (!canSendContactMessage()) {
+        setSubmitStatus('error')
+        setSubmitMessage('Automated access detected. Only human visitors can send messages.')
+        return
+      }
+
+      const subject = `Portfolio Contact from ${formData.name}`
+      const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      const opened = openContactEmail(subject, body)
+      if (!opened) {
+        setSubmitStatus('error')
+        setSubmitMessage('Complete human verification first, then try again.')
+        return
+      }
       setSubmitStatus('success')
-      setSubmitMessage('Email client opened! Your message is ready to send.')
+      setSubmitMessage('Your email client will open addressed to zx1q@tuta.io — review and send when ready.')
       setFormData({ name: '', email: '', message: '' })
-    } catch (error) {
+      setConsent(false)
+      setHumanConfirmed(false)
+    } catch {
       setSubmitStatus('error')
-      setSubmitMessage('Please send an email directly to nilanjan.goswami@gmail.com')
-      console.error('Error opening email client:', error)
+      setSubmitMessage('Unable to open email. Please verify you are a human visitor and try again.')
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'nilanjan.goswami@gmail.com',
-      href: 'mailto:nilanjan.goswami@gmail.com'
-    },
-    {
-      icon: MapPin,
-      label: 'Location',
-      value: 'Livermore, CA',
-      href: '#'
+  const handleSendEmailClick = () => {
+    if (!canSendContactMessage()) {
+      setSubmitStatus('error')
+      setSubmitMessage('Complete human verification before contacting me.')
+      return
     }
-  ]
+    const opened = openContactEmail()
+    if (!opened) {
+      setSubmitStatus('error')
+      setSubmitMessage('Complete human verification before contacting me.')
+    }
+  }
 
   return (
-    <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            Get In <span className="gradient-text">Touch</span>
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Interested in discussing graphics architecture research, potential collaborations, or speaking opportunities? 
-            Let's connect and explore how we can advance the field together.
-          </p>
-        </motion.div>
+    <section id="contact" className="section" data-nosnippet translate="no">
+      <div className="section-inner">
+        <SectionHeader
+          eyebrow="Contact"
+          title="Get in Touch"
+          description="For architecture discussions, selective collaborations, or speaking inquiries."
+        />
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
+        <div className="grid lg:grid-cols-2 gap-8">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
             className="card p-8"
           >
-            <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
-              Send a Message
-            </h3>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <h3 className="font-semibold mb-6">Send a Message</h3>
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+              <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute opacity-0 pointer-events-none h-0 w-0 overflow-hidden"
+              />
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Name
-                </label>
+                <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
+                <input type="text" id="name" name="name" value={formData.name} onChange={handleInputChange} required className="input-field" placeholder="Your name" />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
+                <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} required className="input-field" placeholder="your.email@example.com" />
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
+                <textarea id="message" name="message" value={formData.message} onChange={handleInputChange} required rows={5} className="input-field resize-none" placeholder="Your message..." />
+              </div>
+
+              <label className="flex items-start gap-3 cursor-pointer">
                 <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
+                  type="checkbox"
+                  checked={humanConfirmed}
+                  onChange={(e) => setHumanConfirmed(e.target.checked)}
+                  className="mt-1 rounded"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
-                  placeholder="Your name"
                 />
-              </div>
+                <span className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  I confirm I am a human sending this message manually — not an automated agent, scraper, or bot.
+                </span>
+              </label>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Email
-                </label>
+              <label className="flex items-start gap-3 cursor-pointer">
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="mt-1 rounded"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
-                  placeholder="your.email@example.com"
                 />
-              </div>
+                <span className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  I consent to the processing of my personal data to respond to my inquiry, as described in the Privacy Policy.
+                </span>
+              </label>
 
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200 resize-none"
-                  placeholder="Tell me about your project or opportunity..."
-                />
-              </div>
-
-              {/* Submit Status */}
-              {submitStatus !== 'idle' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex items-center space-x-2 p-4 rounded-lg ${
-                    submitStatus === 'success' 
-                      ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' 
-                      : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
-                  }`}
-                >
-                  {submitStatus === 'success' ? (
-                    <CheckCircle className="w-5 h-5" />
-                  ) : (
-                    <AlertCircle className="w-5 h-5" />
-                  )}
-                  <span className="text-sm font-medium">{submitMessage}</span>
-                </motion.div>
+              {!canSubmit && verified && formPointerMoves < MIN_POINTER_MOVES && (
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  Move your pointer over the form before sending — this helps confirm manual human access.
+                </p>
               )}
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full btn-primary flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    <span>Sending...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
-                  </>
-                )}
+              {submitStatus !== 'idle' && (
+                <div className={`flex items-center gap-2 p-3 rounded-xl text-sm ${submitStatus === 'success' ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-red-500/10 text-red-700 dark:text-red-300'}`}>
+                  {submitStatus === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+                  {submitMessage}
+                </div>
+              )}
+
+              <button type="submit" disabled={isSubmitting || !canSubmit} className="w-full btn-primary disabled:opacity-50">
+                <Send className="w-4 h-4" />
+                {isSubmitting ? 'Opening...' : 'Send Message'}
               </button>
             </form>
           </motion.div>
 
-          {/* Contact Information */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            className="space-y-4"
           >
-            <div>
-              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
-                Contact Information
-              </h3>
-              <div className="space-y-6">
-                {contactInfo.map((info, index) => (
-                  <motion.a
-                    key={info.label}
-                    href={info.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-center space-x-4 p-4 rounded-lg bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 group"
-                  >
-                    <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg group-hover:bg-primary-200 dark:group-hover:bg-primary-900/50 transition-colors duration-200">
-                      <info.icon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{info.label}</p>
-                      <p className="text-gray-900 dark:text-white font-medium">{info.value}</p>
-                    </div>
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-
-            {/* Professional Interests */}
             <div className="card p-6">
-              <h4 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-                Professional Interests
-              </h4>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600 dark:text-gray-300">Research Collaboration</span>
-                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full">
-                    Open
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600 dark:text-gray-300">Speaking Engagements</span>
-                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium rounded-full">
-                    Available
-                  </span>
+              <h3 className="font-semibold mb-4">Contact</h3>
+              <div className="space-y-4">
+                <button
+                  type="button"
+                  onClick={handleSendEmailClick}
+                  disabled={!canSendContactMessage()}
+                  className="flex items-center gap-4 w-full p-4 rounded-xl transition-colors hover:opacity-80 disabled:opacity-50"
+                  style={{ backgroundColor: 'var(--surface-elevated)' }}
+                >
+                  <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--accent-subtle)' }}>
+                    <Mail className="w-5 h-5" style={{ color: 'var(--accent)' }} />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Email</p>
+                    <p className="font-medium" style={{ color: 'var(--accent)' }}>Send Email</p>
+                  </div>
+                </button>
+
+                <div className="flex items-center gap-4 p-4 rounded-xl" style={{ backgroundColor: 'var(--surface-elevated)' }}>
+                  <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--accent-subtle)' }}>
+                    <MapPin className="w-5 h-5" style={{ color: 'var(--accent)' }} />
+                  </div>
+                  <div>
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Location</p>
+                    <p className="font-medium">{LOCATION}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Response Time */}
-            <div className="text-center p-6 bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-xl">
-              <p className="text-gray-600 dark:text-gray-300 mb-2">
-                <strong>Typical Response Time:</strong>
-              </p>
-              <p className="text-2xl font-bold gradient-text">24-48 hours</p>
             </div>
           </motion.div>
         </div>
@@ -254,4 +218,4 @@ const ContactSection = () => {
   )
 }
 
-export default ContactSection 
+export default ContactSection

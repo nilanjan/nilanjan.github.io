@@ -1,0 +1,139 @@
+{
+  "granted": [
+    {
+      "id": "patent-granted-7",
+      "title": "Destination update for blending modes in a graphics pipeline",
+      "patentNumber": "US 12,266,033 B2",
+      "grantDate": "2025-04-01",
+      "inventors": ["Nilanjan Goswami", "Christopher James Goodman", "Steve John Clohset", "Piyush Agarwal", "Kyle Durfee"]
+    },
+    {
+      "id": "patent-granted-5",
+      "title": "Partial rendering and tearing avoidance",
+      "patentNumber": "US 12,067,959 B2",
+      "grantDate": "2024-08-01",
+      "inventors": ["Nilanjan Goswami", "Hideo Tamama", "Chris Goodman", "Steve Clohset", "Shanmathi Natarajan"]
+    },
+    {
+      "id": "patent-granted-3",
+      "title": "Display peak power management for artificial reality systems",
+      "patentNumber": "US 11,881,143 B2",
+      "grantDate": "2024-01-01",
+      "inventors": ["Nilanjan Goswami", "Eugene Gorbatov", "Steve Clohset", "Mike Yee"]
+    },
+    {
+      "id": "patent-granted-4",
+      "title": "Low-power high throughput hardware decoder with random block access",
+      "patentNumber": "US 11,882,295 B2",
+      "grantDate": "2024-01-01",
+      "inventors": ["Nilanjan Goswami", "Sonal Pinto"]
+    },
+    {
+      "id": "patent-granted-8",
+      "title": "Re-reference aware tile walk order for primitive binner",
+      "patentNumber": "US 11,538,221 B2",
+      "grantDate": "2022-12-27",
+      "inventors": ["Sushant Kondguli", "Nilanjan Goswami"]
+    },
+    {
+      "id": "patent-granted-2",
+      "title": "Enhanced early coverage discard using opportunistic bypassing and dynamic queue resizing",
+      "patentNumber": "US 11,321,806 B2",
+      "grantDate": "2022-05-01",
+      "inventors": ["Sushant Kondguli", "Nilanjan Goswami"]
+    },
+    {
+      "id": "patent-granted-1",
+      "title": "Efficient redundant coverage discard mechanism to reduce pixel shader work in a tile-based graphics rendering pipeline",
+      "patentNumber": "US 11,010,954 B2",
+      "grantDate": "2021-05-01",
+      "inventors": ["Nilanjan Goswami", "Derek Lentz", "Adithya H. Krishnamurthy", "David C. Tannenbaum"]
+    }
+  ],
+  "pending": [
+    {
+      "id": "patent-pending-12",
+      "title": "Methods for processing reprojected frames",
+      "applicationNumber": "US 19/467,724",
+      "filingDate": "2026-02-01",
+      "inventors": ["Nilanjan Goswami", "F. Alam", "M. McRaven"]
+    },
+    {
+      "id": "patent-pending-11",
+      "title": "Hybrid power delivery-based graphics processing unit (GPU) architecture",
+      "applicationNumber": "US 19/044,438",
+      "filingDate": "2025-04-01",
+      "inventors": ["Nilanjan Goswami", "Dam Backer", "Brian Ellis"]
+    },
+    {
+      "id": "patent-pending-9",
+      "title": "Hardware support for planar input and output",
+      "applicationNumber": "US 19/069,013",
+      "filingDate": "2025-03-01",
+      "inventors": ["Nilanjan Goswami", "Dam Backer", "Brian Ellis", "Tao Wang", "Paul Marshall", "Morgan Seto"]
+    },
+    {
+      "id": "patent-pending-10",
+      "title": "Optimized Augmented Reality (AR) rendering and composition processing using super resolution techniques",
+      "applicationNumber": "US 19/181,200",
+      "filingDate": "2025-02-01",
+      "inventors": ["Nilanjan Goswami", "Dam Backer"]
+    },
+    {
+      "id": "patent-pending-1",
+      "title": "Efficient fast random access enabled geometry attribute compression mechanism",
+      "applicationNumber": "US 63/011,283",
+      "filingDate": "2022-04-01",
+      "inventors": ["Nilanjan Goswami", "Swati Atrish"]
+    },
+    {
+      "id": "patent-pending-6",
+      "title": "Block-based random access capable lossless graphics asset compression",
+      "applicationNumber": "US 17/721,700",
+      "filingDate": "2022-04-01",
+      "inventors": ["Nilanjan Goswami", "Kyle Durfee", "Sonal Pinto"]
+    },
+    {
+      "id": "patent-pending-7",
+      "title": "2D rendering hardware architecture based on analytic anti-aliasing",
+      "applicationNumber": "US 17/721,635",
+      "filingDate": "2022-04-01",
+      "inventors": ["Nilanjan Goswami", "Chris Goodman", "Steve Clohset"]
+    },
+    {
+      "id": "patent-pending-5",
+      "title": "Hardware encoder for color data in a 2D rendering pipeline",
+      "applicationNumber": "US 17/721,660",
+      "filingDate": "2021-08-01",
+      "inventors": ["Nilanjan Goswami", "Sonal Pinto"]
+    },
+    {
+      "id": "patent-pending-8",
+      "title": "Rasterization optimization for analytic anti-aliasing",
+      "applicationNumber": "US 17/721,653",
+      "filingDate": "2021-08-01",
+      "inventors": ["Nilanjan Goswami", "Chris Goodman", "Siddharth Kavilapati", "Kyle Durfee"]
+    },
+    {
+      "id": "patent-pending-3",
+      "title": "Viewport visual effect correction",
+      "applicationNumber": "US 17/875,131",
+      "filingDate": "2022-07-27",
+      "inventors": ["Nilanjan Goswami", "Mike Yee", "Morgyn Taylor", "Patrick McCleary", "Naveen Makineni", "Aaron Young", "Zhi Zhou", "Richard Lawrence Greene", "Richard Webb", "Cheng Chang"]
+    },
+    {
+      "id": "patent-pending-4",
+      "title": "Display system optimization",
+      "applicationNumber": "US 17/716,289",
+      "filingDate": "2022-04-01",
+      "inventors": ["Nilanjan Goswami", "Morgyn Taylor", "Zahid Hossain", "Larry Seiler", "Michael Yee"]
+    }
+  ],
+  "focusAreas": [
+    "Throughput Processor and GPU Architecture",
+    "AR/VR Compositor and Rendering Pipelines",
+    "Memory Bandwidth and Compression",
+    "Power-Efficient Accelerator Systems",
+    "Display and Hybrid Power Delivery"
+  ]
+}

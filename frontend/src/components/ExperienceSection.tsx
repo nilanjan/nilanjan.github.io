@@ -1,214 +1,158 @@
 import { motion } from 'framer-motion'
-import { Building, Calendar, MapPin, Award } from 'lucide-react'
+import { Building, MapPin, Calendar } from 'lucide-react'
+import SectionHeader from './SectionHeader'
+import { LOCATION } from '../utils/contact'
 
-const ExperienceSection = () => {
-  const experiences = [
-    {
-      id: "qualcomm",
-      company: "Qualcomm Technologies Inc.",
-      position: "Principal Graphics Architect",
-      location: "Santa Clara, CA",
-      duration: "February 2023 - Present",
-      description: "Leading graphics XR research team for Adreno GPUs with focus on cross-layer XR-specific architecture.",
-      achievements: [
-        "Research framework for cross-layer XR-specific use-case study",
-        "Architecting foveation, shader core, etc. architecture for Adreno GPUs",
-        "XR system and GPU interaction research for LLC optimization, display support, power optimization",
-        "Compositor system optimization (HW/SW) for various product lines for different customers",
-        "Architecting Augmented Reality GPU architecture evaluation framework (composition and beyond)"
-      ],
-      technologies: ["C++", "Vulkan", "OpenGL", "XR Architecture", "Adreno GPU", "Hardware Design"]
-    },
-    {
-      id: "meta",
-      company: "Meta Platforms Inc.",
-      position: "Graphics Architect",
-      location: "Sunnyvale, CA",
-      duration: "May 2020 - January 2023",
-      description: "Lead graphics hardware IP research/development team for Meta Orion AR/VR architecture.",
-      achievements: [
-        "Architecting static and dynamic occlusion in AR/VR graphics system with dedicated pipelines for 2D, 3D, and other content",
-        "Novel 2D rendering hardware architecture for natively distorted space rendering for low-power use cases",
-        "Novel compression (fast block-based random access) algorithm for 2D graphics assets",
-        "Display driver silicon architecture of several AR/VR devices",
-        "Optimized Bounding Volume Hierarchy traversal for distorted space 3D AR/VR graphics hardware pipeline",
-        "End-to-end hardware architecture model for ultra-low-power graphics compositor pipeline architecture"
-      ],
-      technologies: ["AR/VR Architecture", "2D/3D Rendering", "Hardware IP", "BVH Traversal", "Graphics Compression"]
-    },
-    {
-      id: "samsung",
-      company: "Samsung Advanced Computing Lab",
-      position: "Graphics Architect",
-      location: "San Jose, CA",
-      duration: "March 2018 - May 2020",
-      description: "Mobile GPU architecture exploration and specification for next-generation mobile graphics.",
-      achievements: [
-        "Reducing off-chip traffic for color/depth caches using optimized rendering order of binned primitives",
-        "Hidden surface removal algorithm optimization for latency-sensitive graphics pipeline for multi-pass architecture",
-        "Next-generation tiling engine architecture optimization",
-        "Vertex Attribute and Varying compression for tile-based deferred rendering architecture",
-        "Performance optimization of the interpolator and vertex processing pipeline",
-        "Graphics workload exploration using Game Engines and GPU architecture PPA modeling"
-      ],
-      technologies: ["Mobile GPU", "Tiling Architecture", "HSR Algorithms", "Vertex Processing", "OpenGL ES", "Vulkan"]
-    },
-    {
-      id: "apple",
-      company: "Apple Inc.",
-      position: "Graphics Architecture Engineer",
-      location: "Orlando, FL",
-      duration: "September 2013 - January 2018",
-      description: "Mobile GPU architecture modeling, exploration, and specification for Apple Silicon GPUs.",
-      achievements: [
-        "Performance analysis and modeling of A11 Bionic GPU and beyond",
-        "Micro-architectural/architectural functional/performance feature exploration",
-        "Functional/Performance model versus RTL design correlation analysis",
-        "Graphics fragment shader performance analysis",
-        "GPU architectural and workload issue debug at full-system (iOS, driver, SOC model) level",
-        "Shader Core Level Mutual Exclusion Architecture, Rasterization, and Binning optimization"
-      ],
-      technologies: ["Apple Silicon", "iOS Graphics", "GPU Modeling", "Fragment Shaders", "Performance Analysis"]
-    }
-  ]
+const experiences = [
+  {
+    id: 'qualcomm',
+    company: 'Qualcomm Technologies, Inc.',
+    position: 'Principal GPU Architect',
+    location: `${LOCATION} · Remote`,
+    duration: 'February 2023 – Present',
+    achievements: [
+      'GPU/compute architecture; accelerator co-design; PPA exploration for Adreno GPUs.',
+      'Ultra-low-power GPU and system architecture: shader core, foveation, compositor; XR system–GPU interaction (LLC, power, display).',
+      'Super-resolution and neural disocclusion in rendering/composition pipeline; hybrid GPU power delivery for AR SoCs.',
+      'Research framework (GPUXR-Sim) for cross-layer XR use case study; graphics XR architecture for Adreno.',
+      'Ultra-low-power GPU architecture and PPA exploration for multi-level memory SoCs.',
+    ],
+    tags: ['Adreno GPU', 'Accelerator Co-Design', 'AR/VR Pipeline', 'PPA Modeling', 'GPUXR-Sim'],
+  },
+  {
+    id: 'meta',
+    company: 'Meta Platforms, Inc.',
+    position: 'GPU Architect',
+    location: `${LOCATION} · Remote`,
+    duration: 'May 2020 – January 2023',
+    achievements: [
+      'AR/VR processor and accelerator architecture; novel 2D/3D pipelines (Meta Orion).',
+      'End-to-end hardware architecture model for ultra-low-power graphics compositor pipeline.',
+      'Static and dynamic occlusion with dedicated 2D, 3D, and content pipelines; block-based random access compression.',
+      'Optimized BVH traversal for distorted-space 3D pipeline; algorithm development, modeling, and exploration.',
+      'Display driver silicon architecture; software API and driver–hardware interface definition.',
+      'Multiple patents granted from compositor and display work (blending, partial rendering, display power).',
+    ],
+    tags: ['Meta Orion', 'AR/VR Pipeline', 'Memory Bandwidth', '2D/3D Hardware Pipelines', 'PPA Modeling'],
+  },
+  {
+    id: 'samsung',
+    company: 'Samsung Advanced Computing Lab',
+    position: 'GPU Architect',
+    location: 'San Jose, CA',
+    duration: 'March 2018 – May 2020',
+    achievements: [
+      'Mobile GPU microarchitecture; PPA modeling and RTL correlation (2 patents granted).',
+      'Shader core and barrier design; hidden surface removal and multi-pass GPU architecture.',
+      'Tile-based deferred rendering: binning, color/depth cache traffic reduction, vertex/varying compression.',
+      'Vertex processing pipeline PPA optimization; graphics workload exploration and benchmark analysis.',
+      'Microarchitectural and architectural functional and performance feature exploration.',
+    ],
+    tags: ['Mobile GPU', 'TBDR', 'PPA Modeling', 'Compute Microarchitecture'],
+  },
+  {
+    id: 'apple',
+    company: 'Apple Inc.',
+    position: 'GPU Architecture Engineer',
+    location: 'Orlando, FL',
+    duration: 'September 2013 – January 2018',
+    achievements: [
+      'Mobile GPU architecture modeling and specification for Apple Silicon.',
+      'Performance analysis and modeling of A11 Bionic GPU and beyond; fragment shader and rasterization/binning analysis.',
+      'Shader core mutual exclusion architecture; functional/performance model vs. RTL correlation.',
+      'Full-system (iOS, driver, SoC) debug and triage; microarchitectural feature exploration for performance and power.',
+    ],
+    tags: ['Apple Silicon', 'A11 Bionic', 'GPU Modeling', 'Mobile GPU'],
+  },
+  {
+    id: 'nvidia',
+    company: 'NVIDIA',
+    position: 'Graduate Intern — Graphics Hardware Architecture',
+    location: 'Santa Clara, CA',
+    duration: 'May 2012 – August 2012',
+    achievements: [
+      'Graphics hardware architecture modeling and exploration.',
+      'Performance optimization of pre-rasterizer block; pipeline and throughput analysis for parallel execution.',
+      'Soft barrier design in rasterizer for synchronization across parallel primitive and fragment pipelines.',
+      'On-chip network latency and bandwidth modeling for multi-block, highly parallel SoC.',
+    ],
+    tags: ['GPU Architecture', 'Parallel Compute', 'Performance Modeling'],
+  },
+]
 
-  return (
-    <section id="experience" className="py-20 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Professional <span className="gradient-text">Experience</span>
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            A journey through leading technology companies, advancing graphics architecture and mobile GPU development
-          </p>
-        </motion.div>
+const ExperienceSection = () => (
+  <section id="experience" className="section">
+    <div className="section-inner">
+      <SectionHeader
+        eyebrow="Career"
+        title="Professional Experience"
+        description="GPU and accelerator architecture across Apple, Meta, Samsung, and Qualcomm — throughput processors, mobile graphics, and XR systems."
+      />
 
-        <div className="space-y-8">
+      <div className="relative">
+        <div
+          className="absolute left-4 md:left-8 top-0 bottom-0 w-px hidden sm:block"
+          style={{ backgroundColor: 'var(--border)' }}
+        />
+
+        <div className="space-y-4">
           {experiences.map((exp, index) => (
             <motion.div
               key={exp.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
               viewport={{ once: true }}
-              className="card p-8"
+              className="relative sm:pl-16"
             >
-              <div className="grid lg:grid-cols-3 gap-8">
-                {/* Company Info */}
-                <div className="lg:col-span-1">
-                  <div className="flex items-start space-x-4 mb-4">
-                    <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
-                      <Building className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+              <div
+                className="absolute left-2.5 md:left-6 top-6 w-3 h-3 rounded-full hidden sm:block border-4"
+                style={{ backgroundColor: 'var(--accent)', borderColor: 'var(--bg)' }}
+              />
+
+              <div className="card p-4">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+                  <div className="flex gap-3">
+                    <div className="p-2.5 rounded-xl h-fit" style={{ backgroundColor: 'var(--accent-subtle)' }}>
+                      <Building className="w-5 h-5" style={{ color: 'var(--accent)' }} />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                        {exp.company}
-                      </h3>
-                      <p className="text-lg font-semibold text-primary-600 dark:text-primary-400">
-                        {exp.position}
-                      </p>
+                      <h3 className="font-semibold text-lg">{exp.position}</h3>
+                      <p className="font-medium" style={{ color: 'var(--accent)' }}>{exp.company}</p>
                     </div>
                   </div>
-
-                  <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                    <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      {exp.duration}
-                    </div>
-                    <div className="flex items-center">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      {exp.location}
-                    </div>
+                  <div className="flex flex-col gap-1 text-sm" style={{ color: 'var(--text-muted)' }}>
+                    <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{exp.duration}</span>
+                    <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" />{exp.location}</span>
                   </div>
                 </div>
 
-                {/* Description and Achievements */}
-                <div className="lg:col-span-2">
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    {exp.description}
-                  </p>
+                <ul className="space-y-2 mb-4">
+                  {exp.achievements.map((a) => (
+                    <li key={a} className="text-sm flex gap-2" style={{ color: 'var(--text-muted)' }}>
+                      <span style={{ color: 'var(--accent)' }}>·</span>{a}
+                    </li>
+                  ))}
+                </ul>
 
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-                      <Award className="w-5 h-5 mr-2 text-primary-600 dark:text-primary-400" />
-                      Key Achievements
-                    </h4>
-                    <ul className="space-y-2">
-                      {exp.achievements.map((achievement, idx) => (
-                        <motion.li
-                          key={idx}
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: (index * 0.1) + (idx * 0.05) }}
-                          viewport={{ once: true }}
-                          className="flex items-start text-gray-600 dark:text-gray-300"
-                        >
-                          <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                          {achievement}
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      Technologies & Skills:
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {exp.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {exp.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono"
+                      style={{ backgroundColor: 'var(--surface-elevated)', color: 'var(--text-muted)' }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
-
-        {/* Career Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
-          <div className="bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              Career Impact
-            </h3>
-            <div className="grid md:grid-cols-3 gap-6 max-w-2xl mx-auto">
-              <div>
-                <div className="text-3xl font-bold gradient-text mb-2">20+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">Years Experience</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold gradient-text mb-2">16+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">Patents</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold gradient-text mb-2">20+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">Publications</div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
-    </section>
-  )
-}
+    </div>
+  </section>
+)
 
 export default ExperienceSection

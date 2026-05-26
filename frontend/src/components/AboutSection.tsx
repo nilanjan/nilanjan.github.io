@@ -1,166 +1,183 @@
 import { motion } from 'framer-motion'
-import { Award, GraduationCap, Briefcase } from 'lucide-react'
+import { GraduationCap, Award, Users, FlaskConical, Cpu } from 'lucide-react'
+import SectionHeader from './SectionHeader'
 
-const AboutSection = () => {
-  const stats = [
-    { label: 'Years Experience', value: '20+' },
-    { label: 'Research Papers', value: '20+' },
-    { label: 'Patents', value: '16+' },
-    { label: 'Companies', value: '4' },
-  ]
+const pillars = [
+  {
+    icon: Users,
+    label: 'Architecture Leadership',
+    detail: 'Cross-functional programs spanning architects, design, verification, and software',
+  },
+  {
+    icon: FlaskConical,
+    label: 'Architecture Exploration',
+    detail: 'PPA modeling, workload characterization, and pathfinding for throughput systems',
+  },
+  {
+    icon: Cpu,
+    label: 'Production Silicon',
+    detail: 'Specification through RTL correlation at Apple, Samsung, Meta, and Qualcomm',
+  },
+]
 
-  const expertise = [
-    'AR/VR Graphics Pipeline',
-    'XR Graphics HW Architecture',
-    'Neural Rendering & 3D Gaussian Splatting',
-    'Hardware-Accelerated Composition',
-    'System-on-Chip GPU Optimization',
-    'Tile-based Graphics Rendering',
-    'Mobile GPU Architecture',
-  ]
+const education = [
+  {
+    degree: 'Ph.D., Computer Architecture',
+    school: 'University of Florida',
+    year: '2013',
+    focus: 'Power-Performance Co-Optimization of Throughput Architectures',
+  },
+  {
+    degree: 'M.S., Computer Architecture',
+    school: 'University of Florida',
+    year: '',
+    focus: '',
+  },
+  {
+    degree: 'B.Tech, Electronics & Computer Engineering',
+    school: 'University of Kalyani, India',
+    year: '',
+    focus: '',
+  },
+]
 
-  return (
-    <section id="about" className="py-20 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            About <span className="gradient-text">Me</span>
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            A Principal Graphics Architect specializing in XR graphics, neural rendering, and system-level GPU optimization
-          </p>
-        </motion.div>
+const primaryExpertise = [
+  'Accelerator Datapath and Memory',
+  'GPU/Throughput Microarchitecture',
+  'PPA Modeling and Simulation',
+  'Processor-Accelerator Co-Design',
+  'Architecture Specification and Verification',
+  'Cross-Functional Technical Leadership',
+]
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Bio */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="space-y-6"
+const supplementaryExpertise = [
+  'Mobile GPU Architecture',
+  'AR/VR and XR Composition',
+  'Neural Rendering Pipelines',
+]
+
+const AboutSection = () => (
+  <section id="about" className="section">
+    <div className="section-inner">
+      <SectionHeader
+        eyebrow="About"
+        title="Computer Architect and Technical Leader"
+        description="Throughput processors, accelerators, and GPU architecture — from exploration through production silicon."
+        className="!mb-7"
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="about-panel rounded-2xl overflow-hidden"
+      >
+        <div className="grid lg:grid-cols-12">
+          <div
+            className="lg:col-span-8 p-6 md:p-8 lg:border-r"
+            style={{ borderColor: 'var(--border)' }}
           >
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                I'm a <strong>Principal Graphics Architect</strong> at <strong>Qualcomm Technologies Inc.</strong>, 
-                based in Santa Clara, CA, where I specialize in designing and optimizing graphics architectures for 
-                cutting-edge extended reality (XR) applications. My work focuses on hardware-accelerated XR composition—covering 
-                real-time layer blending, distortion correction, and latency-sensitive rendering for immersive virtual 
-                and augmented reality experiences.
-              </p>
-              
-              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                I actively explore neural rendering techniques, including <strong>3D Gaussian Splatting–based neural composition</strong>, 
-                to push the boundaries of scene reconstruction and dynamic view synthesis on mobile platforms. These innovations 
-                enable high-fidelity visuals while meeting strict power and performance constraints.
-              </p>
+            <p className="about-lead mb-6">
+              Architecture and technical leadership across GPU and accelerator programs for more than two
+              decades — spanning microarchitecture, PPA exploration, and delivery of production silicon at
+              Apple, Samsung, Meta, and Qualcomm.
+            </p>
 
-              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                My expertise also extends to <strong>system-level GPU optimization</strong> within system-on-chip (SoC) environments. 
-                Through architectural co-design and cross-subsystem tuning, I've contributed to significant performance-per-watt 
-                improvements across CPU, memory, and display pipelines—driving scalable, energy-efficient graphics solutions 
-                for next-generation devices.
+            <div className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm leading-[1.75]" style={{ color: 'var(--text-muted)' }}>
+              <p>
+                Technical direction is set across architecture teams with continued hands-on work in
+                specification, simulation, and correlation to RTL. Programs have moved from early
+                exploration into shipped products across mobile SoCs, XR platforms, and graphics IP.
               </p>
-
-              <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300">
-                I hold a <strong>Ph.D. in Computer Architecture</strong> from the University of Florida, where my 
-                research focused on deep learning, immersive computing, and real-time graphics systems. My work has been 
-                published in leading conferences and journals, reflecting a commitment to advancing the intersection of 
-                graphics, machine learning, and systems design.
+              <p>
+                Scope includes accelerator datapath and memory hierarchy, throughput processor organization,
+                and workload-driven design validated through GEM5, industrial simulators, and silicon
+                measurement. Work has covered super-resolution and disocclusion, hybrid GPU power delivery,
+                compositor architecture, and system-level optimization under mobile and XR power budgets.
               </p>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="text-center"
-                >
-                  <div className="text-3xl font-bold gradient-text">{stat.value}</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+            <p className="mt-5 pt-5 text-sm leading-[1.75] border-t" style={{ color: 'var(--text-muted)', borderColor: 'var(--border)' }}>
+              Doctoral work at the University of Florida established PPA methods still applied in GPU and
+              accelerator design. That foundation sits alongside peer-reviewed publications and granted U.S.
+              patents — part of a long arc of architecture work, not the headline.
+            </p>
+          </div>
 
-          {/* Right Column - Details */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            {/* Current Role */}
-            <div className="card p-6">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
-                  <Briefcase className="w-6 h-6 text-primary-600 dark:text-primary-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Principal Graphics Architect</h3>
-                  <p className="text-primary-600 dark:text-primary-400 font-medium">Qualcomm Technologies Inc.</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Santa Clara, CA • 2023 - Present</p>
-                </div>
+          <div className="lg:col-span-4 p-6 md:p-8 space-y-7" style={{ backgroundColor: 'var(--surface-elevated)' }}>
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <GraduationCap className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
+                <h3 className="text-sm font-semibold">Education</h3>
               </div>
-            </div>
-
-            {/* Education */}
-            <div className="card p-6">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                  <GraduationCap className="w-6 h-6 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Ph.D. Computer Architecture</h3>
-                  <p className="text-green-600 dark:text-green-400 font-medium">University of Florida</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">Department of Electrical and Computer Engineering</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Expertise */}
-            <div className="card p-6">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                  <Award className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Areas of Expertise</h3>
-                  <div className="grid grid-cols-2 gap-2">
-                    {expertise.map((skill, index) => (
-                      <motion.div
-                        key={skill}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                        viewport={{ once: true }}
-                        className="flex items-center space-x-2"
-                      >
-                        <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
-                        <span className="text-sm text-gray-600 dark:text-gray-300">{skill}</span>
-                      </motion.div>
-                    ))}
+              <div className="space-y-4">
+                {education.map(({ degree, school, year, focus }) => (
+                  <div key={degree} className="relative pl-4 border-l-2" style={{ borderColor: 'var(--border)' }}>
+                    <p className="text-sm font-medium leading-snug" style={{ color: 'var(--text)' }}>
+                      {degree}
+                    </p>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                      {school}{year ? ` · ${year}` : ''}
+                    </p>
+                    {focus && (
+                      <p className="text-xs mt-0.5 leading-relaxed" style={{ color: 'var(--text-muted)' }}>{focus}</p>
+                    )}
                   </div>
-                </div>
+                ))}
               </div>
             </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
-export default AboutSection 
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Award className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
+                <h3 className="text-sm font-semibold">Core Expertise</h3>
+              </div>
+              <ul className="space-y-2 mb-4">
+                {primaryExpertise.map((skill) => (
+                  <li key={skill} className="text-xs flex gap-2 leading-snug" style={{ color: 'var(--text-muted)' }}>
+                    <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: 'var(--border)' }} />
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+              <p className="eyebrow mb-2">Domain Depth</p>
+              <div className="flex flex-wrap gap-1.5">
+                {supplementaryExpertise.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-2 py-0.5 rounded-md text-[10px] font-medium border"
+                    style={{ borderColor: 'var(--border)', color: 'var(--text-muted)', backgroundColor: 'var(--surface)' }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x border-t"
+          style={{ borderColor: 'var(--border)' }}
+        >
+          {pillars.map(({ icon: Icon, label, detail }) => (
+            <div key={label} className="about-pillar">
+              <div
+                className="shrink-0 p-2.5 rounded-lg h-fit"
+                style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-muted)' }}
+              >
+                <Icon className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold mb-1">{label}</h3>
+                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>{detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  </section>
+)
+
+export default AboutSection

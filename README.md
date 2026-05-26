@@ -1,6 +1,6 @@
 # Nilanjan Goswami - Professional Portfolio
 
-A modern, high-performance professional portfolio website built with **React** (frontend) and **Rust** (backend), showcasing expertise in graphics architecture, mobile GPU development, research contributions, and patent portfolio.
+A modern professional portfolio for **Nilanjan Goswami** — Principal Computer Architect specializing in GPU and ML accelerator design, throughput processor microarchitecture, and PPA exploration, with deep mobile GPU and AR/VR product experience at Apple, Meta, Samsung, and Qualcomm.
 
 ## 🚀 Features
 
@@ -21,9 +21,9 @@ A modern, high-performance professional portfolio website built with **React** (
 ### Key Sections
 - **Hero Section**: Professional introduction with animated gradients
 - **About Section**: Career overview and professional expertise
-- **Experience Section**: Detailed work history at major tech companies (Qualcomm, NVIDIA, Intel)
-- **Patents Section**: Comprehensive patent portfolio (4 granted, 4 pending)
-- **Publications Section**: Research publications and academic contributions (15+ papers)
+- **Experience Section**: Work history at Apple, Meta, Samsung, Qualcomm, and NVIDIA
+- **Patents Section**: 7 granted, 11 pending patents
+- **Publications Section**: 15+ peer-reviewed computer architecture papers
 - **Skills Section**: Technical expertise across graphics architecture domains
 - **Contact Section**: Professional networking and collaboration opportunities
 - **Footer**: Professional links and navigation
@@ -240,8 +240,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - **GitHub**: [nilanjan](https://github.com/nilanjan)
 - **Google Scholar**: [Research Profile](https://scholar.google.com/citations?user=-ZvEn44AAAAJ&hl=en)
 - **Website**: [http://nilanjan.github.io/](http://nilanjan.github.io/)
-- **Email**: nilanjan.goswami@gmail.com
-- **Location**: Livermore, CA
+- **Contact**: Use the Send Email link on [nilanjan.github.io](https://nilanjan.github.io)
+- **Location**: San Francisco Bay Area, CA, USA
 
 ---
 
