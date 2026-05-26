@@ -25,6 +25,12 @@ export function getVerifyApiBase(): string {
   return API_BASE
 }
 
+export function getChallengePageUrl(): string {
+  if (!API_BASE || typeof window === 'undefined') return ''
+  const origin = encodeURIComponent(window.location.origin)
+  return `${API_BASE}/challenge?origin=${origin}`
+}
+
 export function getTurnstileSiteKey(): string {
   return resolveSiteKey()
 }

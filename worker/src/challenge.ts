@@ -54,11 +54,19 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
       var status = document.getElementById('status');
       var widget = document.getElementById('widget');
 
+      function notifyParent(payload) {
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage(payload, parentOrigin);
+          return;
+        }
+        if (window.parent !== window) {
+          window.parent.postMessage(payload, parentOrigin);
+        }
+      }
+
       function fail(msg) {
         status.textContent = msg;
-        if (window.parent !== window) {
-          window.parent.postMessage({ type: 'turnstile-error', message: msg }, parentOrigin);
-        }
+        notifyParent({ type: 'turnstile-error', message: msg });
       }
 
       function waitForApi(ms) {
@@ -83,12 +91,14 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
             sitekey: sitekey,
             theme: 'auto',
             callback: function (token) {
-              if (window.parent !== window) {
-                window.parent.postMessage({ type: 'turnstile-token', token: token }, parentOrigin);
+              notifyParent({ type: 'turnstile-token', token: token });
+              if (window.opener && !window.opener.closed) {
+                status.textContent = 'Verified. Returning to site…';
+                setTimeout(function () { window.close(); }, 400);
               }
             },
             'error-callback': function () {
-              fail('Turnstile error');
+              fail('Hostname not allowed for this site key. Add ng-web-verify.nilanjan.workers.dev in Cloudflare Turnstile domains.');
             },
           });
         });

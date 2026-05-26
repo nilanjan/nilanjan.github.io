@@ -3,7 +3,11 @@ import { ShieldCheck, Loader2 } from 'lucide-react'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
 import TurnstileIframe from './TurnstileIframe'
-import { getTurnstileSiteKey, isVerifyApiConfigured } from '../utils/verifyApi'
+import {
+  getChallengePageUrl,
+  getTurnstileSiteKey,
+  isVerifyApiConfigured,
+} from '../utils/verifyApi'
 import { isBraveBrowser } from '../utils/braveDetection'
 import {
   getLastTurnstileLoadError,
@@ -86,6 +90,12 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   if (verified) return <>{children}</>
 
   const siteKeySuffix = getTurnstileSiteKey().trim().slice(-8)
+  const challengePageUrl = getChallengePageUrl()
+
+  const openChallengeTab = useCallback(() => {
+    if (!challengePageUrl) return
+    window.open(challengePageUrl, 'turnstile-verify', 'width=420,height=360')
+  }, [challengePageUrl])
 
   return (
     <div
@@ -125,10 +135,22 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
           <div className="mb-4 space-y-3">
             {useIframe ? (
               <>
-                <p className="text-xs mb-2" style={{ color: 'var(--text-muted)' }}>
-                  Verification runs on a separate secure origin (helps with Brave Shields).
+                <p className="text-xs mb-2 text-left" style={{ color: 'var(--text-muted)' }}>
+                  Using Brave: set Shields down for <code className="text-[11px]">nilanjan.github.io</code> and{' '}
+                  <code className="text-[11px]">ng-web-verify.nilanjan.workers.dev</code>. In Cloudflare
+                  Turnstile, add <code className="text-[11px]">ng-web-verify.nilanjan.workers.dev</code> to widget
+                  hostnames.
                 </p>
                 <TurnstileIframe onToken={handleTurnstileToken} onError={handleScriptError} />
+                {challengePageUrl && (
+                  <button
+                    type="button"
+                    onClick={openChallengeTab}
+                    className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full"
+                  >
+                    Open verification in new tab
+                  </button>
+                )}
               </>
             ) : (
               <TurnstileWidget
@@ -141,14 +163,24 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
             {scriptBlocked && useIframe && (
               <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
                 <p>
-                  Alternate verification did not load. In Brave: lion icon → Shields down for this site. In
-                  Cloudflare Turnstile, add hostname{' '}
-                  <code className="text-xs">ng-web-verify.nilanjan.workers.dev</code> to your widget domains,
-                  then Retry.
+                  Scripts load (Network shows <code className="text-xs">api.js</code> 200) but Turnstile cannot
+                  run while Brave Shields block fingerprinting. Lower Shields for both hostnames above, then use
+                  the new-tab button.
                 </p>
-                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
-                  Retry
-                </button>
+                <div className="flex flex-col gap-2">
+                  {challengePageUrl && (
+                    <button
+                      type="button"
+                      onClick={openChallengeTab}
+                      className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full"
+                    >
+                      Open verification in new tab
+                    </button>
+                  )}
+                  <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
+                    Retry
+                  </button>
+                </div>
               </div>
             )}
 
