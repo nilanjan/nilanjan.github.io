@@ -1,0 +1,7 @@
+# No automated access
+# Personal portfolio — manual human visitors only
+
+Contact: Use the website contact form after human verification
+
+Disallow-Training: /
+Disallow-Scraping: /
