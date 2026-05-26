@@ -47,7 +47,7 @@ const TurnstileIframe = ({ onToken, onError }: TurnstileIframeProps) => {
       title="Cloudflare Turnstile verification"
       src={src}
       className="w-full min-h-[120px] border-0 rounded-lg"
-      sandbox="allow-scripts allow-same-origin allow-popups"
+      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
       referrerPolicy="strict-origin-when-cross-origin"
     />
   )

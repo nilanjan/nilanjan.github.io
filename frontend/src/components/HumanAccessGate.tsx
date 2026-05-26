@@ -22,10 +22,13 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const [usingBrave, setUsingBrave] = useState(false)
   const [verifyFailed, setVerifyFailed] = useState(false)
   const [widgetKey, setWidgetKey] = useState(0)
-  const [useIframe, setUseIframe] = useState(false)
+  // navigator.brave exists in Brave; use iframe immediately (Shields blocks inline Turnstile).
+  const [useIframe, setUseIframe] = useState(() => isBraveBrowser())
 
   useEffect(() => {
     if (!isBraveBrowser()) return
+    setUsingBrave(true)
+    setUseIframe(true)
     const brave = (navigator as Navigator & { brave?: { isBrave?: () => Promise<boolean> } }).brave
     void brave?.isBrave?.().then((yes) => {
       if (yes) {
@@ -133,6 +136,20 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                 onToken={handleTurnstileToken}
                 onScriptError={handleScriptError}
               />
+            )}
+
+            {scriptBlocked && useIframe && (
+              <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
+                <p>
+                  Alternate verification did not load. In Brave: lion icon → Shields down for this site. In
+                  Cloudflare Turnstile, add hostname{' '}
+                  <code className="text-xs">ng-web-verify.nilanjan.workers.dev</code> to your widget domains,
+                  then Retry.
+                </p>
+                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
+                  Retry
+                </button>
+              </div>
             )}
 
             {scriptBlocked && !useIframe && (
