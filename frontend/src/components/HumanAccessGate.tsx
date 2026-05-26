@@ -84,7 +84,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
           <div className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2">
             <p>
               {turnstileError
-                ? 'Verification widget failed to load. Check that nilanjan.github.io is listed in your Cloudflare Turnstile widget hostnames, disable ad blockers, then retry.'
+                ? `Turnstile could not load on ${window.location.hostname}. In Cloudflare → Turnstile → your widget → Settings → Hostname Management, add exactly: ${window.location.hostname} (also add localhost for local dev). Then disable ad blockers and retry.`
                 : blockedReason}
             </p>
             {turnstileError && (

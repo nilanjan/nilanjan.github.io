@@ -1,11 +1,28 @@
-const API_BASE = import.meta.env.VITE_VERIFY_API_URL?.replace(/\/$/, '') ?? ''
+const PROD_VERIFY_API_URL = 'https://ng-web-verify.nilanjan.workers.dev'
+const PROD_TURNSTILE_SITE_KEY = '0x4AAAAAADWaE0y00QJjck_o'
+
+function resolveApiBase(): string {
+  const fromEnv = import.meta.env.VITE_VERIFY_API_URL?.replace(/\/$/, '') ?? ''
+  if (fromEnv) return fromEnv
+  if (import.meta.env.PROD) return PROD_VERIFY_API_URL
+  return ''
+}
+
+function resolveSiteKey(): string {
+  const fromEnv = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ''
+  if (fromEnv) return fromEnv
+  if (import.meta.env.PROD) return PROD_TURNSTILE_SITE_KEY
+  return ''
+}
+
+const API_BASE = resolveApiBase()
 
 export function isVerifyApiConfigured(): boolean {
   return API_BASE.length > 0
 }
 
 export function getTurnstileSiteKey(): string {
-  return import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ''
+  return resolveSiteKey()
 }
 
 interface VerifyResponse {
