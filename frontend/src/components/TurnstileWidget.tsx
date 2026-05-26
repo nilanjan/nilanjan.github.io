@@ -1,35 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getTurnstileSiteKey } from '../utils/verifyApi'
 
-const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+const SCRIPT_ID = 'cf-turnstile-script'
+const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
 
 interface TurnstileWidgetProps {
   onToken: (token: string) => void
   onScriptError?: () => void
 }
 
-function loadTurnstileScript(): Promise<void> {
+function waitForTurnstileApi(timeoutMs: number): Promise<void> {
   if (window.turnstile) return Promise.resolve()
 
-  const existing = document.querySelector(`script[src^="${SCRIPT_SRC}"]`)
-  if (existing) {
-    return waitForApi(20_000)
-  }
-
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = `${SCRIPT_SRC}?render=explicit`
-    script.async = true
-    script.defer = true
-    script.onload = () => {
-      waitForApi(20_000).then(resolve).catch(reject)
-    }
-    script.onerror = () => reject(new Error('script-blocked'))
-    document.head.appendChild(script)
-  })
-}
-
-function waitForApi(timeoutMs: number): Promise<void> {
   return new Promise((resolve, reject) => {
     const started = Date.now()
     const tick = () => {
@@ -41,9 +23,28 @@ function waitForApi(timeoutMs: number): Promise<void> {
         reject(new Error('turnstile-timeout'))
         return
       }
-      window.setTimeout(tick, 50)
+      window.setTimeout(tick, 100)
     }
     tick()
+  })
+}
+
+function injectTurnstileScript(): Promise<void> {
+  if (window.turnstile) return Promise.resolve()
+
+  return new Promise((resolve, reject) => {
+    document.getElementById(SCRIPT_ID)?.remove()
+
+    const script = document.createElement('script')
+    script.id = SCRIPT_ID
+    script.src = SCRIPT_SRC
+    script.async = true
+    script.defer = true
+    script.onload = () => {
+      waitForTurnstileApi(30_000).then(resolve).catch(reject)
+    }
+    script.onerror = () => reject(new Error('script-blocked'))
+    document.head.appendChild(script)
   })
 }
 
@@ -51,6 +52,7 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const onTokenRef = useRef(onToken)
   const onScriptErrorRef = useRef(onScriptError)
+  const [loading, setLoading] = useState(true)
   const siteKey = getTurnstileSiteKey().trim()
 
   onTokenRef.current = onToken
@@ -63,7 +65,10 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
     let widgetId: string | null = null
     const container = containerRef.current
 
-    loadTurnstileScript()
+    setLoading(true)
+
+    waitForTurnstileApi(8_000)
+      .catch(() => injectTurnstileScript())
       .then(() => {
         if (disposed || !containerRef.current || !window.turnstile) return
 
@@ -74,8 +79,8 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
             sitekey: siteKey,
             callback: (token: string) => onTokenRef.current(token),
             theme: 'auto',
-            // Do not use error-callback — it fires on React teardown and looks like a hostname failure.
           })
+          setLoading(false)
         }
 
         if (typeof window.turnstile.ready === 'function') {
@@ -85,7 +90,10 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
         }
       })
       .catch(() => {
-        if (!disposed) onScriptErrorRef.current?.()
+        if (!disposed) {
+          setLoading(false)
+          onScriptErrorRef.current?.()
+        }
       })
 
     return () => {
@@ -94,7 +102,7 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
         try {
           window.turnstile.remove(widgetId)
         } catch {
-          // ignore teardown errors
+          // ignore
         }
         widgetId = null
       }
@@ -111,11 +119,18 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="flex justify-center min-h-[65px] min-w-[300px] mx-auto"
-      aria-label="Cloudflare Turnstile challenge"
-    />
+    <div className="flex flex-col items-center gap-2 min-w-[300px] mx-auto">
+      {loading && (
+        <p className="text-xs py-4" style={{ color: 'var(--text-muted)' }}>
+          Loading verification…
+        </p>
+      )}
+      <div
+        ref={containerRef}
+        className={`flex justify-center min-h-[65px] w-full ${loading ? 'hidden' : ''}`}
+        aria-label="Cloudflare Turnstile challenge"
+      />
+    </div>
   )
 }
 

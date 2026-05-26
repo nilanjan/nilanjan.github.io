@@ -101,8 +101,20 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
             {scriptBlocked && (
               <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
                 <p>
-                  Turnstile could not load — usually an ad blocker or privacy extension blocking{' '}
-                  <code className="text-xs">challenges.cloudflare.com</code>. Try incognito with extensions off.
+                  Turnstile could not load. Allow <code className="text-xs">challenges.cloudflare.com</code> in
+                  your ad blocker or try a private window (Safari/Chrome incognito).
+                </p>
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  Quick test: open{' '}
+                  <a
+                    href="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  >
+                    challenges.cloudflare.com
+                  </a>{' '}
+                  in a new tab — if it is blocked, Turnstile cannot run in this browser.
                 </p>
                 <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
                   Retry
