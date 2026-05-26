@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useCallback, useState, type ReactNode } from 'react'
 import { ShieldCheck, Loader2 } from 'lucide-react'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
@@ -12,6 +12,26 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const { verified, checking, blockedReason, verifyAccess } = useHumanAccess()
   const [verifying, setVerifying] = useState(false)
   const [turnstileError, setTurnstileError] = useState(false)
+  const [widgetKey, setWidgetKey] = useState(0)
+
+  const handleTurnstileToken = useCallback(async (token: string) => {
+    setTurnstileError(false)
+    setVerifying(true)
+    try {
+      await verifyAccess(token)
+    } finally {
+      setVerifying(false)
+    }
+  }, [verifyAccess])
+
+  const handleTurnstileError = useCallback(() => {
+    setTurnstileError(true)
+  }, [])
+
+  const handleRetry = useCallback(() => {
+    setTurnstileError(false)
+    setWidgetKey((key) => key + 1)
+  }, [])
 
   if (checking) {
     return (
@@ -29,16 +49,6 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   }
 
   if (verified) return <>{children}</>
-
-  const handleTurnstileToken = async (token: string) => {
-    setTurnstileError(false)
-    setVerifying(true)
-    try {
-      await verifyAccess(token)
-    } finally {
-      setVerifying(false)
-    }
-  }
 
   return (
     <div
@@ -71,17 +81,26 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
         )}
 
         {(blockedReason || turnstileError) && (
-          <p className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300">
-            {turnstileError ? 'Verification widget failed to load. Refresh and try again.' : blockedReason}
-          </p>
+          <div className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2">
+            <p>
+              {turnstileError
+                ? 'Verification widget failed to load. Check that nilanjan.github.io is listed in your Cloudflare Turnstile widget hostnames, disable ad blockers, then retry.'
+                : blockedReason}
+            </p>
+            {turnstileError && (
+              <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs">
+                Retry
+              </button>
+            )}
+          </div>
         )}
 
         {isVerifyApiConfigured() && (
           <div className="mb-4">
             <TurnstileWidget
+              key={widgetKey}
               onToken={handleTurnstileToken}
-              onError={() => setTurnstileError(true)}
-              onExpire={() => setTurnstileError(true)}
+              onError={handleTurnstileError}
             />
           </div>
         )}

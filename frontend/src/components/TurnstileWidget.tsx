@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { getTurnstileSiteKey } from '../utils/verifyApi'
 
 const SCRIPT_ID = 'cf-turnstile-script'
-const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad'
+const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
 
 interface TurnstileWidgetProps {
   onToken: (token: string) => void
@@ -11,23 +11,41 @@ interface TurnstileWidgetProps {
   theme?: 'light' | 'dark' | 'auto'
 }
 
-function loadTurnstileScript(): Promise<void> {
+function waitForTurnstile(timeoutMs = 15_000): Promise<void> {
   if (window.turnstile) return Promise.resolve()
 
   return new Promise((resolve, reject) => {
-    const existing = document.getElementById(SCRIPT_ID)
-    if (existing) {
-      window.onTurnstileLoad = () => resolve()
-      if (window.turnstile) resolve()
-      return
+    const started = Date.now()
+    const tick = () => {
+      if (window.turnstile) {
+        resolve()
+        return
+      }
+      if (Date.now() - started > timeoutMs) {
+        reject(new Error('turnstile-timeout'))
+        return
+      }
+      window.setTimeout(tick, 50)
     }
+    tick()
+  })
+}
 
-    window.onTurnstileLoad = () => resolve()
+function loadTurnstileScript(): Promise<void> {
+  if (window.turnstile) return Promise.resolve()
+
+  const existing = document.getElementById(SCRIPT_ID)
+  if (existing) return waitForTurnstile()
+
+  return new Promise((resolve, reject) => {
     const script = document.createElement('script')
     script.id = SCRIPT_ID
     script.src = SCRIPT_SRC
     script.async = true
     script.defer = true
+    script.onload = () => {
+      waitForTurnstile().then(resolve).catch(reject)
+    }
     script.onerror = () => reject(new Error('turnstile-load-failed'))
     document.head.appendChild(script)
   })
@@ -41,7 +59,14 @@ const TurnstileWidget = ({
 }: TurnstileWidgetProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
+  const onTokenRef = useRef(onToken)
+  const onErrorRef = useRef(onError)
+  const onExpireRef = useRef(onExpire)
   const siteKey = getTurnstileSiteKey()
+
+  onTokenRef.current = onToken
+  onErrorRef.current = onError
+  onExpireRef.current = onExpire
 
   useEffect(() => {
     if (!siteKey || !containerRef.current) return
@@ -52,29 +77,23 @@ const TurnstileWidget = ({
       .then(() => {
         if (cancelled || !containerRef.current || !window.turnstile) return
 
-        if (widgetIdRef.current) {
-          window.turnstile.remove(widgetIdRef.current)
-        }
-
         widgetIdRef.current = window.turnstile.render(containerRef.current, {
           sitekey: siteKey,
-          callback: onToken,
-          'error-callback': onError,
-          'expired-callback': onExpire,
+          callback: (token: string) => onTokenRef.current(token),
+          'error-callback': () => onErrorRef.current?.(),
+          'expired-callback': () => onExpireRef.current?.(),
           theme,
           appearance: 'always',
         })
       })
-      .catch(() => onError?.())
+      .catch(() => {
+        if (!cancelled) onErrorRef.current?.()
+      })
 
     return () => {
       cancelled = true
-      if (widgetIdRef.current && window.turnstile) {
-        window.turnstile.remove(widgetIdRef.current)
-        widgetIdRef.current = null
-      }
     }
-  }, [siteKey, onToken, onError, onExpire, theme])
+  }, [siteKey, theme])
 
   if (!siteKey) {
     return (
