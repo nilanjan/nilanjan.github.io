@@ -26,33 +26,43 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Verification</title>
-  <script id="cf-turnstile-script" src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      min-height: 100px;
+      min-height: 120px;
+      padding: 12px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 10px;
       font-family: system-ui, sans-serif;
-      background: transparent;
+      background: #fff;
     }
-    #widget { min-height: 65px; }
-    #status { font-size: 12px; color: #666; text-align: center; padding: 8px; }
+    #status { font-size: 13px; color: #444; text-align: center; max-width: 22rem; line-height: 1.45; }
+    #status.err { color: #b91c1c; }
+    .cf-turnstile { min-height: 65px; }
+    .hint { font-size: 12px; color: #666; text-align: center; max-width: 24rem; }
   </style>
 </head>
 <body>
-  <div>
-    <div id="widget"></div>
-    <p id="status">Loading…</p>
-  </div>
+  <p id="status">Loading challenge…</p>
+  <div
+    id="widget"
+    class="cf-turnstile"
+    data-sitekey="${siteKey.replace(/"/g, '&quot;')}"
+    data-theme="auto"
+    data-callback="onTurnstileSuccess"
+    data-error-callback="onTurnstileError"
+  ></div>
+  <p class="hint">Brave: Shields down for this tab and nilanjan.github.io</p>
   <script>
     (function () {
       var parentOrigin = ${JSON.stringify(parent)};
-      var sitekey = ${JSON.stringify(siteKey)};
       var status = document.getElementById('status');
-      var widget = document.getElementById('widget');
+      var timeoutId;
 
       function notifyParent(payload) {
         if (window.opener && !window.opener.closed) {
@@ -65,46 +75,31 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
       }
 
       function fail(msg) {
+        clearTimeout(timeoutId);
         status.textContent = msg;
+        status.className = 'err';
         notifyParent({ type: 'turnstile-error', message: msg });
       }
 
-      function waitForApi(ms) {
-        return new Promise(function (resolve, reject) {
-          var start = Date.now();
-          (function tick() {
-            if (window.turnstile) return resolve();
-            if (Date.now() - start > ms) return reject(new Error('timeout'));
-            setTimeout(tick, 50);
-          })();
-        });
-      }
-
-      document.getElementById('cf-turnstile-script').addEventListener('error', function () {
-        fail('Could not download Turnstile script on this origin.');
-      });
-
-      waitForApi(30000).then(function () {
+      window.onTurnstileSuccess = function (token) {
+        clearTimeout(timeoutId);
         status.textContent = '';
-        window.turnstile.ready(function () {
-          window.turnstile.render(widget, {
-            sitekey: sitekey,
-            theme: 'auto',
-            callback: function (token) {
-              notifyParent({ type: 'turnstile-token', token: token });
-              if (window.opener && !window.opener.closed) {
-                status.textContent = 'Verified. Returning to site…';
-                setTimeout(function () { window.close(); }, 400);
-              }
-            },
-            'error-callback': function () {
-              fail('Hostname not allowed for this site key. Add ng-web-verify.nilanjan.workers.dev in Cloudflare Turnstile domains.');
-            },
-          });
-        });
-      }).catch(function () {
-        fail('Turnstile script loaded but API did not start. Lower Brave Shields for this site.');
-      });
+        notifyParent({ type: 'turnstile-token', token: token });
+        if (window.opener && !window.opener.closed) {
+          status.textContent = 'Verified. Returning to site…';
+          setTimeout(function () { window.close(); }, 400);
+        }
+      };
+
+      window.onTurnstileError = function () {
+        fail('Turnstile rejected this page. Add ng-web-verify.nilanjan.workers.dev to your Turnstile widget hostnames.');
+      };
+
+      timeoutId = setTimeout(function () {
+        if (!window.turnstile) {
+          fail('Brave Shields is blocking Turnstile. Click the lion icon → Shields down for this site, then reload.');
+        }
+      }, 35000);
     })();
   </script>
 </body>

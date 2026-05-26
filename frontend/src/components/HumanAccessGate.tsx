@@ -135,18 +135,34 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
           <div className="mb-4 space-y-3">
             {useIframe ? (
               <>
-                <p className="text-xs mb-2 text-left" style={{ color: 'var(--text-muted)' }}>
-                  Using Brave: set Shields down for <code className="text-[11px]">nilanjan.github.io</code> and{' '}
-                  <code className="text-[11px]">ng-web-verify.nilanjan.workers.dev</code>. In Cloudflare
-                  Turnstile, add <code className="text-[11px]">ng-web-verify.nilanjan.workers.dev</code> to widget
-                  hostnames.
-                </p>
-                <TurnstileIframe onToken={handleTurnstileToken} onError={handleScriptError} />
+                {usingBrave && (
+                  <div
+                    className="text-sm rounded-lg px-3 py-2 text-left space-y-2"
+                    style={{ backgroundColor: 'var(--accent-subtle)', color: 'var(--text)' }}
+                  >
+                    <p className="font-medium">Brave detected</p>
+                    <ol className="text-xs list-decimal list-inside space-y-1" style={{ color: 'var(--text-muted)' }}>
+                      <li>Lion icon → Shields down on this tab</li>
+                      <li>Shields down on ng-web-verify.nilanjan.workers.dev (verification tab)</li>
+                      <li>
+                        Cloudflare Turnstile → add{' '}
+                        <code className="text-[11px]">ng-web-verify.nilanjan.workers.dev</code> to hostnames
+                      </li>
+                      <li>Reload, then use the new-tab button below</li>
+                    </ol>
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                      Or open this site in Chrome/Firefox if Shields stay on.
+                    </p>
+                  </div>
+                )}
+                {!scriptBlocked && (
+                  <TurnstileIframe onToken={handleTurnstileToken} onError={handleScriptError} />
+                )}
                 {challengePageUrl && (
                   <button
                     type="button"
                     onClick={openChallengeTab}
-                    className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full"
+                    className="btn-primary !min-h-10 !py-2 !px-4 text-sm w-full"
                   >
                     Open verification in new tab
                   </button>
