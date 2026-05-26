@@ -1,58 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { getTurnstileSiteKey } from '../utils/verifyApi'
-
-const SCRIPT_ID = 'cf-turnstile-script'
-const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+import { ensureTurnstileApi } from '../utils/turnstileLoader'
 
 interface TurnstileWidgetProps {
   onToken: (token: string) => void
   onScriptError?: () => void
 }
 
-function waitForTurnstileApi(timeoutMs: number): Promise<void> {
-  if (window.turnstile) return Promise.resolve()
-
-  return new Promise((resolve, reject) => {
-    const started = Date.now()
-    const tick = () => {
-      if (window.turnstile) {
-        resolve()
-        return
-      }
-      if (Date.now() - started > timeoutMs) {
-        reject(new Error('turnstile-timeout'))
-        return
-      }
-      window.setTimeout(tick, 100)
-    }
-    tick()
-  })
-}
-
-function injectTurnstileScript(): Promise<void> {
-  if (window.turnstile) return Promise.resolve()
-
-  return new Promise((resolve, reject) => {
-    document.getElementById(SCRIPT_ID)?.remove()
-
-    const script = document.createElement('script')
-    script.id = SCRIPT_ID
-    script.src = SCRIPT_SRC
-    script.async = true
-    script.defer = true
-    script.onload = () => {
-      waitForTurnstileApi(30_000).then(resolve).catch(reject)
-    }
-    script.onerror = () => reject(new Error('script-blocked'))
-    document.head.appendChild(script)
-  })
-}
-
 const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const onTokenRef = useRef(onToken)
   const onScriptErrorRef = useRef(onScriptError)
-  const [loading, setLoading] = useState(true)
+  const mountGenRef = useRef(0)
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const siteKey = getTurnstileSiteKey().trim()
 
   onTokenRef.current = onToken
@@ -61,26 +21,26 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
   useEffect(() => {
     if (!siteKey || !containerRef.current) return
 
-    let disposed = false
-    let widgetId: string | null = null
+    const mountGen = ++mountGenRef.current
     const container = containerRef.current
+    let widgetId: string | null = null
 
-    setLoading(true)
+    setStatus('loading')
 
-    waitForTurnstileApi(8_000)
-      .catch(() => injectTurnstileScript())
+    ensureTurnstileApi()
       .then(() => {
-        if (disposed || !containerRef.current || !window.turnstile) return
+        if (mountGenRef.current !== mountGen || !containerRef.current || !window.turnstile) return
 
         const renderWidget = () => {
-          if (disposed || !containerRef.current) return
+          if (mountGenRef.current !== mountGen || !containerRef.current) return
 
           widgetId = window.turnstile!.render(containerRef.current, {
             sitekey: siteKey,
             callback: (token: string) => onTokenRef.current(token),
             theme: 'auto',
+            appearance: 'always',
           })
-          setLoading(false)
+          setStatus('ready')
         }
 
         if (typeof window.turnstile.ready === 'function') {
@@ -90,14 +50,12 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
         }
       })
       .catch(() => {
-        if (!disposed) {
-          setLoading(false)
-          onScriptErrorRef.current?.()
-        }
+        if (mountGenRef.current !== mountGen) return
+        setStatus('error')
+        onScriptErrorRef.current?.()
       })
 
     return () => {
-      disposed = true
       if (widgetId && window.turnstile) {
         try {
           window.turnstile.remove(widgetId)
@@ -120,15 +78,16 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
 
   return (
     <div className="flex flex-col items-center gap-2 min-w-[300px] mx-auto">
-      {loading && (
-        <p className="text-xs py-4" style={{ color: 'var(--text-muted)' }}>
+      {status === 'loading' && (
+        <p className="text-xs py-2" style={{ color: 'var(--text-muted)' }}>
           Loading verification…
         </p>
       )}
       <div
         ref={containerRef}
-        className={`flex justify-center min-h-[65px] w-full ${loading ? 'hidden' : ''}`}
+        className="flex justify-center min-h-[65px] w-full"
         aria-label="Cloudflare Turnstile challenge"
+        aria-busy={status === 'loading'}
       />
     </div>
   )

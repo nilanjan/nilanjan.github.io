@@ -105,7 +105,11 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                   your ad blocker or try a private window (Safari/Chrome incognito).
                 </p>
                 <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  Quick test: open{' '}
+                  Diagnostic:{' '}
+                  <a href="/turnstile-check.html" className="underline">
+                    turnstile-check.html
+                  </a>{' '}
+                  (or open{' '}
                   <a
                     href="https://challenges.cloudflare.com/turnstile/v0/api.js"
                     target="_blank"
@@ -114,7 +118,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                   >
                     challenges.cloudflare.com
                   </a>{' '}
-                  in a new tab — if it is blocked, Turnstile cannot run in this browser.
+                  in a new tab). Hard refresh this page (Cmd+Shift+R) if the message looks outdated.
                 </p>
                 <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
                   Retry
