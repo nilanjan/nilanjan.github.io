@@ -26,7 +26,7 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Verification</title>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script id="cf-turnstile-script" src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -72,7 +72,11 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
         });
       }
 
-      waitForApi(60000).then(function () {
+      document.getElementById('cf-turnstile-script').addEventListener('error', function () {
+        fail('Could not download Turnstile script on this origin.');
+      });
+
+      waitForApi(30000).then(function () {
         status.textContent = '';
         window.turnstile.ready(function () {
           window.turnstile.render(widget, {
@@ -89,7 +93,7 @@ export function handleChallenge(request: Request, env: ChallengeEnv): Response {
           });
         });
       }).catch(function () {
-        fail('Could not load Turnstile on this origin.');
+        fail('Turnstile script loaded but API did not start. Lower Brave Shields for this site.');
       });
     })();
   </script>
