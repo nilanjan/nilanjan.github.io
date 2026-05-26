@@ -2,7 +2,7 @@ import { useCallback, useState, type ReactNode } from 'react'
 import { ShieldCheck, Loader2 } from 'lucide-react'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
-import { isVerifyApiConfigured } from '../utils/verifyApi'
+import { getTurnstileSiteKey, isVerifyApiConfigured } from '../utils/verifyApi'
 
 interface HumanAccessGateProps {
   children: ReactNode
@@ -80,28 +80,33 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
           </p>
         )}
 
-        {(blockedReason || turnstileError) && (
-          <div className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2">
-            <p>
-              {turnstileError
-                ? `Turnstile could not load on ${window.location.hostname}. In Cloudflare → Turnstile → your widget → Settings → Hostname Management, add exactly: ${window.location.hostname} (also add localhost for local dev). Then disable ad blockers and retry.`
-                : blockedReason}
-            </p>
-            {turnstileError && (
-              <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs">
-                Retry
-              </button>
-            )}
-          </div>
+        {blockedReason && !turnstileError && (
+          <p className="text-sm mb-4 rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300">
+            {blockedReason}
+          </p>
         )}
 
         {isVerifyApiConfigured() && (
           <div className="mb-4">
-            <TurnstileWidget
-              key={widgetKey}
-              onToken={handleTurnstileToken}
-              onError={handleTurnstileError}
-            />
+            {turnstileError ? (
+              <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-3">
+                <p>
+                  Turnstile could not load. In Cloudflare → Turnstile → <strong>Nilanjan Portfolio</strong>,
+                  confirm the site key ends with{' '}
+                  <code className="text-xs">{getTurnstileSiteKey().slice(-8)}</code>, disable ad blockers
+                  for <code className="text-xs">challenges.cloudflare.com</code>, then retry.
+                </p>
+                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs">
+                  Retry
+                </button>
+              </div>
+            ) : (
+              <TurnstileWidget
+                key={widgetKey}
+                onToken={handleTurnstileToken}
+                onError={handleTurnstileError}
+              />
+            )}
           </div>
         )}
 
