@@ -311,18 +311,16 @@
           }
         }
 
-        window.cfTurnstileApiReady = function () {
-          if (window.turnstile && typeof window.turnstile.ready === 'function') {
-            window.turnstile.ready(renderWidget)
-          } else {
-            renderWidget()
-          }
-        }
+        // The `?onload=cfTurnstileApiReady` query param guarantees this fires
+        // only after api.js is fully loaded — so call render directly. Using
+        // turnstile.ready() here throws because the api.js script tag is
+        // marked async/defer.
+        window.cfTurnstileApiReady = renderWidget
 
-        // If the API is already loaded by the time this script runs (cached),
-        // render immediately instead of waiting for the onload callback.
+        // If the API is already loaded by the time this script runs (cached
+        // and parsed before us), render immediately.
         if (window.turnstile) {
-          window.cfTurnstileApiReady()
+          renderWidget()
         }
 
         apiTimeoutId = setTimeout(function () {
