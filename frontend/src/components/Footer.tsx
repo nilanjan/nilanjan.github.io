@@ -31,14 +31,14 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
   }
 
   return (
-    <footer className="border-t" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
-      <div className="section-inner py-8">
-        <div className="grid md:grid-cols-4 gap-8">
+    <footer className="border-t safe-x" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)', paddingBottom: 'var(--safe-bottom)' }}>
+      <div className="section-inner py-8 sm:py-10">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="md:col-span-2"
+            className="sm:col-span-2"
           >
             <h3 className="text-lg font-semibold tracking-tight mb-3" style={{ color: 'var(--text)' }}>Nilanjan Goswami</h3>
             <p className="text-sm leading-relaxed mb-5 max-w-md" style={{ color: 'var(--text-muted)' }}>
@@ -53,7 +53,7 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className="p-2.5 rounded-xl card hover:scale-105 transition-transform"
+                  className="social-btn inline-flex items-center justify-center"
                   style={{ color: 'var(--text-muted)' }}
                 >
                   <social.icon className="w-4 h-4" />
@@ -61,9 +61,9 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
               ))}
               <button
                 type="button"
-                onClick={() => openContactEmail()}
+                onClick={() => void openContactEmail()}
                 aria-label="Send Email"
-                className="p-2.5 rounded-xl card hover:scale-105 transition-transform"
+                className="social-btn inline-flex items-center justify-center"
                 style={{ color: 'var(--text-muted)' }}
               >
                 <Mail className="w-4 h-4" />
@@ -93,7 +93,7 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
             <h4 className="font-semibold mb-4 text-sm">Contact</h4>
             <div className="space-y-2 text-sm" style={{ color: 'var(--text-muted)' }}>
               <p>{LOCATION}</p>
-              <button type="button" onClick={() => openContactEmail()} className="btn-ghost !px-0">
+              <button type="button" onClick={() => void openContactEmail()} className="btn-ghost !px-0">
                 Send Email
               </button>
             </div>

@@ -6,11 +6,7 @@ interface ScrollIndexProps {
 
 /** Desktop-only scroll index — primary wayfinding on large screens. */
 const ScrollIndex = ({ items, activeId, onSelect }: ScrollIndexProps) => (
-  <nav
-    className="hidden lg:block fixed right-6 xl:right-10 top-1/2 -translate-y-1/2 z-40"
-    style={{ width: 'var(--index-width)' }}
-    aria-label="Page sections"
-  >
+  <nav className="scroll-index-nav" aria-label="Page sections">
     <ol className="space-y-1">
       {items.map(({ id, label, index }) => {
         const active = activeId === id

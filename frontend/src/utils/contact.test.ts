@@ -1,41 +1,63 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest'
-import { canSendContactMessage, getContactEmail } from './contact'
+import {
+  canSendContactMessage,
+  resetContactEmailCache,
+  resolveContactEmail,
+} from './contact'
 
 vi.mock('./humanAccess', () => ({
   canAccessProtectedContent: vi.fn(),
+  getServerSessionToken: vi.fn(),
 }))
 
 vi.mock('./botDetection', () => ({
   hasAutomationSignals: vi.fn(),
 }))
 
-import { canAccessProtectedContent } from './humanAccess'
+vi.mock('./verifyApi', () => ({
+  isVerifyApiConfigured: vi.fn(),
+  fetchProtectedContactEmail: vi.fn(),
+}))
+
+import { canAccessProtectedContent, getServerSessionToken } from './humanAccess'
 import { hasAutomationSignals } from './botDetection'
+import { fetchProtectedContactEmail, isVerifyApiConfigured } from './verifyApi'
 
 describe('contact', () => {
   beforeEach(() => {
+    resetContactEmailCache()
     vi.mocked(canAccessProtectedContent).mockReturnValue(false)
+    vi.mocked(getServerSessionToken).mockReturnValue(null)
     vi.mocked(hasAutomationSignals).mockReturnValue(false)
+    vi.mocked(isVerifyApiConfigured).mockReturnValue(true)
+    vi.mocked(fetchProtectedContactEmail).mockResolvedValue('protected@example.com')
   })
 
-  it('does not expose email without human verification', () => {
-    expect(getContactEmail()).toBeNull()
+  it('does not fetch email without human verification', async () => {
+    expect(await resolveContactEmail()).toBeNull()
+    expect(fetchProtectedContactEmail).not.toHaveBeenCalled()
   })
 
-  it('assembles zx1q@tuta.io after human verification', () => {
+  it('fetches email from the worker after verification', async () => {
     vi.mocked(canAccessProtectedContent).mockReturnValue(true)
-    expect(getContactEmail()).toBe('zx1q@tuta.io')
+    vi.mocked(getServerSessionToken).mockReturnValue('session-token')
+
+    await expect(resolveContactEmail()).resolves.toBe('protected@example.com')
+    expect(fetchProtectedContactEmail).toHaveBeenCalledWith('session-token')
   })
 
-  it('blocks contact when automation is detected', () => {
+  it('blocks contact when automation is detected', async () => {
     vi.mocked(canAccessProtectedContent).mockReturnValue(true)
     vi.mocked(hasAutomationSignals).mockReturnValue(true)
-    expect(getContactEmail()).toBeNull()
+    expect(await resolveContactEmail()).toBeNull()
     expect(canSendContactMessage()).toBe(false)
   })
 
-  it('allows contact only for verified humans', () => {
+  it('allows contact only for verified humans with verify API configured', () => {
     vi.mocked(canAccessProtectedContent).mockReturnValue(true)
     expect(canSendContactMessage()).toBe(true)
+
+    vi.mocked(isVerifyApiConfigured).mockReturnValue(false)
+    expect(canSendContactMessage()).toBe(false)
   })
 })

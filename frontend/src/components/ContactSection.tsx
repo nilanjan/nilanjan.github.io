@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Send, CheckCircle, AlertCircle, Mail } from 'lucide-react'
 import type { ContactMessage } from '../../../shared/types'
 import SectionHeader from './SectionHeader'
 import { canSendContactMessage, LOCATION, openContactEmail } from '../utils/contact'
 import { useHumanAccess } from '../context/HumanAccessContext'
-import { MIN_POINTER_MOVES } from '../utils/humanAccess'
 
 const ContactSection = () => {
   const { verified } = useHumanAccess()
@@ -14,26 +13,11 @@ const ContactSection = () => {
   const [honeypot, setHoneypot] = useState('')
   const [consent, setConsent] = useState(false)
   const [humanConfirmed, setHumanConfirmed] = useState(false)
-  const [formPointerMoves, setFormPointerMoves] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
 
-  useEffect(() => {
-    const form = formRef.current
-    if (!form) return
-
-    const onMove = () => setFormPointerMoves((count) => count + 1)
-    form.addEventListener('pointermove', onMove, { passive: true })
-    return () => form.removeEventListener('pointermove', onMove)
-  }, [])
-
-  const canSubmit =
-    verified &&
-    consent &&
-    humanConfirmed &&
-    formPointerMoves >= MIN_POINTER_MOVES &&
-    canSendContactMessage()
+  const canSubmit = verified && consent && humanConfirmed && canSendContactMessage()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -50,38 +34,38 @@ const ContactSection = () => {
     try {
       if (!canSendContactMessage()) {
         setSubmitStatus('error')
-        setSubmitMessage('Automated access detected. Only human visitors can send messages.')
+        setSubmitMessage('Complete human verification first, then try again.')
         return
       }
 
       const subject = `Portfolio Contact from ${formData.name}`
       const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      const opened = openContactEmail(subject, body)
+      const opened = await openContactEmail(subject, body)
       if (!opened) {
         setSubmitStatus('error')
-        setSubmitMessage('Complete human verification first, then try again.')
+        setSubmitMessage('Unable to open email. Complete verification and try again.')
         return
       }
       setSubmitStatus('success')
-      setSubmitMessage('Your email client will open addressed to zx1q@tuta.io — review and send when ready.')
+      setSubmitMessage('Your email client will open — review and send when ready.')
       setFormData({ name: '', email: '', message: '' })
       setConsent(false)
       setHumanConfirmed(false)
     } catch {
       setSubmitStatus('error')
-      setSubmitMessage('Unable to open email. Please verify you are a human visitor and try again.')
+      setSubmitMessage('Unable to open email. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handleSendEmailClick = () => {
+  const handleSendEmailClick = async () => {
     if (!canSendContactMessage()) {
       setSubmitStatus('error')
       setSubmitMessage('Complete human verification before contacting me.')
       return
     }
-    const opened = openContactEmail()
+    const opened = await openContactEmail()
     if (!opened) {
       setSubmitStatus('error')
       setSubmitMessage('Complete human verification before contacting me.')
@@ -97,12 +81,12 @@ const ContactSection = () => {
           description="For architecture discussions, selective collaborations, or speaking inquiries."
         />
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="card p-8"
+            className="card card-pad"
           >
             <h3 className="font-semibold mb-6">Send a Message</h3>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
@@ -155,12 +139,6 @@ const ContactSection = () => {
                 </span>
               </label>
 
-              {!canSubmit && verified && formPointerMoves < MIN_POINTER_MOVES && (
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  Move your pointer over the form before sending — this helps confirm manual human access.
-                </p>
-              )}
-
               {submitStatus !== 'idle' && (
                 <div className={`flex items-center gap-2 p-3 rounded-xl text-sm ${submitStatus === 'success' ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300' : 'bg-red-500/10 text-red-700 dark:text-red-300'}`}>
                   {submitStatus === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
@@ -181,12 +159,12 @@ const ContactSection = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <div className="card p-6">
+            <div className="card card-pad">
               <h3 className="font-semibold mb-4">Contact</h3>
               <div className="space-y-4">
                 <button
                   type="button"
-                  onClick={handleSendEmailClick}
+                  onClick={() => void handleSendEmailClick()}
                   disabled={!canSendContactMessage()}
                   className="flex items-center gap-4 w-full p-4 rounded-xl transition-colors hover:opacity-80 disabled:opacity-50"
                   style={{ backgroundColor: 'var(--surface-elevated)' }}

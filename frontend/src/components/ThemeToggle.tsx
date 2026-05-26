@@ -12,7 +12,7 @@ const ThemeToggle = () => {
 
   return (
     <div
-      className="hidden sm:flex items-center rounded-full p-0.5"
+      className="theme-toggle flex items-center rounded-full p-0.5"
       style={{ backgroundColor: 'var(--bg-secondary)' }}
       role="group"
       aria-label="Appearance"
@@ -24,7 +24,7 @@ const ThemeToggle = () => {
           onClick={() => setTheme(value)}
           aria-label={label}
           aria-pressed={theme === value}
-          className="p-1.5 rounded-full transition-colors duration-150"
+          className="theme-toggle-btn rounded-full transition-colors duration-150"
           style={{
             color: theme === value ? 'var(--text)' : 'var(--text-muted)',
             backgroundColor: theme === value ? 'var(--surface)' : 'transparent',

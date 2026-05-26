@@ -1,30 +1,81 @@
-import { canAccessProtectedContent } from './humanAccess'
+import {
+  canAccessProtectedContent,
+  clearHumanSession,
+  getServerSessionToken,
+  readHumanSession,
+  saveHumanSession,
+} from './humanAccess'
 import { hasAutomationSignals } from './botDetection'
+import {
+  exchangeTurnstileToken,
+  fetchProtectedContactEmail,
+  isVerifyApiConfigured,
+  validateServerSession,
+} from './verifyApi'
 
-/** Assembles contact email at runtime only after human verification. */
-export function getContactEmail(): string | null {
+let cachedEmail: string | null = null
+
+export function resetContactEmailCache(): void {
+  cachedEmail = null
+}
+
+/** Contact email is fetched from the verification worker — never bundled in client code. */
+export async function resolveContactEmail(): Promise<string | null> {
   if (!canAccessProtectedContent()) return null
   if (hasAutomationSignals()) return null
-  const parts = ['zx', '1q', '@', 'tuta', '.', 'io']
-  return parts.join('')
+  if (cachedEmail) return cachedEmail
+
+  const sessionToken = getServerSessionToken()
+  if (!sessionToken) return null
+
+  cachedEmail = await fetchProtectedContactEmail(sessionToken)
+  return cachedEmail
 }
 
 export function canSendContactMessage(): boolean {
-  return canAccessProtectedContent() && !hasAutomationSignals()
+  return (
+    isVerifyApiConfigured() &&
+    canAccessProtectedContent() &&
+    !hasAutomationSignals()
+  )
 }
 
-export function openContactEmail(subject?: string, body?: string): boolean {
+export async function openContactEmail(subject?: string, body?: string): Promise<boolean> {
   if (!canSendContactMessage()) return false
 
-  const email = getContactEmail()
+  const email = await resolveContactEmail()
   if (!email) return false
 
   const params = new URLSearchParams()
   if (subject) params.set('subject', subject)
   if (body) params.set('body', body)
   const query = params.toString()
-  const href = `mailto:${email}${query ? `?${query}` : ''}`
-  window.location.href = href
+  window.location.href = `mailto:${email}${query ? `?${query}` : ''}`
+  return true
+}
+
+export async function completeHumanVerification(turnstileToken: string): Promise<boolean> {
+  if (hasAutomationSignals()) return false
+
+  const result = await exchangeTurnstileToken(turnstileToken)
+  if (!result) return false
+
+  return saveHumanSession(result.sessionToken, result.expiresAt)
+}
+
+export async function restoreHumanSessionFromStorage(): Promise<boolean> {
+  if (!isVerifyApiConfigured()) return false
+
+  const session = readHumanSession()
+  if (!session) return false
+
+  const valid = await validateServerSession(session.serverToken)
+  if (!valid) {
+    clearHumanSession()
+    resetContactEmailCache()
+    return false
+  }
+
   return true
 }
 

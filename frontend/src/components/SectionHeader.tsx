@@ -28,7 +28,7 @@ const SectionHeader = ({
       <p className={`section-marker ${align === 'center' ? 'justify-center' : ''}`}>{eyebrow}</p>
     )}
     <h2
-      className="text-3xl sm:text-4xl md:text-[2.75rem] font-semibold tracking-tight leading-[1.08] mb-3"
+      className="text-2xl sm:text-3xl md:text-4xl xl:text-[2.75rem] font-semibold tracking-tight leading-[1.08] mb-3"
       style={{ color: 'var(--text)', letterSpacing: '-0.025em' }}
     >
       {title}

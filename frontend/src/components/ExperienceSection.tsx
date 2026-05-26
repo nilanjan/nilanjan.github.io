@@ -110,7 +110,7 @@ const ExperienceSection = () => (
                 style={{ backgroundColor: 'var(--accent)', borderColor: 'var(--bg)' }}
               />
 
-              <div className="card p-4">
+              <div className="card card-pad">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                   <div className="flex gap-3">
                     <div className="p-2.5 rounded-xl h-fit" style={{ backgroundColor: 'var(--accent-subtle)' }}>

@@ -72,9 +72,9 @@ const AboutSection = () => (
         viewport={{ once: true }}
         className="about-panel rounded-2xl overflow-hidden"
       >
-        <div className="grid lg:grid-cols-12">
+        <div className="grid md:grid-cols-12">
           <div
-            className="lg:col-span-8 p-6 md:p-8 lg:border-r"
+            className="md:col-span-8 p-4 sm:p-6 md:p-8 md:border-r"
             style={{ borderColor: 'var(--border)' }}
           >
             <p className="about-lead mb-6">
@@ -104,7 +104,7 @@ const AboutSection = () => (
             </p>
           </div>
 
-          <div className="lg:col-span-4 p-6 md:p-8 space-y-7" style={{ backgroundColor: 'var(--surface-elevated)' }}>
+          <div className="md:col-span-4 p-4 sm:p-6 md:p-8 space-y-7 border-t md:border-t-0" style={{ backgroundColor: 'var(--surface-elevated)', borderColor: 'var(--border)' }}>
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <GraduationCap className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />

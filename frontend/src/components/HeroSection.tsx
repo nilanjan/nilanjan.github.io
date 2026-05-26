@@ -53,7 +53,7 @@ const HeroSection = () => {
       <MeshBackground />
 
       <div className="relative z-10 section-inner w-full pt-8 pb-10 md:pt-10 md:pb-12 lg:pt-12 lg:pb-14">
-        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-10 items-start">
+        <div className="grid md:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr] gap-6 md:gap-8 xl:gap-10 items-start">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ const HeroSection = () => {
             <div className="space-y-4">
               <span className="hero-badge">Principal Computer Architect</span>
               <h1
-                className="text-4xl sm:text-5xl lg:text-[3.25rem] font-semibold tracking-tight leading-[1.05]"
+                className="text-[1.75rem] leading-[1.08] xs:text-3xl sm:text-4xl md:text-5xl xl:text-[3.25rem] font-semibold tracking-tight"
                 style={{ letterSpacing: '-0.03em' }}
               >
                 <span className="block" style={{ color: 'var(--text)' }}>Nilanjan Goswami</span>
@@ -89,21 +89,21 @@ const HeroSection = () => {
               {LOCATION}
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              <button type="button" onClick={() => scrollTo('experience')} className="btn-primary">
+            <div className="flex flex-col xs:flex-row flex-wrap items-stretch xs:items-center gap-3 pt-1">
+              <button type="button" onClick={() => scrollTo('experience')} className="btn-primary w-full xs:w-auto">
                 Experience <ArrowRight className="w-4 h-4" />
               </button>
-              <button type="button" onClick={() => scrollTo('publications')} className="btn-secondary">
+              <button type="button" onClick={() => scrollTo('publications')} className="btn-secondary w-full xs:w-auto">
                 Publications
               </button>
-              <button type="button" onClick={() => openContactEmail()} className="btn-secondary">
+              <button type="button" onClick={() => void openContactEmail()} className="btn-secondary w-full xs:w-auto">
                 Contact
               </button>
               {[
                 { icon: Github, href: 'https://github.com/nilanjan', label: 'GitHub' },
                 { icon: Linkedin, href: 'https://linkedin.com/in/nilanjan-goswami', label: 'LinkedIn' },
               ].map(({ icon: Icon, href, label }) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="social-btn">
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="social-btn inline-flex items-center justify-center">
                   <Icon className="w-4 h-4" />
                 </a>
               ))}

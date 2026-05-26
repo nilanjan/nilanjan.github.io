@@ -62,7 +62,7 @@ const SkillsSection = () => (
             transition={{ duration: 0.4, delay: index * 0.06 }}
             viewport={{ once: true }}
             whileHover={{ y: -2 }}
-            className="card p-5"
+            className="card card-pad"
             style={cat.supplementary ? { borderStyle: 'dashed' } : undefined}
           >
             <div className="flex items-center gap-3 mb-4">
@@ -90,7 +90,7 @@ const SkillsSection = () => (
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="card p-8 text-center"
+        className="card card-pad text-center"
       >
         <h3 className="font-semibold mb-3">Always Learning</h3>
         <p className="text-sm mb-5 max-w-2xl mx-auto" style={{ color: 'var(--text-muted)' }}>

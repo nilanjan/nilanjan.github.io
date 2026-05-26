@@ -67,7 +67,7 @@ const ArchitectureFocusSection = () => (
             transition={{ duration: 0.5, delay: index * 0.08 }}
             viewport={{ once: true }}
             whileHover={{ y: -2 }}
-            className={`card p-4 ${card.span}`}
+            className={`card card-pad ${card.span}`}
             style={
               card.tier === 'supplementary'
                 ? { borderStyle: 'dashed' }

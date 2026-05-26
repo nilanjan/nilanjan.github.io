@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import ThemeToggle from './components/ThemeToggle'
 import ScrollProgress from './components/ScrollProgress'
 import ScrollIndex from './components/ScrollIndex'
+import SectionIndexBar from './components/SectionIndexBar'
 import CookieConsent from './components/CookieConsent'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import { reopenCookieConsent } from './components/CookieConsent'
@@ -60,7 +61,7 @@ function App() {
       if (!el) return
       const observer = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setActiveSection(id) },
-        { rootMargin: '-42% 0px -42% 0px', threshold: 0 },
+        { rootMargin: '-38% 0px -38% 0px', threshold: 0 },
       )
       observer.observe(el)
       observers.push(observer)
@@ -68,13 +69,27 @@ function App() {
     return () => observers.forEach((o) => o.disconnect())
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileMenuOpen])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [mobileMenuOpen])
+
   const scrollToSection = useCallback((sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
     setMobileMenuOpen(false)
   }, [])
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg)' }}>
+    <div className="min-h-screen safe-x" style={{ backgroundColor: 'var(--bg)' }}>
       <ScrollProgress />
 
       <header className={`site-header transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
@@ -101,37 +116,50 @@ function App() {
           </div>
         </div>
 
+        <SectionIndexBar items={indexItems} activeId={activeSection} onSelect={scrollToSection} />
+
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mobile-nav-sheet overflow-hidden"
-            >
-              <nav aria-label="Sections">
-                {navItems.map(({ id, label, index }) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => scrollToSection(id)}
-                    className="mobile-nav-item"
-                    data-active={activeSection === id}
-                  >
-                    <span className="mobile-nav-num">{index}</span>
-                    {label}
-                  </button>
-                ))}
-              </nav>
-            </motion.div>
+            <>
+              <motion.button
+                type="button"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="mobile-nav-backdrop lg:hidden"
+                aria-label="Close menu"
+                onClick={() => setMobileMenuOpen(false)}
+              />
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+                className="mobile-nav-sheet overflow-hidden lg:hidden"
+              >
+                <nav aria-label="Sections">
+                  {navItems.map(({ id, label, index }) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => scrollToSection(id)}
+                      className="mobile-nav-item"
+                      data-active={activeSection === id}
+                    >
+                      <span className="mobile-nav-num">{index}</span>
+                      {label}
+                    </button>
+                  ))}
+                </nav>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
 
       <ScrollIndex items={indexItems} activeId={activeSection} onSelect={scrollToSection} />
 
-      <main className="page-content pt-[var(--nav-height)]">
+      <main className="page-content main-offset">
         <HeroSection />
         <AboutSection />
         <ArchitectureFocusSection />

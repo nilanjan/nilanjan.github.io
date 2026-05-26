@@ -49,7 +49,7 @@ const PublicationsSection = () => {
           description="Peer-reviewed work in GPGPU microarchitecture, throughput processors, and power-performance co-optimization."
         />
 
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="filter-scroll">
           {filters.map((f) => (
             <button
               key={f.id}
@@ -71,9 +71,9 @@ const PublicationsSection = () => {
               transition={{ duration: 0.4, delay: index * 0.03 }}
               viewport={{ once: true }}
               whileHover={{ y: -2 }}
-              className="card p-6"
+              className="card card-pad"
             >
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="font-mono text-xs" style={{ color: 'var(--text-muted)' }}>{pub.year}</span>
@@ -105,7 +105,7 @@ const PublicationsSection = () => {
                   href={pub.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary !py-2 !px-4 text-sm shrink-0"
+                  className="btn-primary !py-2.5 !px-4 text-sm shrink-0 w-full sm:w-auto"
                 >
                   <ExternalLink className="w-4 h-4" />
                   View Paper
@@ -119,7 +119,7 @@ const PublicationsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="card p-8 mb-8"
+          className="card card-pad mb-8"
         >
           <h3 className="text-sm font-semibold mb-6 text-center" style={{ color: 'var(--text-muted)' }}>Citation Profile</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
@@ -141,7 +141,7 @@ const PublicationsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="card p-8"
+          className="card card-pad"
         >
           <h3 className="text-lg font-semibold mb-4">Community Leadership</h3>
           <ul className="space-y-2">

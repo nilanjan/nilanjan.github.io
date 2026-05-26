@@ -48,12 +48,13 @@ const CookieConsent = ({ onOpenPrivacy }: CookieConsentProps) => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
-          className="fixed bottom-0 inset-x-0 z-[100] p-4 md:p-6"
+          className="fixed bottom-0 inset-x-0 z-[100] p-4 md:p-6 safe-x"
+          style={{ paddingBottom: 'max(1rem, var(--safe-bottom))' }}
           role="dialog"
           aria-label="Cookie consent"
         >
           <div
-            className="max-w-3xl mx-auto card p-6 shadow-2xl"
+            className="max-w-3xl mx-auto card card-pad shadow-2xl"
             style={{ backgroundColor: 'var(--surface)' }}
           >
             <h3 className="font-semibold mb-2">Privacy & Cookies</h3>

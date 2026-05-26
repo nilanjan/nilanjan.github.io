@@ -11,21 +11,25 @@ const PrivacyPolicy = ({ onClose }: PrivacyPolicyProps) => (
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="fixed inset-0 z-[90] flex items-start justify-center overflow-y-auto p-4 md:p-8"
-    style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+    className="fixed inset-0 z-[90] flex items-start justify-center overflow-y-auto p-4 md:p-8 safe-x"
+    style={{
+      backgroundColor: 'rgba(0,0,0,0.6)',
+      paddingTop: 'max(1rem, var(--safe-top))',
+      paddingBottom: 'max(1rem, var(--safe-bottom))',
+    }}
     onClick={onClose}
   >
     <motion.article
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      className="card max-w-3xl w-full p-8 my-8 relative"
+      className="card max-w-3xl w-full card-pad my-4 md:my-8 relative"
       onClick={(e) => e.stopPropagation()}
       style={{ backgroundColor: 'var(--surface)' }}
     >
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-4 right-4 p-2 rounded-lg"
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 header-icon-btn"
         aria-label="Close privacy policy"
         style={{ color: 'var(--text-muted)' }}
       >
