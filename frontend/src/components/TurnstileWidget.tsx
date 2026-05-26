@@ -40,18 +40,27 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
         const renderWidget = () => {
           if (mountGenRef.current !== mountGen || !containerRef.current || !window.turnstile) return
 
+          const baseOptions = {
+            sitekey: siteKey,
+            callback: (token: string) => onTokenRef.current(token),
+            theme: 'auto' as const,
+            appearance: 'always' as const,
+          }
+
           try {
-            widgetId = window.turnstile.render(containerRef.current, {
-              sitekey: siteKey,
-              callback: (token: string) => onTokenRef.current(token),
-              theme: 'auto',
-              size: 'flexible',
-              appearance: 'always',
-            })
+            widgetId = window.turnstile.render(containerRef.current, baseOptions)
             setStatus('ready')
           } catch {
-            setStatus('error')
-            onScriptErrorRef.current?.()
+            try {
+              widgetId = window.turnstile.render(containerRef.current, {
+                ...baseOptions,
+                theme: 'light',
+              })
+              setStatus('ready')
+            } catch {
+              setStatus('error')
+              onScriptErrorRef.current?.()
+            }
           }
         }
 

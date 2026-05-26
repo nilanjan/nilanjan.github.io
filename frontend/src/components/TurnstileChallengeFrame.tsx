@@ -16,19 +16,28 @@ const TurnstileChallengeFrame = ({ onError }: TurnstileChallengeFrameProps) => {
   useEffect(() => {
     if (!src) return
 
+    let errorTimer: number | undefined
+
     const onMessage = (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return
-      const data = event.data as { type?: string; height?: number }
+      const data = event.data as { type?: string; height?: number; token?: string }
       if (data?.type === 'turnstile-resize' && typeof data.height === 'number') {
         setFrameHeight(Math.min(Math.max(Math.ceil(data.height), 72), 200))
       }
+      if (data?.type === 'turnstile-token') {
+        window.clearTimeout(errorTimer)
+      }
       if (data?.type === 'turnstile-error') {
-        onErrorRef.current?.()
+        window.clearTimeout(errorTimer)
+        errorTimer = window.setTimeout(() => onErrorRef.current?.(), 1200)
       }
     }
 
     window.addEventListener('message', onMessage)
-    return () => window.removeEventListener('message', onMessage)
+    return () => {
+      window.clearTimeout(errorTimer)
+      window.removeEventListener('message', onMessage)
+    }
   }, [src])
 
   if (!src) return null

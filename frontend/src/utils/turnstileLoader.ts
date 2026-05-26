@@ -123,9 +123,14 @@ export function ensureTurnstileApi(): Promise<void> {
   return apiPromise
 }
 
-export function resetTurnstileLoaderForTests(): void {
+/** Clear loader state so a retry can inject a fresh Turnstile script. */
+export function resetTurnstileLoader(): void {
   apiPromise = null
   lastError = null
   document.getElementById(SCRIPT_ID)?.remove()
   delete window.turnstile
+}
+
+export function resetTurnstileLoaderForTests(): void {
+  resetTurnstileLoader()
 }

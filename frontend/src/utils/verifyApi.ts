@@ -1,6 +1,6 @@
 const PROD_VERIFY_API_URL = 'https://ng-web-verify.nilanjan.workers.dev'
 const PROD_TURNSTILE_SITE_KEY = '0x4AAAAAADWaE0y00QJjck_o'
-const CHALLENGE_CACHE_BUST = '20260526b'
+const CHALLENGE_CACHE_BUST = '20260526c'
 
 function resolveApiBase(): string {
   const fromEnv = import.meta.env.VITE_VERIFY_API_URL?.replace(/\/$/, '') ?? ''

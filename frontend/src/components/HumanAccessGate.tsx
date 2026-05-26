@@ -9,6 +9,7 @@ import TurnstileChallengeFrame from './TurnstileChallengeFrame'
 import { getChallengePageUrl, isVerifyApiConfigured } from '../utils/verifyApi'
 import {
   getLastTurnstileLoadError,
+  resetTurnstileLoader,
   type TurnstileLoadError,
 } from '../utils/turnstileLoader'
 
@@ -43,11 +44,12 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const [scriptBlocked, setScriptBlocked] = useState(false)
   const [loadError, setLoadError] = useState<TurnstileLoadError | null>(null)
   const [verifyFailed, setVerifyFailed] = useState(false)
-  const [useFrameChallenge, setUseFrameChallenge] = useState(false)
+  const [challengeMode, setChallengeMode] = useState<'iframe' | 'inline'>('iframe')
   const [showAlternates, setShowAlternates] = useState(false)
   const [challengeKey, setChallengeKey] = useState(0)
   const [widgetKey, setWidgetKey] = useState(0)
   const verifyInFlightRef = useRef(false)
+  const triedAlternateChallengeRef = useRef(false)
 
   const handleTurnstileToken = useCallback(
     async (token: string) => {
@@ -67,23 +69,44 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
     [verifyAccess],
   )
 
-  const handleChallengeFrameError = useCallback(() => {
+  const failChallengeLoad = useCallback((error: TurnstileLoadError | null = null) => {
+    setLoadError(error ?? getLastTurnstileLoadError() ?? 'api-timeout')
     setScriptBlocked(true)
-    setLoadError('script-loaded-no-api')
   }, [])
 
+  const switchChallengeMode = useCallback(() => {
+    if (triedAlternateChallengeRef.current) {
+      failChallengeLoad()
+      return false
+    }
+    triedAlternateChallengeRef.current = true
+    resetTurnstileLoader()
+    setChallengeMode((mode) => {
+      const next = mode === 'iframe' ? 'inline' : 'iframe'
+      if (next === 'iframe') setChallengeKey((key) => key + 1)
+      else setWidgetKey((key) => key + 1)
+      return next
+    })
+    return true
+  }, [failChallengeLoad])
+
+  const handleChallengeFrameError = useCallback(() => {
+    void switchChallengeMode()
+  }, [switchChallengeMode])
+
   const handleInlineScriptError = useCallback(() => {
-    setLoadError(getLastTurnstileLoadError())
-    setScriptBlocked(true)
-  }, [])
+    void switchChallengeMode()
+  }, [switchChallengeMode])
 
   const handleRetry = useCallback(() => {
     setScriptBlocked(false)
     setLoadError(null)
     setVerifyFailed(false)
-    setUseFrameChallenge(false)
+    setChallengeMode('iframe')
     setShowAlternates(false)
+    triedAlternateChallengeRef.current = false
     verifyInFlightRef.current = false
+    resetTurnstileLoader()
     setChallengeKey((key) => key + 1)
     setWidgetKey((key) => key + 1)
   }, [])
@@ -144,7 +167,10 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
       'Verification was blocked. Allow challenges.cloudflare.com in your privacy extension, or try a private window.'
   } else if (loadError === 'script-loaded-no-api') {
     scriptErrorMessage =
-      'The check loaded but did not start. Retry below or switch to an alternate method.'
+      'The check loaded but did not start. Retry below or open the challenge in a new tab.'
+  } else if (loadError === 'api-timeout') {
+    scriptErrorMessage =
+      'The check is taking too long. Retry, allow challenges.cloudflare.com, or open a new tab.'
   }
 
   return (
@@ -219,16 +245,16 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                   </div>
                 )}
 
-                {!useFrameChallenge ? (
+                {challengeMode === 'iframe' ? (
+                  <TurnstileChallengeFrame
+                    key={challengeKey}
+                    onError={handleChallengeFrameError}
+                  />
+                ) : (
                   <TurnstileWidget
                     key={widgetKey}
                     onToken={handleTurnstileToken}
                     onScriptError={handleInlineScriptError}
-                  />
-                ) : (
-                  <TurnstileChallengeFrame
-                    key={challengeKey}
-                    onError={handleChallengeFrameError}
                   />
                 )}
               </div>
@@ -244,18 +270,22 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
               {showAlternates && (
                 <div className="verify-card__alternates">
-                  {!useFrameChallenge && (
-                    <button
-                      type="button"
-                      className="btn-secondary verify-btn"
-                      onClick={() => {
-                        setUseFrameChallenge(true)
-                        setChallengeKey((k) => k + 1)
-                      }}
-                    >
-                      Try embedded challenge page
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    className="btn-secondary verify-btn"
+                    onClick={() => {
+                      triedAlternateChallengeRef.current = false
+                      resetTurnstileLoader()
+                      setChallengeMode((mode) => {
+                        const next = mode === 'iframe' ? 'inline' : 'iframe'
+                        if (next === 'iframe') setChallengeKey((k) => k + 1)
+                        else setWidgetKey((k) => k + 1)
+                        return next
+                      })
+                    }}
+                  >
+                    {challengeMode === 'iframe' ? 'Try inline challenge' : 'Try embedded challenge'}
+                  </button>
                   {challengePageUrl && (
                     <button
                       type="button"
