@@ -6,6 +6,8 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#f8f4e8" />
     <title>Verify access — Nilanjan Goswami</title>
+    <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
+    <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
       :root {
@@ -199,6 +201,7 @@
         var status = document.getElementById('status')
         var mount = document.getElementById('widget-mount')
         var timeoutId
+        var completed = false
 
         function notifyParent(payload) {
           if (window.opener && !window.opener.closed) {
@@ -233,12 +236,13 @@
         widget.className = 'cf-turnstile'
         widget.setAttribute('data-sitekey', sitekey)
         widget.setAttribute('data-theme', 'auto')
-        widget.setAttribute('data-size', 'flexible')
+        widget.setAttribute('data-size', 'normal')
         widget.setAttribute('data-callback', 'onTurnstileSuccess')
         widget.setAttribute('data-error-callback', 'onTurnstileError')
         mount.appendChild(widget)
 
         window.onTurnstileSuccess = function (token) {
+          completed = true
           clearTimeout(timeoutId)
           status.hidden = false
           status.className = ''
@@ -253,14 +257,18 @@
         }
 
         window.onTurnstileError = function () {
-          fail('Turnstile could not run. Reload and try again.')
+          fail('Turnstile could not run on this site. Confirm nilanjan.github.io is allowed in your Turnstile widget hostnames.')
         }
 
+        status.hidden = false
+        status.textContent = 'Loading security check…'
+
         timeoutId = setTimeout(function () {
+          if (completed) return
           if (!window.turnstile) {
-            fail('Turnstile did not start. Reload and try again.')
+            fail('Turnstile did not start. Allow challenges.cloudflare.com and try again.')
           }
-        }, 35000)
+        }, 60000)
 
         if (typeof ResizeObserver !== 'undefined') {
           new ResizeObserver(reportHeight).observe(document.body)
