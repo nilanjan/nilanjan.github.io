@@ -3,11 +3,7 @@ import { ShieldCheck, Loader2 } from 'lucide-react'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
 import TurnstileChallengeFrame from './TurnstileChallengeFrame'
-import {
-  getChallengePageUrl,
-  getTurnstileSiteKey,
-  isVerifyApiConfigured,
-} from '../utils/verifyApi'
+import { getChallengePageUrl, isVerifyApiConfigured } from '../utils/verifyApi'
 import {
   getLastTurnstileLoadError,
   type TurnstileLoadError,
@@ -58,7 +54,6 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   }, [])
 
   const challengePageUrl = getChallengePageUrl()
-  const siteKeySuffix = getTurnstileSiteKey().trim().slice(-8)
 
   const openChallengeTab = useCallback(() => {
     if (!challengePageUrl) return
@@ -196,9 +191,8 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
             {verifyFailed && (
               <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
                 <p>
-                  Challenge completed but server verification failed. Update the worker{' '}
-                  <code className="text-xs">TURNSTILE_SECRET</code> to match the Secret Key on your
-                  &quot;Nilanjan Portfolio&quot; widget (same widget as site key …{siteKeySuffix}).
+                  Challenge completed but server verification failed. Wait a moment and try again, or
+                  use the new-tab option below.
                 </p>
                 <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
                   Retry
@@ -214,10 +208,6 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
             Verifying…
           </p>
         )}
-
-        <p className="mt-4 text-[11px]" style={{ color: 'var(--text-muted)' }}>
-          Protected by Cloudflare Turnstile · key …{siteKeySuffix}
-        </p>
       </div>
     </div>
   )

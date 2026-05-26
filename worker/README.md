@@ -13,7 +13,7 @@ npm install
 wrangler login
 wrangler secret put TURNSTILE_SECRET
 wrangler secret put SESSION_SECRET   # random 32+ char string
-wrangler secret put CONTACT_EMAIL    # e.g. zx1q@tuta.io
+wrangler secret put CONTACT_EMAIL    # your address (never commit)
 npm run deploy
 ```
 

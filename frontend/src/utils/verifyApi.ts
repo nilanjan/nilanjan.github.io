@@ -28,9 +28,7 @@ export function getVerifyApiBase(): string {
 /** Same-origin challenge page (uses nilanjan.github.io Turnstile hostname). */
 export function getChallengePageUrl(): string {
   if (typeof window === 'undefined') return ''
-  const origin = encodeURIComponent(window.location.origin)
-  const sitekey = encodeURIComponent(getTurnstileSiteKey())
-  return `/challenge.html?origin=${origin}&sitekey=${sitekey}`
+  return '/challenge.html'
 }
 
 export function getTurnstileSiteKey(): string {

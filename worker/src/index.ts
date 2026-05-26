@@ -4,12 +4,14 @@ import {
   verifySessionToken,
   verifyTurnstileToken,
 } from './session'
+import { isAllowedTurnstileHostname, parseAllowedHostnames } from './turnstileHostname'
 
 export interface Env {
   TURNSTILE_SECRET: string
   SESSION_SECRET: string
   CONTACT_EMAIL: string
   ALLOWED_ORIGINS: string
+  ALLOWED_TURNSTILE_HOSTNAMES: string
   TURNSTILE_SITE_KEY: string
 }
 
@@ -91,6 +93,11 @@ async function handleVerify(
       origin,
       allowed,
     )
+  }
+
+  const allowedHostnames = parseAllowedHostnames(env.ALLOWED_TURNSTILE_HOSTNAMES)
+  if (!isAllowedTurnstileHostname(turnstile.hostname, allowedHostnames)) {
+    return jsonResponse({ ok: false, error: 'hostname-not-allowed' }, 403, origin, allowed)
   }
 
   const sessionToken = await createSessionToken(env.SESSION_SECRET)

@@ -41,20 +41,11 @@
     <div id="widget-mount"></div>
     <script>
       ;(function () {
-        var params = new URLSearchParams(location.search)
-        var parentOrigin = params.get('origin') || location.origin
-        var sitekey = params.get('sitekey') || '0x4AAAAAADWaE0y00QJjck_o'
+        var parentOrigin = window.location.origin
+        var sitekey = '__TURNSTILE_SITE_KEY__'
         var status = document.getElementById('status')
         var mount = document.getElementById('widget-mount')
         var timeoutId
-
-        var widget = document.createElement('div')
-        widget.className = 'cf-turnstile'
-        widget.setAttribute('data-sitekey', sitekey)
-        widget.setAttribute('data-theme', 'auto')
-        widget.setAttribute('data-callback', 'onTurnstileSuccess')
-        widget.setAttribute('data-error-callback', 'onTurnstileError')
-        mount.appendChild(widget)
 
         function notifyParent(payload) {
           if (window.opener && !window.opener.closed) {
@@ -72,6 +63,19 @@
           status.className = 'err'
           notifyParent({ type: 'turnstile-error', message: msg })
         }
+
+        if (!sitekey || sitekey.indexOf('__TURNSTILE') === 0) {
+          fail('Verification is not configured for this deployment.')
+          return
+        }
+
+        var widget = document.createElement('div')
+        widget.className = 'cf-turnstile'
+        widget.setAttribute('data-sitekey', sitekey)
+        widget.setAttribute('data-theme', 'auto')
+        widget.setAttribute('data-callback', 'onTurnstileSuccess')
+        widget.setAttribute('data-error-callback', 'onTurnstileError')
+        mount.appendChild(widget)
 
         window.onTurnstileSuccess = function (token) {
           clearTimeout(timeoutId)
