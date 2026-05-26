@@ -1,5 +1,6 @@
 const PROD_VERIFY_API_URL = 'https://ng-web-verify.nilanjan.workers.dev'
 const PROD_TURNSTILE_SITE_KEY = '0x4AAAAAADWaE0y00QJjck_o'
+const CHALLENGE_CACHE_BUST = '20260526b'
 
 function resolveApiBase(): string {
   const fromEnv = import.meta.env.VITE_VERIFY_API_URL?.replace(/\/$/, '') ?? ''
@@ -28,7 +29,7 @@ export function getVerifyApiBase(): string {
 /** Same-origin challenge page (uses nilanjan.github.io Turnstile hostname). */
 export function getChallengePageUrl(): string {
   if (typeof window === 'undefined') return ''
-  return '/challenge.html'
+  return `/challenge.html?v=${CHALLENGE_CACHE_BUST}`
 }
 
 export function getTurnstileSiteKey(): string {
