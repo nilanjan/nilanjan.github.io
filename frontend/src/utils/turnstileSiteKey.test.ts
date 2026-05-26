@@ -3,6 +3,6 @@ import { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY } from './turnstileS
 
 describe('turnstileSiteKey', () => {
   it('corrects common Turnstile site key typo', () => {
-    expect(normalizeTurnstileSiteKey('0x4AAAAAADWaE0yOOQJjck_o')).toBe(PROD_TURNSTILE_SITE_KEY)
+    expect(normalizeTurnstileSiteKey('0x4AAAAAADWaE0y00QJjck_o')).toBe(PROD_TURNSTILE_SITE_KEY)
   })
 })
