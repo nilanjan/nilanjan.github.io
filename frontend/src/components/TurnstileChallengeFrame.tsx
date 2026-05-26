@@ -37,7 +37,7 @@ const TurnstileChallengeFrame = ({ onError }: TurnstileChallengeFrameProps) => {
     <iframe
       title="Cloudflare Turnstile verification"
       src={src}
-      className="verification-iframe"
+      className="verify-iframe"
       style={{ height: frameHeight }}
       referrerPolicy="strict-origin-when-cross-origin"
       scrolling="no"

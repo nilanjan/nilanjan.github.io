@@ -81,17 +81,17 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
   }, [siteKey])
 
   if (!siteKey) {
-    return <p className="verification-inline-hint">Turnstile site key is not configured.</p>
+    return <p className="verify-widget__hint">Turnstile site key is not configured.</p>
   }
 
   return (
-    <div className="verification-inline-widget">
+    <div className="verify-widget">
       {status === 'loading' && (
-        <p className="verification-inline-hint">Loading challenge…</p>
+        <p className="verify-widget__hint">Loading security check…</p>
       )}
       <div
         ref={containerRef}
-        className="verification-inline-mount"
+        className="verify-widget__mount"
         aria-label="Cloudflare Turnstile challenge"
         aria-busy={status === 'loading'}
       />

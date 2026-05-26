@@ -2,43 +2,165 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f8f4e8" />
+    <title>Verify access — Nilanjan Goswami</title>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
+      :root {
+        --bg: #f8f4e8;
+        --surface: #fffdf7;
+        --surface-elevated: #f2ebda;
+        --border: #ddd4bc;
+        --border-subtle: #ebe3cf;
+        --text: #1c1810;
+        --text-muted: #6f6654;
+        --accent: #92650a;
+        --accent-subtle: rgba(146, 101, 10, 0.1);
+        --safe-top: env(safe-area-inset-top, 0px);
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #100e08;
+          --surface: #1e1b13;
+          --surface-elevated: #262318;
+          --border: #3d382a;
+          --border-subtle: #302c20;
+          --text: #f3ecd8;
+          --text-muted: #a69b82;
+          --accent: #d4a017;
+          --accent-subtle: rgba(212, 160, 23, 0.12);
+        }
+        meta[name='theme-color'] {
+          color: #100e08;
+        }
+      }
       * {
         box-sizing: border-box;
       }
       html,
       body {
         margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background: transparent;
+        min-height: 100dvh;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
       }
       body {
         display: flex;
         flex-direction: column;
+        padding: calc(var(--safe-top) + 1rem) 1rem calc(var(--safe-bottom) + 1rem);
+      }
+      .page {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 0.25rem 0.5rem;
-        font-family: system-ui, -apple-system, sans-serif;
+        width: 100%;
+        max-width: 28rem;
+        margin: 0 auto;
+        gap: 1rem;
+      }
+      .brand {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .brand-mark {
+        width: 2px;
+        height: 2.25rem;
+        border-radius: 1px;
+        background: linear-gradient(180deg, var(--accent), transparent);
+      }
+      .brand-name {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      .brand-role {
+        margin: 0.125rem 0 0;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+      .card {
+        width: 100%;
+        padding: 1.5rem 1.25rem;
+        border-radius: 1.25rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: 0 16px 32px -14px rgba(28, 24, 16, 0.18);
+      }
+      .badge {
+        display: inline-block;
+        margin-bottom: 0.75rem;
+        padding: 0.2rem 0.55rem;
+        border-radius: 9999px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-subtle);
+        border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+      }
+      h1 {
+        margin: 0;
+        font-size: 1.35rem;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+      }
+      .lead {
+        margin: 0.5rem 0 0;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--text-muted);
+      }
+      .widget-label {
+        margin: 1.25rem 0 0.5rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+      .widget-box {
+        display: flex;
+        justify-content: center;
+        padding: 0.75rem;
+        border-radius: 0.875rem;
+        background: var(--surface-elevated);
+        border: 1px solid var(--border-subtle);
+        min-height: 5rem;
+      }
+      #widget-mount {
+        width: 100%;
+        display: flex;
+        justify-content: center;
       }
       #status {
-        margin: 0 0 0.35rem;
-        font-size: 12px;
-        line-height: 1.4;
+        margin: 0.75rem 0 0;
+        font-size: 0.8125rem;
+        line-height: 1.45;
         text-align: center;
-        color: #6f6654;
+        color: var(--text-muted);
       }
       #status.err {
         color: #9f1239;
       }
-      #widget-mount {
-        width: 100%;
-        max-width: 100%;
-        display: flex;
-        justify-content: center;
+      .footer {
+        margin: 0;
+        font-size: 0.6875rem;
+        line-height: 1.45;
+        text-align: center;
+        color: var(--text-muted);
       }
       .cf-turnstile {
         width: 100%;
@@ -47,8 +169,29 @@
     </style>
   </head>
   <body>
-    <p id="status" hidden>Loading…</p>
-    <div id="widget-mount"></div>
+    <div class="page">
+      <header class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <p class="brand-name">Nilanjan Goswami</p>
+          <p class="brand-role">Principal Computer Architect</p>
+        </div>
+      </header>
+
+      <main class="card">
+        <span class="badge">Access check</span>
+        <h1>Verify you&apos;re human</h1>
+        <p class="lead">Complete the check below. This window will return you to the portfolio when finished.</p>
+        <p class="widget-label">Security check</p>
+        <div class="widget-box">
+          <div id="widget-mount"></div>
+        </div>
+        <p id="status" hidden>Loading…</p>
+      </main>
+
+      <p class="footer">Secured with Cloudflare Turnstile</p>
+    </div>
+
     <script>
       ;(function () {
         var parentOrigin = window.location.origin
@@ -97,14 +240,15 @@
 
         window.onTurnstileSuccess = function (token) {
           clearTimeout(timeoutId)
-          status.hidden = true
-          status.textContent = ''
+          status.hidden = false
+          status.className = ''
+          status.textContent = 'Verified. Returning to portfolio…'
           notifyParent({ type: 'turnstile-token', token: token })
           reportHeight()
           if (window.opener && !window.opener.closed) {
             setTimeout(function () {
               window.close()
-            }, 400)
+            }, 500)
           }
         }
 
