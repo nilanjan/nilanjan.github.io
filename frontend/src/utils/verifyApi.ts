@@ -21,6 +21,10 @@ export function isVerifyApiConfigured(): boolean {
   return API_BASE.length > 0
 }
 
+export function getVerifyApiBase(): string {
+  return API_BASE
+}
+
 export function getTurnstileSiteKey(): string {
   return resolveSiteKey()
 }

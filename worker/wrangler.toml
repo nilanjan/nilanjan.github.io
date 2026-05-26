@@ -4,6 +4,7 @@ compatibility_date = "2025-05-25"
 
 [vars]
 ALLOWED_ORIGINS = "https://nilanjan.github.io,http://localhost:5173,http://127.0.0.1:5173"
+TURNSTILE_SITE_KEY = "0x4AAAAAADWaE0y00QJjck_o"
 
 # Set secrets via: wrangler secret put TURNSTILE_SECRET
 #                  wrangler secret put SESSION_SECRET

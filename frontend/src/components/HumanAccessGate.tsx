@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { ShieldCheck, Loader2 } from 'lucide-react'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
+import TurnstileIframe from './TurnstileIframe'
 import { getTurnstileSiteKey, isVerifyApiConfigured } from '../utils/verifyApi'
 import { isBraveBrowser } from '../utils/braveDetection'
 import {
@@ -21,12 +22,16 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const [usingBrave, setUsingBrave] = useState(false)
   const [verifyFailed, setVerifyFailed] = useState(false)
   const [widgetKey, setWidgetKey] = useState(0)
+  const [useIframe, setUseIframe] = useState(false)
 
   useEffect(() => {
     if (!isBraveBrowser()) return
     const brave = (navigator as Navigator & { brave?: { isBrave?: () => Promise<boolean> } }).brave
     void brave?.isBrave?.().then((yes) => {
-      if (yes) setUsingBrave(true)
+      if (yes) {
+        setUsingBrave(true)
+        setUseIframe(true)
+      }
     })
   }, [])
 
@@ -45,6 +50,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const handleScriptError = useCallback(() => {
     setLoadError(getLastTurnstileLoadError())
     setScriptBlocked(true)
+    setUseIframe(true)
   }, [])
 
   const handleRetry = useCallback(() => {
@@ -52,6 +58,11 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
     setLoadError(null)
     setVerifyFailed(false)
     setWidgetKey((key) => key + 1)
+  }, [])
+
+  const handleUseIframe = useCallback(() => {
+    setScriptBlocked(false)
+    setUseIframe(true)
   }, [])
 
   if (checking) {
@@ -109,13 +120,22 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
         {isVerifyApiConfigured() && (
           <div className="mb-4 space-y-3">
-            <TurnstileWidget
-              key={widgetKey}
-              onToken={handleTurnstileToken}
-              onScriptError={handleScriptError}
-            />
+            {useIframe ? (
+              <>
+                <p className="text-xs mb-2" style={{ color: 'var(--text-muted)' }}>
+                  Verification runs on a separate secure origin (helps with Brave Shields).
+                </p>
+                <TurnstileIframe onToken={handleTurnstileToken} onError={handleScriptError} />
+              </>
+            ) : (
+              <TurnstileWidget
+                key={widgetKey}
+                onToken={handleTurnstileToken}
+                onScriptError={handleScriptError}
+              />
+            )}
 
-            {scriptBlocked && (
+            {scriptBlocked && !useIframe && (
               <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
                 {loadError === 'script-loaded-no-api' || usingBrave ? (
                   <p>
@@ -142,9 +162,14 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                   </a>{' '}
                   · Hard refresh (Cmd+Shift+R) after changing Shields.
                 </p>
-                <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
-                  Retry
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
+                    Retry
+                  </button>
+                  <button type="button" onClick={handleUseIframe} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
+                    Try alternate verification
+                  </button>
+                </div>
               </div>
             )}
 

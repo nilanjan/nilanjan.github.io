@@ -1,3 +1,4 @@
+import { handleChallenge } from './challenge'
 import {
   createSessionToken,
   verifySessionToken,
@@ -9,6 +10,7 @@ export interface Env {
   SESSION_SECRET: string
   CONTACT_EMAIL: string
   ALLOWED_ORIGINS: string
+  TURNSTILE_SITE_KEY: string
 }
 
 interface VerifyRequest {
@@ -151,6 +153,12 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const allowed = parseAllowedOrigins(env.ALLOWED_ORIGINS)
     const origin = request.headers.get('Origin')
+    const url = new URL(request.url)
+    const path = url.pathname.replace(/\/+$/, '') || '/'
+
+    if (path === '/challenge' && request.method === 'GET') {
+      return handleChallenge(request, env)
+    }
 
     if (request.method === 'OPTIONS') {
       if (!isAllowedOrigin(origin, allowed)) {
@@ -162,9 +170,6 @@ export default {
     if (!isAllowedOrigin(origin, allowed)) {
       return jsonResponse({ ok: false, error: 'origin-not-allowed' }, 403, origin, allowed)
     }
-
-    const url = new URL(request.url)
-    const path = url.pathname.replace(/\/+$/, '') || '/'
 
     if (path === '/health' && request.method === 'GET') {
       return jsonResponse({ ok: true }, 200, origin, allowed)
