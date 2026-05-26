@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turnstile connectivity check</title>
+    <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin />
+    <script
+      id="cf-turnstile-script"
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+      async
+      defer
+    ></script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 32rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.5;
+      }
+      #status {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        background: #f4f4f5;
+      }
+      #status.ok {
+        background: #dcfce7;
+      }
+      #status.fail {
+        background: #fee2e2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Turnstile connectivity check</h1>
+    <p id="status">Waiting for Cloudflare script…</p>
+    <div id="widget"></div>
+    <p>
+      <small>
+        If this page fails, your browser or network is blocking
+        <code>challenges.cloudflare.com</code> — fix that before the portfolio gate can work.
+      </small>
+    </p>
+    <script>
+      const sitekey = '0x4AAAAAADWaE0y00QJjck_o'
+      const status = document.getElementById('status')
+      const widget = document.getElementById('widget')
+
+      function fail(msg) {
+        status.textContent = msg
+        status.className = 'fail'
+      }
+
+      function ok(msg) {
+        status.textContent = msg
+        status.className = 'ok'
+      }
+
+      const started = Date.now()
+      const wait = setInterval(function () {
+        if (window.turnstile) {
+          clearInterval(wait)
+          window.turnstile.ready(function () {
+            window.turnstile.render(widget, {
+              sitekey: sitekey,
+              callback: function () {
+                ok('Turnstile loaded and rendered successfully.')
+              },
+            })
+          })
+        } else if (Date.now() - started > 30000) {
+          clearInterval(wait)
+          fail('Timed out: challenges.cloudflare.com did not load in 30s.')
+        }
+      }, 100)
+
+      document.getElementById('cf-turnstile-script').addEventListener('error', function () {
+        clearInterval(wait)
+        fail('Script error: challenges.cloudflare.com is blocked or unreachable.')
+      })
+    </script>
+  </body>
+</html>
