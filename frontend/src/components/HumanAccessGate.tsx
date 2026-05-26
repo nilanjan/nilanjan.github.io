@@ -1,8 +1,13 @@
-import { useCallback, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { ShieldCheck, Loader2 } from 'lucide-react'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
 import { getTurnstileSiteKey, isVerifyApiConfigured } from '../utils/verifyApi'
+import { isBraveBrowser } from '../utils/braveDetection'
+import {
+  getLastTurnstileLoadError,
+  type TurnstileLoadError,
+} from '../utils/turnstileLoader'
 
 interface HumanAccessGateProps {
   children: ReactNode
@@ -12,8 +17,18 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const { verified, checking, blockedReason, verifyAccess } = useHumanAccess()
   const [verifying, setVerifying] = useState(false)
   const [scriptBlocked, setScriptBlocked] = useState(false)
+  const [loadError, setLoadError] = useState<TurnstileLoadError | null>(null)
+  const [usingBrave, setUsingBrave] = useState(false)
   const [verifyFailed, setVerifyFailed] = useState(false)
   const [widgetKey, setWidgetKey] = useState(0)
+
+  useEffect(() => {
+    if (!isBraveBrowser()) return
+    const brave = (navigator as Navigator & { brave?: { isBrave?: () => Promise<boolean> } }).brave
+    void brave?.isBrave?.().then((yes) => {
+      if (yes) setUsingBrave(true)
+    })
+  }, [])
 
   const handleTurnstileToken = useCallback(async (token: string) => {
     setVerifyFailed(false)
@@ -28,11 +43,13 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   }, [verifyAccess])
 
   const handleScriptError = useCallback(() => {
+    setLoadError(getLastTurnstileLoadError())
     setScriptBlocked(true)
   }, [])
 
   const handleRetry = useCallback(() => {
     setScriptBlocked(false)
+    setLoadError(null)
     setVerifyFailed(false)
     setWidgetKey((key) => key + 1)
   }, [])
@@ -100,25 +117,30 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
             {scriptBlocked && (
               <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
-                <p>
-                  Turnstile could not load. Allow <code className="text-xs">challenges.cloudflare.com</code> in
-                  your ad blocker or try a private window (Safari/Chrome incognito).
-                </p>
+                {loadError === 'script-loaded-no-api' || usingBrave ? (
+                  <p>
+                    Turnstile&apos;s script downloaded (check Network: <code className="text-xs">api.js</code>{' '}
+                    200) but the challenge did not start. In Brave: click the lion icon → set Shields down for
+                    this site (or allow all fingerprinting), then Retry.
+                  </p>
+                ) : loadError === 'script-blocked' ? (
+                  <p>
+                    Turnstile could not download. Allow{' '}
+                    <code className="text-xs">challenges.cloudflare.com</code> in your blocker or try a private
+                    window.
+                  </p>
+                ) : (
+                  <p>
+                    Turnstile timed out waiting to start. Check Network for blocked{' '}
+                    <code className="text-xs">challenges.cloudflare.com</code> requests after{' '}
+                    <code className="text-xs">api.js</code>, then Retry.
+                  </p>
+                )}
                 <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  Diagnostic:{' '}
                   <a href="/turnstile-check.html" className="underline">
                     turnstile-check.html
                   </a>{' '}
-                  (or open{' '}
-                  <a
-                    href="https://challenges.cloudflare.com/turnstile/v0/api.js"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    challenges.cloudflare.com
-                  </a>{' '}
-                  in a new tab). Hard refresh this page (Cmd+Shift+R) if the message looks outdated.
+                  · Hard refresh (Cmd+Shift+R) after changing Shields.
                 </p>
                 <button type="button" onClick={handleRetry} className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full">
                   Retry

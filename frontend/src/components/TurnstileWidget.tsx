@@ -29,18 +29,29 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
 
     ensureTurnstileApi()
       .then(() => {
-        if (mountGenRef.current !== mountGen || !containerRef.current || !window.turnstile) return
+        if (mountGenRef.current !== mountGen || !containerRef.current) return
+
+        if (!window.turnstile) {
+          setStatus('error')
+          onScriptErrorRef.current?.()
+          return
+        }
 
         const renderWidget = () => {
-          if (mountGenRef.current !== mountGen || !containerRef.current) return
+          if (mountGenRef.current !== mountGen || !containerRef.current || !window.turnstile) return
 
-          widgetId = window.turnstile!.render(containerRef.current, {
-            sitekey: siteKey,
-            callback: (token: string) => onTokenRef.current(token),
-            theme: 'auto',
-            appearance: 'always',
-          })
-          setStatus('ready')
+          try {
+            widgetId = window.turnstile.render(containerRef.current, {
+              sitekey: siteKey,
+              callback: (token: string) => onTokenRef.current(token),
+              theme: 'auto',
+              appearance: 'always',
+            })
+            setStatus('ready')
+          } catch {
+            setStatus('error')
+            onScriptErrorRef.current?.()
+          }
         }
 
         if (typeof window.turnstile.ready === 'function') {
