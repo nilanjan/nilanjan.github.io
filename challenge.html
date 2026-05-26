@@ -168,6 +168,37 @@
         width: 100%;
         max-width: 100%;
       }
+
+      /* Embedded (iframe) mode: parent already provides branding & framing,
+         so collapse this page to just the widget surface. */
+      body.embedded {
+        padding: 0;
+        background: transparent;
+      }
+      body.embedded .brand,
+      body.embedded .badge,
+      body.embedded h1,
+      body.embedded .lead,
+      body.embedded .widget-label,
+      body.embedded .footer {
+        display: none;
+      }
+      body.embedded .page {
+        gap: 0;
+        max-width: 100%;
+      }
+      body.embedded .card {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+      body.embedded .widget-box {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        min-height: 4.5rem;
+      }
     </style>
   </head>
   <body>
@@ -203,6 +234,12 @@
         var apiTimeoutId
         var completed = false
         var rendered = false
+
+        // When loaded inside the portfolio's iframe (not as a standalone
+        // popup), the parent already shows brand/heading/lead — collapse to
+        // just the widget so we don't duplicate that content.
+        var isEmbedded = window.parent !== window && !window.opener
+        if (isEmbedded) document.body.classList.add('embedded')
 
         function notifyParent(payload) {
           if (window.opener && !window.opener.closed) {
