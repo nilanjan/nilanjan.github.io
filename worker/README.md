@@ -4,7 +4,7 @@ Server-side Turnstile verification for the portfolio site. GitHub Pages serves s
 
 ## Setup
 
-1. Create a [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) widget for `nilanjan.github.io` **and** `ng-web-verify.nilanjan.workers.dev` (iframe challenge).
+1. Create a [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) widget for `nilanjan.github.io` (and `localhost` for dev).
 2. Install and deploy:
 
 ```bash

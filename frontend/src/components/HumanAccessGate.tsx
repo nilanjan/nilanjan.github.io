@@ -141,17 +141,8 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                     style={{ backgroundColor: 'var(--accent-subtle)', color: 'var(--text)' }}
                   >
                     <p className="font-medium">Brave detected</p>
-                    <ol className="text-xs list-decimal list-inside space-y-1" style={{ color: 'var(--text-muted)' }}>
-                      <li>Lion icon → Shields down on this tab</li>
-                      <li>Shields down on ng-web-verify.nilanjan.workers.dev (verification tab)</li>
-                      <li>
-                        Cloudflare Turnstile → add{' '}
-                        <code className="text-[11px]">ng-web-verify.nilanjan.workers.dev</code> to hostnames
-                      </li>
-                      <li>Reload, then use the new-tab button below</li>
-                    </ol>
                     <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                      Or open this site in Chrome/Firefox if Shields stay on.
+                      Lion icon → Shields down for this site, then use the button below. Or use Chrome/Firefox.
                     </p>
                   </div>
                 )}
@@ -179,9 +170,8 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
             {scriptBlocked && useIframe && (
               <div className="text-sm rounded-lg px-3 py-2 bg-red-500/10 text-red-700 dark:text-red-300 space-y-2 text-left">
                 <p>
-                  Scripts load (Network shows <code className="text-xs">api.js</code> 200) but Turnstile cannot
-                  run while Brave Shields block fingerprinting. Lower Shields for both hostnames above, then use
-                  the new-tab button.
+                  Turnstile could not start (Brave Shields often block fingerprinting). Lower Shields for this
+                  site, then use the new-tab button.
                 </p>
                 <div className="flex flex-col gap-2">
                   {challengePageUrl && (

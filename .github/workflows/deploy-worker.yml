@@ -23,7 +23,18 @@ jobs:
           cd worker
           npm install
 
+      - name: Check Cloudflare deploy secrets
+        id: cf-secrets
+        run: |
+          if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ] || [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Skipping worker deploy. Add CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in repo Secrets."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Deploy to Cloudflare Workers
+        if: steps.cf-secrets.outputs.configured == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
