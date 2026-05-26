@@ -805,14 +805,27 @@
     margin-top: 1rem;
     padding: 0.875rem 1rem;
     border-radius: 0.875rem;
-    background-color: color-mix(in srgb, #9f1239 6%, var(--surface-elevated));
-    border: 1px solid color-mix(in srgb, #9f1239 16%, var(--border));
+    background-color: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .verify-alert--error {
+    background-color: color-mix(in srgb, #9f1239 5%, var(--surface-elevated));
+    border-color: color-mix(in srgb, #9f1239 18%, var(--border));
   }
 
   .verify-alert__text {
     font-size: 0.875rem;
     line-height: 1.5;
     color: var(--text);
+    text-align: left;
+  }
+
+  .verify-alert__hint {
+    margin: 0.375rem 0 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--text-muted);
     text-align: left;
   }
 

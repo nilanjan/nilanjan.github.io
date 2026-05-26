@@ -3,7 +3,7 @@ import { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY } from './turnstileS
 export { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY }
 
 const PROD_VERIFY_API_URL = 'https://ng-web-verify.nilanjan.workers.dev'
-const CHALLENGE_CACHE_BUST = '20260526d'
+const CHALLENGE_CACHE_BUST = '20260526e'
 
 function resolveApiBase(): string {
   const fromEnv = import.meta.env.VITE_VERIFY_API_URL?.replace(/\/$/, '') ?? ''

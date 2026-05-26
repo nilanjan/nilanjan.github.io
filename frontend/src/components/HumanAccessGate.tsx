@@ -20,13 +20,21 @@ interface HumanAccessGateProps {
 function VerifyAlert({
   children,
   actions,
+  hint,
+  tone = 'error',
 }: {
   children: ReactNode
   actions?: ReactNode
+  hint?: ReactNode
+  tone?: 'error' | 'info'
 }) {
   return (
-    <div className="verify-alert" role="alert">
+    <div
+      className={`verify-alert${tone === 'error' ? ' verify-alert--error' : ''}`}
+      role="alert"
+    >
       <p className="verify-alert__text">{children}</p>
+      {hint ? <p className="verify-alert__hint">{hint}</p> : null}
       {actions ? <div className="verify-alert__actions">{actions}</div> : null}
     </div>
   )
@@ -160,17 +168,20 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const showVerifyError = verifyFailed && isVerifyApiConfigured()
   const showWidget = isVerifyApiConfigured() && !scriptBlocked && !showConfigError
 
-  let scriptErrorMessage =
-    'The security check could not load. Allow challenges.cloudflare.com in your browser settings, then try again.'
+  let scriptErrorTitle = 'We couldn’t load the security check.'
+  let scriptErrorHint =
+    'Allow challenges.cloudflare.com in your browser, then retry — or open the check in a new tab.'
   if (loadError === 'script-blocked') {
-    scriptErrorMessage =
-      'Verification was blocked. Allow challenges.cloudflare.com in your privacy extension, or try a private window.'
+    scriptErrorTitle = 'Your browser blocked the security check.'
+    scriptErrorHint =
+      'A privacy extension or content blocker is stopping challenges.cloudflare.com. Allow it or try a private window.'
   } else if (loadError === 'script-loaded-no-api') {
-    scriptErrorMessage =
-      'The check loaded but did not start. Retry below or open the challenge in a new tab.'
+    scriptErrorTitle = 'The check loaded but didn’t start.'
+    scriptErrorHint = 'Retry below, or open the challenge in a new tab.'
   } else if (loadError === 'api-timeout') {
-    scriptErrorMessage =
-      'The check is taking too long. Retry, allow challenges.cloudflare.com, or open a new tab.'
+    scriptErrorTitle = 'The check is taking longer than expected.'
+    scriptErrorHint =
+      'This usually means challenges.cloudflare.com is slow or blocked on your network. Retry, or open the check in a new tab.'
   }
 
   return (
@@ -303,6 +314,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
           {showScriptError && (
             <VerifyAlert
+              hint={scriptErrorHint}
               actions={
                 <>
                   <button type="button" onClick={handleRetry} className="btn-primary verify-btn">
@@ -316,12 +328,13 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                 </>
               }
             >
-              {scriptErrorMessage}
+              {scriptErrorTitle}
             </VerifyAlert>
           )}
 
           {showVerifyError && (
             <VerifyAlert
+              hint="Wait a moment, then retry — or open the check in a new tab."
               actions={
                 <>
                   <button type="button" onClick={handleRetry} className="btn-primary verify-btn">
@@ -335,8 +348,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                 </>
               }
             >
-              The check succeeded locally but the server could not confirm it. Wait a moment,
-              then retry or use a new tab.
+              We couldn’t confirm the check with the server.
             </VerifyAlert>
           )}
         </motion.article>
