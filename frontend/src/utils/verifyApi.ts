@@ -1,6 +1,9 @@
+import { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY } from './turnstileSiteKey'
+
+export { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY }
+
 const PROD_VERIFY_API_URL = 'https://ng-web-verify.nilanjan.workers.dev'
-const PROD_TURNSTILE_SITE_KEY = '0x4AAAAAADWaE0y00QJjck_o'
-const CHALLENGE_CACHE_BUST = '20260526c'
+const CHALLENGE_CACHE_BUST = '20260526d'
 
 function resolveApiBase(): string {
   const fromEnv = import.meta.env.VITE_VERIFY_API_URL?.replace(/\/$/, '') ?? ''
@@ -10,7 +13,7 @@ function resolveApiBase(): string {
 }
 
 function resolveSiteKey(): string {
-  const fromEnv = (import.meta.env.VITE_TURNSTILE_SITE_KEY ?? '').trim()
+  const fromEnv = normalizeTurnstileSiteKey(import.meta.env.VITE_TURNSTILE_SITE_KEY)
   if (fromEnv) return fromEnv
   if (import.meta.env.PROD) return PROD_TURNSTILE_SITE_KEY
   return ''
