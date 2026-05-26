@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { ShieldCheck, Loader2 } from 'lucide-react'
 import { useHumanAccess } from '../context/HumanAccessContext'
 import TurnstileWidget from './TurnstileWidget'
+import TurnstileChallengeFrame from './TurnstileChallengeFrame'
 import {
   getChallengePageUrl,
   getTurnstileSiteKey,
@@ -22,6 +23,8 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const [scriptBlocked, setScriptBlocked] = useState(false)
   const [loadError, setLoadError] = useState<TurnstileLoadError | null>(null)
   const [verifyFailed, setVerifyFailed] = useState(false)
+  const [useInlineWidget, setUseInlineWidget] = useState(false)
+  const [challengeKey, setChallengeKey] = useState(0)
   const [widgetKey, setWidgetKey] = useState(0)
 
   const handleTurnstileToken = useCallback(async (token: string) => {
@@ -36,7 +39,11 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
     }
   }, [verifyAccess])
 
-  const handleScriptError = useCallback(() => {
+  const handleChallengeFrameError = useCallback(() => {
+    setUseInlineWidget(true)
+  }, [])
+
+  const handleInlineScriptError = useCallback(() => {
     setLoadError(getLastTurnstileLoadError())
     setScriptBlocked(true)
   }, [])
@@ -45,6 +52,8 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
     setScriptBlocked(false)
     setLoadError(null)
     setVerifyFailed(false)
+    setUseInlineWidget(false)
+    setChallengeKey((key) => key + 1)
     setWidgetKey((key) => key + 1)
   }, [])
 
@@ -122,11 +131,30 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
         {isVerifyApiConfigured() && (
           <div className="mb-4 space-y-3">
             {!scriptBlocked && (
-              <TurnstileWidget
-                key={widgetKey}
-                onToken={handleTurnstileToken}
-                onScriptError={handleScriptError}
-              />
+              <>
+                {!useInlineWidget ? (
+                  <TurnstileChallengeFrame
+                    key={challengeKey}
+                    onToken={handleTurnstileToken}
+                    onError={handleChallengeFrameError}
+                  />
+                ) : (
+                  <TurnstileWidget
+                    key={widgetKey}
+                    onToken={handleTurnstileToken}
+                    onScriptError={handleInlineScriptError}
+                  />
+                )}
+                {challengePageUrl && (
+                  <button
+                    type="button"
+                    onClick={openChallengeTab}
+                    className="btn-ghost !min-h-9 !py-2 !px-4 text-xs w-full"
+                  >
+                    Open verification in new tab
+                  </button>
+                )}
+              </>
             )}
 
             {scriptBlocked && (
@@ -156,7 +184,7 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
                     <button
                       type="button"
                       onClick={openChallengeTab}
-                      className="btn-secondary !min-h-9 !py-2 !px-4 text-xs w-full"
+                      className="btn-primary !min-h-9 !py-2 !px-4 text-xs w-full"
                     >
                       Open verification in new tab
                     </button>
