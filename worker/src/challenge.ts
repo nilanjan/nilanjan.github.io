@@ -1,4 +1,4 @@
-const DEFAULT_SITE_KEY = '0x4AAAAAADWaE0y00QJjck_o'
+const DEFAULT_SITE_KEY = '0x4AAAAAADWaE0yOOQJjck_o'
 
 export interface ChallengeEnv {
   ALLOWED_ORIGINS: string

@@ -6,12 +6,12 @@ import {
 } from './turnstileSiteKey'
 
 describe('turnstileSiteKey', () => {
-  it('corrects OO typo to the production site key', () => {
-    expect(normalizeTurnstileSiteKey('0x4AAAAAADWaE0yOOQJjck_o')).toBe(PROD_TURNSTILE_SITE_KEY)
+  it('corrects 00 typo to the registered OO site key', () => {
+    expect(normalizeTurnstileSiteKey('0x4AAAAAADWaE0y00QJjck_o')).toBe(PROD_TURNSTILE_SITE_KEY)
   })
 
   it('always resolves production builds to the registered key', () => {
-    expect(resolveProductionSiteKey('0x4AAAAAADWaE0yOOQJjck_o')).toBe(PROD_TURNSTILE_SITE_KEY)
+    expect(resolveProductionSiteKey('0x4AAAAAADWaE0y00QJjck_o')).toBe(PROD_TURNSTILE_SITE_KEY)
     expect(resolveProductionSiteKey('')).toBe(PROD_TURNSTILE_SITE_KEY)
   })
 })
