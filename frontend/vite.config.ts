@@ -2,7 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { defineConfig, type Plugin } from 'vitest/config'
 import react from '@vitejs/plugin-react'
-import { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY } from './src/utils/turnstileSiteKey'
+import {
+  normalizeTurnstileSiteKey,
+  resolveProductionSiteKey,
+} from './src/utils/turnstileSiteKey'
 
 const TURNSTILE_SITE_KEY_PLACEHOLDER = '__TURNSTILE_SITE_KEY__'
 
@@ -11,8 +14,9 @@ function injectChallengeSiteKey(): Plugin {
     name: 'inject-challenge-site-key',
     closeBundle() {
       const siteKey =
-        normalizeTurnstileSiteKey(process.env.VITE_TURNSTILE_SITE_KEY) ||
-        (process.env.NODE_ENV === 'production' ? PROD_TURNSTILE_SITE_KEY : '')
+        process.env.NODE_ENV === 'production'
+          ? resolveProductionSiteKey(process.env.VITE_TURNSTILE_SITE_KEY)
+          : normalizeTurnstileSiteKey(process.env.VITE_TURNSTILE_SITE_KEY)
       const challengePath = path.resolve(__dirname, 'dist/challenge.html')
       if (!fs.existsSync(challengePath)) return
 

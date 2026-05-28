@@ -49,10 +49,9 @@ const cardMotion = {
 const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   const { verified, checking, blockedReason, verifyAccess } = useHumanAccess()
   const [verifying, setVerifying] = useState(false)
-  const [scriptBlocked, setScriptBlocked] = useState(false)
   const [loadError, setLoadError] = useState<TurnstileLoadError | null>(null)
   const [verifyFailed, setVerifyFailed] = useState(false)
-  const [challengeMode, setChallengeMode] = useState<'iframe' | 'inline'>('iframe')
+  const [challengeMode, setChallengeMode] = useState<'iframe' | 'inline'>('inline')
   const [showAlternates, setShowAlternates] = useState(false)
   const [challengeKey, setChallengeKey] = useState(0)
   const [widgetKey, setWidgetKey] = useState(0)
@@ -64,7 +63,6 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
       if (verifyInFlightRef.current) return
       verifyInFlightRef.current = true
       setVerifyFailed(false)
-      setScriptBlocked(false)
       setVerifying(true)
       try {
         const ok = await verifyAccess(token)
@@ -79,7 +77,6 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
   const failChallengeLoad = useCallback((error: TurnstileLoadError | null = null) => {
     setLoadError(error ?? getLastTurnstileLoadError() ?? 'api-timeout')
-    setScriptBlocked(true)
   }, [])
 
   const switchChallengeMode = useCallback(() => {
@@ -107,10 +104,9 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
   }, [switchChallengeMode])
 
   const handleRetry = useCallback(() => {
-    setScriptBlocked(false)
     setLoadError(null)
     setVerifyFailed(false)
-    setChallengeMode('iframe')
+    setChallengeMode('inline')
     setShowAlternates(false)
     triedAlternateChallengeRef.current = false
     verifyInFlightRef.current = false
@@ -163,10 +159,10 @@ const HumanAccessGate = ({ children }: HumanAccessGateProps) => {
 
   const showConfigError = !isVerifyApiConfigured()
   const showBlocked =
-    Boolean(blockedReason) && !verifyFailed && !scriptBlocked && !showConfigError
-  const showScriptError = scriptBlocked && isVerifyApiConfigured()
+    Boolean(blockedReason) && !verifyFailed && !loadError && !showConfigError
+  const showScriptError = Boolean(loadError) && isVerifyApiConfigured()
   const showVerifyError = verifyFailed && isVerifyApiConfigured()
-  const showWidget = isVerifyApiConfigured() && !scriptBlocked && !showConfigError
+  const showWidget = isVerifyApiConfigured() && !showConfigError
 
   let scriptErrorTitle = 'We couldn’t load the security check.'
   let scriptErrorHint =

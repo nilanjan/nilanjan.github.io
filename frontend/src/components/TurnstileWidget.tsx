@@ -32,8 +32,11 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
         if (mountGenRef.current !== mountGen || !containerRef.current) return
 
         if (!window.turnstile) {
-          setStatus('error')
-          onScriptErrorRef.current?.()
+          window.setTimeout(() => {
+            if (mountGenRef.current !== mountGen) return
+            setStatus('error')
+            onScriptErrorRef.current?.()
+          }, 8000)
           return
         }
 
@@ -72,8 +75,11 @@ const TurnstileWidget = ({ onToken, onScriptError }: TurnstileWidgetProps) => {
       })
       .catch(() => {
         if (mountGenRef.current !== mountGen) return
-        setStatus('error')
-        onScriptErrorRef.current?.()
+        window.setTimeout(() => {
+          if (mountGenRef.current !== mountGen) return
+          setStatus('error')
+          onScriptErrorRef.current?.()
+        }, 8000)
       })
 
     return () => {

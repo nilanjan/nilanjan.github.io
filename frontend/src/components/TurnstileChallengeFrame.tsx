@@ -22,14 +22,16 @@ const TurnstileChallengeFrame = ({ onError }: TurnstileChallengeFrameProps) => {
       if (event.origin !== window.location.origin) return
       const data = event.data as { type?: string; height?: number; token?: string }
       if (data?.type === 'turnstile-resize' && typeof data.height === 'number') {
-        setFrameHeight(Math.min(Math.max(Math.ceil(data.height), 72), 200))
+        const height = Math.min(Math.max(Math.ceil(data.height), 72), 200)
+        setFrameHeight(height)
+        if (height > 80) window.clearTimeout(errorTimer)
       }
       if (data?.type === 'turnstile-token') {
         window.clearTimeout(errorTimer)
       }
       if (data?.type === 'turnstile-error') {
         window.clearTimeout(errorTimer)
-        errorTimer = window.setTimeout(() => onErrorRef.current?.(), 1200)
+        errorTimer = window.setTimeout(() => onErrorRef.current?.(), 8000)
       }
     }
 

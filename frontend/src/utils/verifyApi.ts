@@ -1,4 +1,8 @@
-import { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY } from './turnstileSiteKey'
+import {
+  normalizeTurnstileSiteKey,
+  PROD_TURNSTILE_SITE_KEY,
+  resolveProductionSiteKey,
+} from './turnstileSiteKey'
 
 export { normalizeTurnstileSiteKey, PROD_TURNSTILE_SITE_KEY }
 
@@ -13,10 +17,10 @@ function resolveApiBase(): string {
 }
 
 function resolveSiteKey(): string {
-  const fromEnv = normalizeTurnstileSiteKey(import.meta.env.VITE_TURNSTILE_SITE_KEY)
-  if (fromEnv) return fromEnv
-  if (import.meta.env.PROD) return PROD_TURNSTILE_SITE_KEY
-  return ''
+  if (import.meta.env.PROD) {
+    return resolveProductionSiteKey(import.meta.env.VITE_TURNSTILE_SITE_KEY)
+  }
+  return normalizeTurnstileSiteKey(import.meta.env.VITE_TURNSTILE_SITE_KEY)
 }
 
 const API_BASE = resolveApiBase()
