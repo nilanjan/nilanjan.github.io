@@ -14,8 +14,14 @@ wrangler login
 wrangler secret put TURNSTILE_SECRET
 wrangler secret put SESSION_SECRET   # random 32+ char string
 wrangler secret put CONTACT_EMAIL    # your address (never commit)
+wrangler secret put RESEND_API_KEY   # Resend API key for sending contact mail
 npm run deploy
 ```
+
+Get a `RESEND_API_KEY` at [resend.com](https://resend.com). Until you verify a sending domain,
+leave `CONTACT_FROM = "onboarding@resend.dev"` in `wrangler.toml` and make sure `CONTACT_EMAIL`
+is the address registered on your Resend account (Resend only delivers to the account owner from the
+shared sender). After verifying a domain, set `CONTACT_FROM` to an address on that domain.
 
 3. Copy the worker URL (e.g. `https://ng-web-verify.your-subdomain.workers.dev`) into GitHub repo secrets:
    - `VITE_VERIFY_API_URL` — worker base URL
@@ -30,6 +36,7 @@ npm run deploy
 | POST | `/api/verify` | Verify Turnstile token → issue signed session |
 | GET | `/api/session` | Validate session (`Authorization: Bearer …`) |
 | GET | `/api/contact` | Return contact email for valid session |
+| POST | `/api/contact` | Send a contact message via Resend for valid session |
 
 ## Local dev
 

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { MapPin, Send, CheckCircle, AlertCircle, Mail } from 'lucide-react'
 import type { ContactMessage } from '../../../shared/types'
 import SectionHeader from './SectionHeader'
-import { canSendContactMessage, LOCATION, openContactEmail } from '../utils/contact'
+import { canSendContactMessage, LOCATION, openContactEmail, submitContactMessage } from '../utils/contact'
 import { useHumanAccess } from '../context/HumanAccessContext'
 
 const ContactSection = () => {
@@ -38,22 +38,20 @@ const ContactSection = () => {
         return
       }
 
-      const subject = `Portfolio Contact from ${formData.name}`
-      const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      const opened = await openContactEmail(subject, body)
-      if (!opened) {
+      const sent = await submitContactMessage(formData)
+      if (!sent) {
         setSubmitStatus('error')
-        setSubmitMessage('Unable to open email. Complete verification and try again.')
+        setSubmitMessage('Could not send your message. Please try again in a moment.')
         return
       }
       setSubmitStatus('success')
-      setSubmitMessage('Your email client will open — review and send when ready.')
+      setSubmitMessage('Thanks — your message has been sent. I’ll get back to you soon.')
       setFormData({ name: '', email: '', message: '' })
       setConsent(false)
       setHumanConfirmed(false)
     } catch {
       setSubmitStatus('error')
-      setSubmitMessage('Unable to open email. Please try again.')
+      setSubmitMessage('Could not send your message. Please try again.')
     } finally {
       setIsSubmitting(false)
     }

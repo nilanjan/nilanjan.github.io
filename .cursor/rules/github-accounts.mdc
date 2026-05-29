@@ -1,0 +1,14 @@
+---
+description: This repo uses the nilanjan GitHub account
+alwaysApply: true
+---
+
+# GitHub account for ng_web
+
+This workspace is **personal**. Always use the **nilanjan** GitHub account.
+
+- Remote: `nilanjan/nilanjan.github.io`
+- Before push/PR: `gh auth switch -u nilanjan` then verify with `gh auth status`
+- Do not push with **mm-rt** or **rv-rt-x**
+
+Deploy target: GitHub Pages via `.github/workflows/deploy.yml` on `master`.

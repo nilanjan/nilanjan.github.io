@@ -6,7 +6,10 @@ compatibility_date = "2025-05-25"
 ALLOWED_ORIGINS = "https://nilanjan.github.io,http://localhost:5173,http://127.0.0.1:5173"
 ALLOWED_TURNSTILE_HOSTNAMES = "nilanjan.github.io,localhost,127.0.0.1"
 TURNSTILE_SITE_KEY = "0x4AAAAAADWaE0yOOQJjck_o"
+# Sender shown in the From header. Use onboarding@resend.dev until you verify a domain in Resend.
+CONTACT_FROM = "onboarding@resend.dev"
 
 # Set secrets via: wrangler secret put TURNSTILE_SECRET
 #                  wrangler secret put SESSION_SECRET
 #                  wrangler secret put CONTACT_EMAIL
+#                  wrangler secret put RESEND_API_KEY

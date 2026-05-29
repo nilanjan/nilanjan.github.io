@@ -106,3 +106,24 @@ export async function fetchProtectedContactEmail(sessionToken: string): Promise<
 
   return data.email
 }
+
+export async function sendContactMessage(
+  sessionToken: string,
+  message: { name: string; email: string; message: string },
+): Promise<boolean> {
+  if (!API_BASE || !sessionToken) return false
+
+  const response = await fetch(`${API_BASE}/api/contact`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${sessionToken}`,
+    },
+    body: JSON.stringify(message),
+  })
+
+  if (!response.ok) return false
+
+  const data = (await response.json()) as { ok?: boolean }
+  return data.ok === true
+}

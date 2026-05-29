@@ -10,8 +10,10 @@ import {
   exchangeTurnstileToken,
   fetchProtectedContactEmail,
   isVerifyApiConfigured,
+  sendContactMessage,
   validateServerSession,
 } from './verifyApi'
+import type { ContactMessage } from '../../../shared/types'
 
 let cachedEmail: string | null = null
 
@@ -38,6 +40,16 @@ export function canSendContactMessage(): boolean {
     canAccessProtectedContent() &&
     !hasAutomationSignals()
   )
+}
+
+/** Send the contact message through the worker (Resend). Returns true on confirmed delivery. */
+export async function submitContactMessage(message: ContactMessage): Promise<boolean> {
+  if (!canSendContactMessage()) return false
+
+  const sessionToken = getServerSessionToken()
+  if (!sessionToken) return false
+
+  return sendContactMessage(sessionToken, message)
 }
 
 export async function openContactEmail(subject?: string, body?: string): Promise<boolean> {

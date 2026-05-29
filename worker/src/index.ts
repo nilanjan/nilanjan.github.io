@@ -1,4 +1,5 @@
 import { handleChallenge } from './challenge'
+import { sendContactEmail, validateSubmission } from './email'
 import {
   createSessionToken,
   verifySessionToken,
@@ -13,6 +14,8 @@ export interface Env {
   ALLOWED_ORIGINS: string
   ALLOWED_TURNSTILE_HOSTNAMES: string
   TURNSTILE_SITE_KEY: string
+  RESEND_API_KEY: string
+  CONTACT_FROM?: string
 }
 
 interface VerifyRequest {
@@ -156,6 +159,46 @@ async function handleContact(
   return jsonResponse({ ok: true, email: env.CONTACT_EMAIL }, 200, origin, allowed)
 }
 
+async function handleContactSend(
+  request: Request,
+  env: Env,
+  origin: string | null,
+  allowed: string[],
+): Promise<Response> {
+  const token = readBearerToken(request)
+  if (!token) {
+    return jsonResponse({ ok: false, error: 'missing-session' }, 401, origin, allowed)
+  }
+
+  const session = await verifySessionToken(token, env.SESSION_SECRET)
+  if (!session) {
+    return jsonResponse({ ok: false, error: 'invalid-session' }, 401, origin, allowed)
+  }
+
+  if (!env.RESEND_API_KEY || !env.CONTACT_EMAIL) {
+    return jsonResponse({ ok: false, error: 'contact-unavailable' }, 503, origin, allowed)
+  }
+
+  let payload: unknown
+  try {
+    payload = await request.json()
+  } catch {
+    return jsonResponse({ ok: false, error: 'invalid-json' }, 400, origin, allowed)
+  }
+
+  const submission = validateSubmission(payload)
+  if (!submission) {
+    return jsonResponse({ ok: false, error: 'invalid-submission' }, 400, origin, allowed)
+  }
+
+  const sent = await sendContactEmail(env, submission)
+  if (!sent) {
+    return jsonResponse({ ok: false, error: 'send-failed' }, 502, origin, allowed)
+  }
+
+  return jsonResponse({ ok: true }, 200, origin, allowed)
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const allowed = parseAllowedOrigins(env.ALLOWED_ORIGINS)
@@ -192,6 +235,10 @@ export default {
 
     if (path === '/api/contact' && request.method === 'GET') {
       return handleContact(request, env, origin, allowed)
+    }
+
+    if (path === '/api/contact' && request.method === 'POST') {
+      return handleContactSend(request, env, origin, allowed)
     }
 
     return jsonResponse({ ok: false, error: 'not-found' }, 404, origin, allowed)
