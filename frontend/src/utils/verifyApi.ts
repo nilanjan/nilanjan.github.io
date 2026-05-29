@@ -91,8 +91,8 @@ export async function sendContactMessage(
   sessionToken: string,
   message: { name: string; email: string; message: string },
   attachments: File[] = [],
-): Promise<boolean> {
-  if (!API_BASE || !sessionToken) return false
+): Promise<{ ok: boolean; error?: string }> {
+  if (!API_BASE || !sessionToken) return { ok: false, error: 'contact-unavailable' }
 
   const hasAttachments = attachments.length > 0
   const headers: Record<string, string> = { Authorization: `Bearer ${sessionToken}` }
@@ -115,8 +115,12 @@ export async function sendContactMessage(
     body,
   })
 
-  if (!response.ok) return false
-
-  const data = (await response.json()) as { ok?: boolean }
-  return data.ok === true
+  const data = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string }
+  if (!response.ok) {
+    return { ok: false, error: data.error ?? `http-${response.status}` }
+  }
+  if (data.ok !== true) {
+    return { ok: false, error: data.error ?? 'send-failed' }
+  }
+  return { ok: true }
 }

@@ -220,12 +220,21 @@ async function buildScannedAttachments(
 
   const attachments: EmailAttachment[] = []
   for (const item of validated) {
-    const verdict = await scanAttachment(env.VIRUSTOTAL_API_KEY, item.filename, item.bytes)
-    if (verdict === 'malicious') {
+    const scan = await scanAttachment(env.VIRUSTOTAL_API_KEY, item.filename, item.bytes)
+    if (scan.status === 'malicious') {
       return { ok: false, error: 'attachment-infected', status: 422 }
     }
-    if (verdict === 'unverified') {
-      return { ok: false, error: 'attachment-unverified', status: 422 }
+    if (scan.status === 'vt-auth-failed') {
+      return { ok: false, error: 'attachment-scan-auth-failed', status: 503 }
+    }
+    if (scan.status === 'vt-rate-limited') {
+      return { ok: false, error: 'attachment-scan-rate-limited', status: 503 }
+    }
+    if (scan.status === 'vt-timeout') {
+      return { ok: false, error: 'attachment-scan-timeout', status: 503 }
+    }
+    if (scan.status === 'vt-error') {
+      return { ok: false, error: 'attachment-unverified', status: 503 }
     }
     attachments.push({ filename: item.filename, content: bytesToBase64(item.bytes) })
   }

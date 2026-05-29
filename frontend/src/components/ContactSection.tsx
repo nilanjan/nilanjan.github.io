@@ -18,6 +18,29 @@ const ALLOWED_TYPES = new Set([
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ])
 
+function messageForContactError(error: string | undefined): string {
+  switch (error) {
+    case 'attachment-infected':
+      return 'Attachment rejected: malware was detected.'
+    case 'attachment-scan-auth-failed':
+      return 'Attachment scan service is misconfigured. Please try again later.'
+    case 'attachment-scan-rate-limited':
+      return 'Attachment scan is busy (rate limited). Please retry in a minute.'
+    case 'attachment-scan-timeout':
+      return 'Attachment scan timed out. Please retry in a minute.'
+    case 'attachment-unverified':
+      return 'Could not verify attachment safety. Please retry, or send without attachment.'
+    case 'attachments-unavailable':
+      return 'Attachment scanning is currently unavailable. Please try again later.'
+    case 'verification-required':
+      return 'Complete human verification first, then try again.'
+    case 'invalid-session':
+      return 'Your verification session expired. Please verify again and retry.'
+    default:
+      return 'Could not send your message. Please try again in a moment.'
+  }
+}
+
 const ContactSection = () => {
   const { verified } = useHumanAccess()
   const formRef = useRef<HTMLFormElement>(null)
@@ -86,9 +109,9 @@ const ContactSection = () => {
       }
 
       const sent = await submitContactMessage(formData, attachments)
-      if (!sent) {
+      if (!sent.ok) {
         setSubmitStatus('error')
-        setSubmitMessage('Could not send your message. Please try again in a moment.')
+        setSubmitMessage(messageForContactError(sent.error))
         return
       }
       setSubmitStatus('success')

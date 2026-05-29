@@ -26,7 +26,7 @@ describe('contact', () => {
     vi.mocked(getServerSessionToken).mockReturnValue(null)
     vi.mocked(hasAutomationSignals).mockReturnValue(false)
     vi.mocked(isVerifyApiConfigured).mockReturnValue(true)
-    vi.mocked(sendContactMessage).mockResolvedValue(true)
+    vi.mocked(sendContactMessage).mockResolvedValue({ ok: true })
   })
 
   it('blocks contact when automation is detected', () => {
@@ -48,7 +48,7 @@ describe('contact', () => {
     vi.mocked(getServerSessionToken).mockReturnValue('session-token')
 
     const message = { name: 'Ada', email: 'ada@example.com', message: 'hi' }
-    await expect(submitContactMessage(message)).resolves.toBe(true)
+    await expect(submitContactMessage(message)).resolves.toEqual({ ok: true })
     expect(sendContactMessage).toHaveBeenCalledWith('session-token', message, [])
   })
 
@@ -60,7 +60,7 @@ describe('contact', () => {
     })
     const message = { name: 'Ada', email: 'ada@example.com', message: 'hi' }
 
-    await expect(submitContactMessage(message, [file])).resolves.toBe(true)
+    await expect(submitContactMessage(message, [file])).resolves.toEqual({ ok: true })
     expect(sendContactMessage).toHaveBeenCalledWith('session-token', message, [file])
   })
 
@@ -68,7 +68,7 @@ describe('contact', () => {
     vi.mocked(canAccessProtectedContent).mockReturnValue(false)
     await expect(
       submitContactMessage({ name: 'Ada', email: 'ada@example.com', message: 'hi' }),
-    ).resolves.toBe(false)
+    ).resolves.toEqual({ ok: false, error: 'verification-required' })
     expect(sendContactMessage).not.toHaveBeenCalled()
   })
 })

@@ -26,11 +26,11 @@ export function canSendContactMessage(): boolean {
 export async function submitContactMessage(
   message: ContactMessage,
   attachments: File[] = [],
-): Promise<boolean> {
-  if (!canSendContactMessage()) return false
+): Promise<{ ok: boolean; error?: string }> {
+  if (!canSendContactMessage()) return { ok: false, error: 'verification-required' }
 
   const sessionToken = getServerSessionToken()
-  if (!sessionToken) return false
+  if (!sessionToken) return { ok: false, error: 'invalid-session' }
 
   return sendContactMessage(sessionToken, message, attachments)
 }
