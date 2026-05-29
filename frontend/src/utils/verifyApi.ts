@@ -90,16 +90,29 @@ export async function validateServerSession(sessionToken: string): Promise<boole
 export async function sendContactMessage(
   sessionToken: string,
   message: { name: string; email: string; message: string },
+  attachments: File[] = [],
 ): Promise<boolean> {
   if (!API_BASE || !sessionToken) return false
 
+  const hasAttachments = attachments.length > 0
+  const headers: Record<string, string> = { Authorization: `Bearer ${sessionToken}` }
+  let body: BodyInit
+  if (hasAttachments) {
+    const formData = new FormData()
+    formData.set('name', message.name)
+    formData.set('email', message.email)
+    formData.set('message', message.message)
+    for (const file of attachments) formData.append('attachments', file)
+    body = formData
+  } else {
+    body = JSON.stringify(message)
+    headers['Content-Type'] = 'application/json'
+  }
+
   const response = await fetch(`${API_BASE}/api/contact`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${sessionToken}`,
-    },
-    body: JSON.stringify(message),
+    headers,
+    body,
   })
 
   if (!response.ok) return false

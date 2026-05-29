@@ -6,6 +6,18 @@ import SectionHeader from './SectionHeader'
 import { canSendContactMessage, LOCATION, submitContactMessage } from '../utils/contact'
 import { useHumanAccess } from '../context/HumanAccessContext'
 
+const MAX_FILES = 3
+const MAX_FILE_BYTES = 5 * 1024 * 1024
+const MAX_TOTAL_BYTES = 10 * 1024 * 1024
+const ALLOWED_TYPES = new Set([
+  'image/png',
+  'image/jpeg',
+  'image/gif',
+  'image/webp',
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+])
+
 const ContactSection = () => {
   const { verified } = useHumanAccess()
   const formRef = useRef<HTMLFormElement>(null)
@@ -16,6 +28,8 @@ const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
+  const [attachments, setAttachments] = useState<File[]>([])
+  const [attachmentError, setAttachmentError] = useState('')
 
   const canSubmit = verified && consent && humanConfirmed && canSendContactMessage()
 
@@ -24,9 +38,42 @@ const ContactSection = () => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleAttachmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(e.target.files ?? [])
+    setAttachmentError('')
+
+    if (selected.length > MAX_FILES) {
+      setAttachments([])
+      setAttachmentError(`You can attach up to ${MAX_FILES} files.`)
+      return
+    }
+
+    const totalBytes = selected.reduce((sum, file) => sum + file.size, 0)
+    if (totalBytes > MAX_TOTAL_BYTES) {
+      setAttachments([])
+      setAttachmentError('Total attachment size must be 10 MB or less.')
+      return
+    }
+
+    for (const file of selected) {
+      if (!ALLOWED_TYPES.has(file.type)) {
+        setAttachments([])
+        setAttachmentError('Allowed files: PNG/JPG/GIF/WebP, PDF, and DOCX only.')
+        return
+      }
+      if (file.size === 0 || file.size > MAX_FILE_BYTES) {
+        setAttachments([])
+        setAttachmentError('Each file must be between 1 byte and 5 MB.')
+        return
+      }
+    }
+
+    setAttachments(selected)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!canSubmit || honeypot) return
+    if (!canSubmit || honeypot || attachmentError) return
 
     setIsSubmitting(true)
     setSubmitStatus('idle')
@@ -38,7 +85,7 @@ const ContactSection = () => {
         return
       }
 
-      const sent = await submitContactMessage(formData)
+      const sent = await submitContactMessage(formData, attachments)
       if (!sent) {
         setSubmitStatus('error')
         setSubmitMessage('Could not send your message. Please try again in a moment.')
@@ -47,6 +94,8 @@ const ContactSection = () => {
       setSubmitStatus('success')
       setSubmitMessage('Thanks — your message has been sent. I’ll get back to you soon.')
       setFormData({ name: '', email: '', message: '' })
+      setAttachments([])
+      if (formRef.current) formRef.current.reset()
       setConsent(false)
       setHumanConfirmed(false)
     } catch {
@@ -97,6 +146,24 @@ const ContactSection = () => {
                 <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
                 <textarea id="message" name="message" value={formData.message} onChange={handleInputChange} required rows={5} className="input-field resize-none" placeholder="Your message..." />
               </div>
+              <div>
+                <label htmlFor="attachments" className="block text-sm font-medium mb-2">Attachments (optional)</label>
+                <input
+                  id="attachments"
+                  name="attachments"
+                  type="file"
+                  multiple
+                  onChange={handleAttachmentChange}
+                  accept=".png,.jpg,.jpeg,.gif,.webp,.pdf,.docx"
+                  className="input-field"
+                />
+                <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+                  Up to 3 files, 5 MB each, 10 MB total. Allowed: images, PDF, DOCX. Files are virus-scanned.
+                </p>
+                {attachmentError && (
+                  <p className="mt-2 text-xs text-red-700 dark:text-red-300">{attachmentError}</p>
+                )}
+              </div>
 
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
@@ -133,7 +200,7 @@ const ContactSection = () => {
 
               <button type="submit" disabled={isSubmitting || !canSubmit} className="w-full btn-primary disabled:opacity-50">
                 <Send className="w-4 h-4" />
-                {isSubmitting ? 'Opening...' : 'Send Message'}
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </motion.div>

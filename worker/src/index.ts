@@ -1,11 +1,19 @@
+import {
+  bytesToBase64,
+  MAX_FILES,
+  MAX_TOTAL_BYTES,
+  validateAttachmentBytes,
+  type ValidatedAttachment,
+} from './attachments'
 import { handleChallenge } from './challenge'
-import { sendContactEmail, validateSubmission } from './email'
+import { sendContactEmail, validateSubmission, type EmailAttachment } from './email'
 import {
   createSessionToken,
   verifySessionToken,
   verifyTurnstileToken,
 } from './session'
 import { isAllowedTurnstileHostname, parseAllowedHostnames } from './turnstileHostname'
+import { scanAttachment } from './virusScan'
 
 export interface Env {
   TURNSTILE_SECRET: string
@@ -16,6 +24,7 @@ export interface Env {
   TURNSTILE_SITE_KEY: string
   RESEND_API_KEY: string
   CONTACT_FROM?: string
+  VIRUSTOTAL_API_KEY?: string
 }
 
 interface VerifyRequest {
@@ -136,6 +145,94 @@ async function handleSessionCheck(
   return jsonResponse({ ok: true, expiresAt: session.exp }, 200, origin, allowed)
 }
 
+interface ParsedContact {
+  payload: unknown
+  files: UploadFile[]
+}
+
+interface UploadFile {
+  name: string
+  arrayBuffer: () => Promise<ArrayBuffer>
+}
+
+function isUploadFile(entry: unknown): entry is UploadFile {
+  if (!entry || typeof entry !== 'object') return false
+  const candidate = entry as Record<string, unknown>
+  return typeof candidate.name === 'string' && typeof candidate.arrayBuffer === 'function'
+}
+
+async function parseContactRequest(request: Request): Promise<ParsedContact | null> {
+  const contentType = request.headers.get('Content-Type') ?? ''
+
+  if (contentType.includes('multipart/form-data')) {
+    const form = await request.formData()
+    const files: UploadFile[] = []
+    const entries = form.getAll('attachments') as unknown[]
+    for (const entry of entries) {
+      if (isUploadFile(entry)) files.push(entry)
+    }
+    return {
+      payload: {
+        name: form.get('name'),
+        email: form.get('email'),
+        message: form.get('message'),
+      },
+      files,
+    }
+  }
+
+  return { payload: await request.json(), files: [] }
+}
+
+/**
+ * Validate, then virus-scan, every uploaded file. Fail-closed: any unscannable
+ * or flagged file rejects the whole submission.
+ */
+async function buildScannedAttachments(
+  env: Env,
+  files: UploadFile[],
+): Promise<{ ok: true; attachments: EmailAttachment[] } | { ok: false; error: string; status: number }> {
+  if (files.length === 0) return { ok: true, attachments: [] }
+
+  if (!env.VIRUSTOTAL_API_KEY) {
+    return { ok: false, error: 'attachments-unavailable', status: 503 }
+  }
+  if (files.length > MAX_FILES) {
+    return { ok: false, error: 'too-many-attachments', status: 400 }
+  }
+
+  const validated: ValidatedAttachment[] = []
+  let totalBytes = 0
+
+  for (const file of files) {
+    const bytes = new Uint8Array(await file.arrayBuffer())
+    totalBytes += bytes.length
+    if (totalBytes > MAX_TOTAL_BYTES) {
+      return { ok: false, error: 'attachment-too-large', status: 400 }
+    }
+
+    const result = validateAttachmentBytes(file.name, bytes)
+    if (!result.ok) {
+      return { ok: false, error: result.error, status: 400 }
+    }
+    validated.push(result.value)
+  }
+
+  const attachments: EmailAttachment[] = []
+  for (const item of validated) {
+    const verdict = await scanAttachment(env.VIRUSTOTAL_API_KEY, item.filename, item.bytes)
+    if (verdict === 'malicious') {
+      return { ok: false, error: 'attachment-infected', status: 422 }
+    }
+    if (verdict === 'unverified') {
+      return { ok: false, error: 'attachment-unverified', status: 422 }
+    }
+    attachments.push({ filename: item.filename, content: bytesToBase64(item.bytes) })
+  }
+
+  return { ok: true, attachments }
+}
+
 async function handleContactSend(
   request: Request,
   env: Env,
@@ -156,19 +253,28 @@ async function handleContactSend(
     return jsonResponse({ ok: false, error: 'contact-unavailable' }, 503, origin, allowed)
   }
 
-  let payload: unknown
+  let parsed: ParsedContact
   try {
-    payload = await request.json()
+    const result = await parseContactRequest(request)
+    if (!result) {
+      return jsonResponse({ ok: false, error: 'invalid-json' }, 400, origin, allowed)
+    }
+    parsed = result
   } catch {
     return jsonResponse({ ok: false, error: 'invalid-json' }, 400, origin, allowed)
   }
 
-  const submission = validateSubmission(payload)
+  const submission = validateSubmission(parsed.payload)
   if (!submission) {
     return jsonResponse({ ok: false, error: 'invalid-submission' }, 400, origin, allowed)
   }
 
-  const sent = await sendContactEmail(env, submission)
+  const scanned = await buildScannedAttachments(env, parsed.files)
+  if (!scanned.ok) {
+    return jsonResponse({ ok: false, error: scanned.error }, scanned.status, origin, allowed)
+  }
+
+  const sent = await sendContactEmail(env, submission, scanned.attachments)
   if (!sent) {
     return jsonResponse({ ok: false, error: 'send-failed' }, 502, origin, allowed)
   }

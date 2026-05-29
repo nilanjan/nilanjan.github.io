@@ -49,7 +49,19 @@ describe('contact', () => {
 
     const message = { name: 'Ada', email: 'ada@example.com', message: 'hi' }
     await expect(submitContactMessage(message)).resolves.toBe(true)
-    expect(sendContactMessage).toHaveBeenCalledWith('session-token', message)
+    expect(sendContactMessage).toHaveBeenCalledWith('session-token', message, [])
+  })
+
+  it('forwards attachments when provided', async () => {
+    vi.mocked(canAccessProtectedContent).mockReturnValue(true)
+    vi.mocked(getServerSessionToken).mockReturnValue('session-token')
+    const file = new File(['hello'], 'resume.docx', {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    })
+    const message = { name: 'Ada', email: 'ada@example.com', message: 'hi' }
+
+    await expect(submitContactMessage(message, [file])).resolves.toBe(true)
+    expect(sendContactMessage).toHaveBeenCalledWith('session-token', message, [file])
   })
 
   it('does not send when verification is missing', async () => {

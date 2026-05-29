@@ -10,6 +10,12 @@ export interface SendEmailEnv {
   CONTACT_FROM?: string
 }
 
+export interface EmailAttachment {
+  filename: string
+  /** Base64-encoded file content. */
+  content: string
+}
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const DEFAULT_FROM = 'onboarding@resend.dev'
 
@@ -39,8 +45,21 @@ export function validateSubmission(input: unknown): ContactSubmission | null {
 export async function sendContactEmail(
   env: SendEmailEnv,
   submission: ContactSubmission,
+  attachments: EmailAttachment[] = [],
 ): Promise<boolean> {
   const from = env.CONTACT_FROM?.trim() || DEFAULT_FROM
+
+  const body: Record<string, unknown> = {
+    from: `Portfolio Contact <${from}>`,
+    to: [env.CONTACT_EMAIL],
+    reply_to: submission.email,
+    subject: `Portfolio Contact from ${submission.name}`,
+    text: `Name: ${submission.name}\nEmail: ${submission.email}\n\nMessage:\n${submission.message}`,
+  }
+
+  if (attachments.length > 0) {
+    body.attachments = attachments
+  }
 
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -48,13 +67,7 @@ export async function sendContactEmail(
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      from: `Portfolio Contact <${from}>`,
-      to: [env.CONTACT_EMAIL],
-      reply_to: submission.email,
-      subject: `Portfolio Contact from ${submission.name}`,
-      text: `Name: ${submission.name}\nEmail: ${submission.email}\n\nMessage:\n${submission.message}`,
-    }),
+    body: JSON.stringify(body),
   })
 
   return response.ok

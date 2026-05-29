@@ -23,13 +23,16 @@ export function canSendContactMessage(): boolean {
 }
 
 /** Send the contact message through the worker (Resend). Returns true on confirmed delivery. */
-export async function submitContactMessage(message: ContactMessage): Promise<boolean> {
+export async function submitContactMessage(
+  message: ContactMessage,
+  attachments: File[] = [],
+): Promise<boolean> {
   if (!canSendContactMessage()) return false
 
   const sessionToken = getServerSessionToken()
   if (!sessionToken) return false
 
-  return sendContactMessage(sessionToken, message)
+  return sendContactMessage(sessionToken, message, attachments)
 }
 
 export async function completeHumanVerification(turnstileToken: string): Promise<boolean> {

@@ -71,4 +71,14 @@ describe('sendContactEmail', () => {
     const body = JSON.parse((fetchMock.mock.calls[0][1] as RequestInit).body as string)
     expect(body.from).toContain('onboarding@resend.dev')
   })
+
+  it('includes attachments when provided', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response('{}', { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    await sendContactEmail(env, submission, [{ filename: 'resume.pdf', content: 'SGk=' }])
+
+    const body = JSON.parse((fetchMock.mock.calls[0][1] as RequestInit).body as string)
+    expect(body.attachments).toEqual([{ filename: 'resume.pdf', content: 'SGk=' }])
+  })
 })

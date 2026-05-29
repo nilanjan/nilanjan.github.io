@@ -13,3 +13,4 @@ CONTACT_FROM = "onboarding@resend.dev"
 #                  wrangler secret put SESSION_SECRET
 #                  wrangler secret put CONTACT_EMAIL
 #                  wrangler secret put RESEND_API_KEY
+#                  wrangler secret put VIRUSTOTAL_API_KEY   # required for attachment scanning
