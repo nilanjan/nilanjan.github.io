@@ -55,11 +55,6 @@ interface SessionResponse {
   expiresAt?: number
 }
 
-interface ContactResponse {
-  ok: boolean
-  email?: string
-}
-
 export async function exchangeTurnstileToken(
   token: string,
 ): Promise<{ sessionToken: string; expiresAt: number } | null> {
@@ -90,21 +85,6 @@ export async function validateServerSession(sessionToken: string): Promise<boole
 
   const data = (await response.json()) as SessionResponse
   return data.ok === true
-}
-
-export async function fetchProtectedContactEmail(sessionToken: string): Promise<string | null> {
-  if (!API_BASE || !sessionToken) return null
-
-  const response = await fetch(`${API_BASE}/api/contact`, {
-    headers: { Authorization: `Bearer ${sessionToken}` },
-  })
-
-  if (!response.ok) return null
-
-  const data = (await response.json()) as ContactResponse
-  if (!data.ok || !data.email) return null
-
-  return data.email
 }
 
 export async function sendContactMessage(

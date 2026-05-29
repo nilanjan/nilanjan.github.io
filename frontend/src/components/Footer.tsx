@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Mail, BookOpen } from 'lucide-react'
-import { LOCATION, openContactEmail } from '../utils/contact'
+import { LOCATION } from '../utils/contact'
 
 interface FooterProps {
   onOpenPrivacy: () => void
@@ -61,8 +61,8 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
               ))}
               <button
                 type="button"
-                onClick={() => void openContactEmail()}
-                aria-label="Send Email"
+                onClick={() => scrollToSection('#contact')}
+                aria-label="Contact"
                 className="social-btn inline-flex items-center justify-center"
                 style={{ color: 'var(--text-muted)' }}
               >
@@ -93,8 +93,8 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
             <h4 className="font-semibold mb-4 text-sm">Contact</h4>
             <div className="space-y-2 text-sm" style={{ color: 'var(--text-muted)' }}>
               <p>{LOCATION}</p>
-              <button type="button" onClick={() => void openContactEmail()} className="btn-ghost !px-0">
-                Send Email
+              <button type="button" onClick={() => scrollToSection('#contact')} className="btn-ghost !px-0">
+                Send a Message
               </button>
             </div>
             <div className="mt-6 space-y-2">

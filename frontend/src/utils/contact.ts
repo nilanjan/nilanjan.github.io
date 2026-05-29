@@ -8,31 +8,11 @@ import {
 import { hasAutomationSignals } from './botDetection'
 import {
   exchangeTurnstileToken,
-  fetchProtectedContactEmail,
   isVerifyApiConfigured,
   sendContactMessage,
   validateServerSession,
 } from './verifyApi'
 import type { ContactMessage } from '../../../shared/types'
-
-let cachedEmail: string | null = null
-
-export function resetContactEmailCache(): void {
-  cachedEmail = null
-}
-
-/** Contact email is fetched from the verification worker — never bundled in client code. */
-export async function resolveContactEmail(): Promise<string | null> {
-  if (!canAccessProtectedContent()) return null
-  if (hasAutomationSignals()) return null
-  if (cachedEmail) return cachedEmail
-
-  const sessionToken = getServerSessionToken()
-  if (!sessionToken) return null
-
-  cachedEmail = await fetchProtectedContactEmail(sessionToken)
-  return cachedEmail
-}
 
 export function canSendContactMessage(): boolean {
   return (
@@ -50,20 +30,6 @@ export async function submitContactMessage(message: ContactMessage): Promise<boo
   if (!sessionToken) return false
 
   return sendContactMessage(sessionToken, message)
-}
-
-export async function openContactEmail(subject?: string, body?: string): Promise<boolean> {
-  if (!canSendContactMessage()) return false
-
-  const email = await resolveContactEmail()
-  if (!email) return false
-
-  const params = new URLSearchParams()
-  if (subject) params.set('subject', subject)
-  if (body) params.set('body', body)
-  const query = params.toString()
-  window.location.href = `mailto:${email}${query ? `?${query}` : ''}`
-  return true
 }
 
 export async function completeHumanVerification(turnstileToken: string): Promise<boolean> {
@@ -84,7 +50,6 @@ export async function restoreHumanSessionFromStorage(): Promise<boolean> {
   const valid = await validateServerSession(session.serverToken)
   if (!valid) {
     clearHumanSession()
-    resetContactEmailCache()
     return false
   }
 

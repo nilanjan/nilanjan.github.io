@@ -11,7 +11,7 @@ import {
   Smartphone,
 } from 'lucide-react'
 import MeshBackground from './MeshBackground'
-import { openContactEmail, LOCATION } from '../utils/contact'
+import { LOCATION } from '../utils/contact'
 
 const architectureAreas = [
   {
@@ -96,7 +96,7 @@ const HeroSection = () => {
               <button type="button" onClick={() => scrollTo('publications')} className="btn-secondary w-full xs:w-auto">
                 Publications
               </button>
-              <button type="button" onClick={() => void openContactEmail()} className="btn-secondary w-full xs:w-auto">
+              <button type="button" onClick={() => scrollTo('contact')} className="btn-secondary w-full xs:w-auto">
                 Contact
               </button>
               {[

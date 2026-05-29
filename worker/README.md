@@ -35,7 +35,6 @@ shared sender). After verifying a domain, set `CONTACT_FROM` to an address on th
 |--------|------|---------|
 | POST | `/api/verify` | Verify Turnstile token → issue signed session |
 | GET | `/api/session` | Validate session (`Authorization: Bearer …`) |
-| GET | `/api/contact` | Return contact email for valid session |
 | POST | `/api/contact` | Send a contact message via Resend for valid session |
 
 ## Local dev

@@ -136,29 +136,6 @@ async function handleSessionCheck(
   return jsonResponse({ ok: true, expiresAt: session.exp }, 200, origin, allowed)
 }
 
-async function handleContact(
-  request: Request,
-  env: Env,
-  origin: string | null,
-  allowed: string[],
-): Promise<Response> {
-  const token = readBearerToken(request)
-  if (!token) {
-    return jsonResponse({ ok: false, error: 'missing-session' }, 401, origin, allowed)
-  }
-
-  const session = await verifySessionToken(token, env.SESSION_SECRET)
-  if (!session) {
-    return jsonResponse({ ok: false, error: 'invalid-session' }, 401, origin, allowed)
-  }
-
-  if (!env.CONTACT_EMAIL) {
-    return jsonResponse({ ok: false, error: 'contact-unavailable' }, 503, origin, allowed)
-  }
-
-  return jsonResponse({ ok: true, email: env.CONTACT_EMAIL }, 200, origin, allowed)
-}
-
 async function handleContactSend(
   request: Request,
   env: Env,
@@ -231,10 +208,6 @@ export default {
 
     if (path === '/api/session' && request.method === 'GET') {
       return handleSessionCheck(request, env, origin, allowed)
-    }
-
-    if (path === '/api/contact' && request.method === 'GET') {
-      return handleContact(request, env, origin, allowed)
     }
 
     if (path === '/api/contact' && request.method === 'POST') {

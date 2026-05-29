@@ -14,7 +14,6 @@ import {
 } from '../utils/humanAccess'
 import {
   completeHumanVerification,
-  resetContactEmailCache,
   restoreHumanSessionFromStorage,
 } from '../utils/contact'
 import { isVerifyApiConfigured, validateServerSession } from '../utils/verifyApi'
@@ -36,7 +35,6 @@ export function HumanAccessProvider({ children }: { children: ReactNode }) {
 
   const revokeAccess = useCallback(() => {
     clearHumanSession()
-    resetContactEmailCache()
     setVerified(false)
   }, [])
 

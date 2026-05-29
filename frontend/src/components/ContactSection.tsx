@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { MapPin, Send, CheckCircle, AlertCircle, Mail } from 'lucide-react'
+import { MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import type { ContactMessage } from '../../../shared/types'
 import SectionHeader from './SectionHeader'
-import { canSendContactMessage, LOCATION, openContactEmail, submitContactMessage } from '../utils/contact'
+import { canSendContactMessage, LOCATION, submitContactMessage } from '../utils/contact'
 import { useHumanAccess } from '../context/HumanAccessContext'
 
 const ContactSection = () => {
@@ -54,19 +54,6 @@ const ContactSection = () => {
       setSubmitMessage('Could not send your message. Please try again.')
     } finally {
       setIsSubmitting(false)
-    }
-  }
-
-  const handleSendEmailClick = async () => {
-    if (!canSendContactMessage()) {
-      setSubmitStatus('error')
-      setSubmitMessage('Complete human verification before contacting me.')
-      return
-    }
-    const opened = await openContactEmail()
-    if (!opened) {
-      setSubmitStatus('error')
-      setSubmitMessage('Complete human verification before contacting me.')
     }
   }
 
@@ -160,22 +147,6 @@ const ContactSection = () => {
             <div className="card card-pad">
               <h3 className="font-semibold mb-4">Contact</h3>
               <div className="space-y-4">
-                <button
-                  type="button"
-                  onClick={() => void handleSendEmailClick()}
-                  disabled={!canSendContactMessage()}
-                  className="flex items-center gap-4 w-full p-4 rounded-xl transition-colors hover:opacity-80 disabled:opacity-50"
-                  style={{ backgroundColor: 'var(--surface-elevated)' }}
-                >
-                  <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--accent-subtle)' }}>
-                    <Mail className="w-5 h-5" style={{ color: 'var(--accent)' }} />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Email</p>
-                    <p className="font-medium" style={{ color: 'var(--accent)' }}>Send Email</p>
-                  </div>
-                </button>
-
                 <div className="flex items-center gap-4 p-4 rounded-xl" style={{ backgroundColor: 'var(--surface-elevated)' }}>
                   <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--accent-subtle)' }}>
                     <MapPin className="w-5 h-5" style={{ color: 'var(--accent)' }} />
