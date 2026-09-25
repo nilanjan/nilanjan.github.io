@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, BookOpen } from 'lucide-react'
+import { Mail, BookOpen } from 'lucide-react'
 import { LOCATION } from '../utils/contact'
 
 interface FooterProps {
@@ -11,8 +11,6 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { name: 'GitHub', icon: Github, href: 'https://github.com/nilanjan' },
-    { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com/in/nilanjan-goswami' },
     { name: 'Google Scholar', icon: BookOpen, href: 'https://scholar.google.com/citations?user=-ZvEn44AAAAJ&hl=en' },
   ]
 
@@ -53,7 +51,7 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className="social-btn inline-flex items-center justify-center"
+                  className="icon-btn inline-flex items-center justify-center"
                   style={{ color: 'var(--text-muted)' }}
                 >
                   <social.icon className="w-4 h-4" />
@@ -63,7 +61,7 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
                 type="button"
                 onClick={() => scrollToSection('#contact')}
                 aria-label="Contact"
-                className="social-btn inline-flex items-center justify-center"
+                className="icon-btn inline-flex items-center justify-center"
                 style={{ color: 'var(--text-muted)' }}
               >
                 <Mail className="w-4 h-4" />

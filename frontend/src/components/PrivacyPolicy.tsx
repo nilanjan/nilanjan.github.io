@@ -80,7 +80,7 @@ const PrivacyPolicy = ({ onClose }: PrivacyPolicyProps) => (
         <section>
           <h2 className="text-base font-semibold mb-2" style={{ color: 'var(--text)' }}>5. Third-Party Links</h2>
           <p>
-            Links to GitHub, LinkedIn, Google Scholar, and publication DOIs may set their own cookies
+            Links to Google Scholar and publication DOIs may set their own cookies
             when visited. We are not responsible for third-party privacy practices.
           </p>
         </section>

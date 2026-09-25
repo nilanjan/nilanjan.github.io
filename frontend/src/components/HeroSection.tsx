@@ -1,7 +1,5 @@
 import { motion } from 'framer-motion'
 import {
-  Github,
-  Linkedin,
   ArrowRight,
   MapPin,
   Cpu,
@@ -99,14 +97,6 @@ const HeroSection = () => {
               <button type="button" onClick={() => scrollTo('contact')} className="btn-secondary w-full xs:w-auto">
                 Contact
               </button>
-              {[
-                { icon: Github, href: 'https://github.com/nilanjan', label: 'GitHub' },
-                { icon: Linkedin, href: 'https://linkedin.com/in/nilanjan-goswami', label: 'LinkedIn' },
-              ].map(({ icon: Icon, href, label }) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="social-btn inline-flex items-center justify-center">
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
             </div>
           </motion.div>
 

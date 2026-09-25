@@ -164,7 +164,7 @@ ng_web/
 - Update professional experience in `frontend/src/components/ExperienceSection.tsx`
 - Modify patent information in `frontend/src/components/PatentsSection.tsx`
 - Update publications in `frontend/src/components/PublicationsSection.tsx`
-- Update contact information and social links
+- Update contact information
 
 ### Styling
 - All styles use Tailwind CSS classes
@@ -236,8 +236,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Contact
 
-- **LinkedIn**: [Nilanjan Goswami](https://linkedin.com/in/nilanjan-goswami)
-- **GitHub**: [nilanjan](https://github.com/nilanjan)
 - **Google Scholar**: [Research Profile](https://scholar.google.com/citations?user=-ZvEn44AAAAJ&hl=en)
 - **Website**: [http://nilanjan.github.io/](http://nilanjan.github.io/)
 - **Contact**: Use the Send Email link on [nilanjan.github.io](https://nilanjan.github.io)

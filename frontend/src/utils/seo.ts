@@ -20,8 +20,6 @@ export function applyProtectedSeoMeta(): void {
   setMeta('keywords', 'Computer Architecture, Throughput Processor, GPU Architect, Accelerator Design, Mobile GPU, AR VR Graphics, Hardware Architect, PPA, GEM5, Qualcomm')
   setMeta('og:title', SITE_TITLE, true)
   setMeta('og:description', SITE_DESCRIPTION, true)
-  setMeta('twitter:title', SITE_TITLE)
-  setMeta('twitter:description', 'Principal Computer Architect — throughput processors, GPU design, and accelerator co-design.')
 }
 
 export function removeProtectedSeoMeta(): void {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, ArrowRight } from 'lucide-react'
+import { ExternalLink, ArrowRight } from 'lucide-react'
 import type { Project, ApiResponse } from '../../../shared/types'
 
 const ProjectsSection = () => {
@@ -120,16 +120,6 @@ const ProjectsSection = () => {
                 {/* Project Links */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex space-x-3">
-                    {project.github_url && (
-                      <a
-                        href={project.github_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200"
-                      >
-                        <Github className="w-5 h-5" />
-                      </a>
-                    )}
                     {project.live_url && (
                       <a
                         href={project.live_url}
