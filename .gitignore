@@ -86,3 +86,6 @@ jspm_packages/
 
 # Local Netlify folder
 .netlify
+
+# TypeScript incremental build cache
+*.tsbuildinfo
