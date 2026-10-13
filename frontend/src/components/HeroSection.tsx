@@ -79,7 +79,7 @@ const HeroSection = () => {
               >
                 <span className="block" style={{ color: 'var(--text)' }}>Nilanjan Goswami</span>
                 <span className="block mt-2 text-[0.72em] font-normal leading-[1.15]" style={{ color: 'var(--text-muted)' }}>
-                  Algorithm–Architecture Co-Design for AI Accelerators
+                  Algorithm–Architecture Co-Design for Accelerators
                 </span>
               </h1>
             </div>
