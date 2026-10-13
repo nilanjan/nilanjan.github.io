@@ -11,10 +11,9 @@ const experiences = [
     location: `${LOCATION} · Remote`,
     duration: 'February 2023 – Present',
     achievements: [
-      'Optimize AI workloads on Qualcomm GPU compute and define what next-generation hardware must support.',
-      'Translate transformer workloads (LLM inference, ViT super-resolution) into GPU compute and matrix-path requirements: roofline by model phase, KV-cache and dequantization analysis (llama.cpp).',
-      'Paper: neural-rendering-based disocclusion, filling regions revealed by frame reprojection with a learned model.',
-      'PPA sweeps over matrix-unit shape, datatypes, accumulator precision and local memory.',
+      'Define next-generation Adreno GPU compute and matrix-path requirements from transformer workloads (LLM inference, ViT super-resolution): roofline by model phase, KV-cache and dequantization analysis on llama.cpp.',
+      'Ran PPA sweeps over matrix-unit shape, datatypes, accumulator precision and local-memory sizing to inform architecture decisions.',
+      'Invented a neural-rendering method for disocclusion in reprojected frames, treating graphics reconstruction as an AI inference workload on GPU compute (U.S. patent application, 2026).',
       'Built GPUXR-Sim, a cross-layer GPU/system performance-power framework now foundational to Adreno architecture research.',
       'Ultra-low-power GPU compute and memory-system architecture: shader core, LLC interaction, hybrid power delivery. 4 patents filed.',
     ],

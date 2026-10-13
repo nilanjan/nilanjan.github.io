@@ -85,20 +85,12 @@ const AboutSection = () => (
               hardware.
             </p>
 
-            <div className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm leading-[1.75]" style={{ color: 'var(--text-muted)' }}>
-              <p>
-                At Qualcomm, the work is translating transformer workloads — LLM inference and ViT
-                super-resolution — into GPU compute and matrix-path requirements: roofline by model phase,
-                KV-cache and dequantization analysis on llama.cpp, and PPA sweeps over matrix-unit shape,
-                datatypes, accumulator precision and local memory.
-              </p>
-              <p>
+            <p className="text-sm leading-[1.75]" style={{ color: 'var(--text-muted)' }}>
                 The foundation is kernel-level. Early career hand-tuning VLIW/SIMD DSP kernels, an OpenMP
                 compiler front-end for TI&apos;s multi-core C6000 DSP, and a Ph.D. in CUDA kernel
                 characterization and GPU hardware co-optimization — followed by architecture carried from
                 specification through RTL correlation and silicon debug.
-              </p>
-            </div>
+            </p>
 
             <p className="mt-5 pt-5 text-sm leading-[1.75] border-t" style={{ color: 'var(--text-muted)', borderColor: 'var(--border)' }}>
               Fluent in low-precision numerics (INT8/INT4, FP8, MXFP microscaling) and PTQ/QAT. 18 U.S. patents

@@ -50,7 +50,7 @@ const companies = ['Qualcomm', 'Meta', 'Samsung', 'Apple']
 
 const stats = [
   { value: '13+', label: 'Years defining silicon' },
-  { value: String(patentCount), label: 'U.S. patents' },
+  { value: String(patentCount), label: `U.S. patents · ${(patentsData as PatentsData).granted.length} granted` },
   { value: `${citations}+`, label: 'Citations' },
 ]
 

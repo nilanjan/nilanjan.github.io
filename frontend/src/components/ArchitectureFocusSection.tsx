@@ -21,7 +21,7 @@ const cards = [
     bullets: [
       'INT8/INT4, FP16/BF16, FP8, OCP MXFP8/MXFP4 (E2M1 elements, shared E8M0 scale)',
       'Per-tensor/channel/group scaling and its datapath cost',
-      'PTQ (GPTQ, AWQ, SmoothQuant, AdaRound) and QAT (fake-quant, STE)',
+      'PTQ and QAT: accuracy vs. datapath-cost tradeoffs',
     ],
   },
   {

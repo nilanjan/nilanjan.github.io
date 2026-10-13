@@ -23,6 +23,6 @@ export function applyProtectedSeoMeta(): void {
 }
 
 export function removeProtectedSeoMeta(): void {
-  document.title = 'Nilanjan Goswami — Portfolio'
-  setMeta('description', 'Personal portfolio. JavaScript required. Manual human access only.')
+  document.title = SITE_TITLE
+  setMeta('description', SITE_DESCRIPTION)
 }

@@ -35,14 +35,6 @@ const skillCategories = [
   },
 ]
 
-const learningTags = [
-  'KV-Cache and Attention Internals',
-  'Optimizers: SGD, Momentum, Adam',
-  'MXFP and FP8 Training Numerics',
-  'Memory–Compute Disaggregation',
-  'Inference and Training Accelerators',
-]
-
 const SkillsSection = () => (
   <section id="skills" className="section">
     <div className="section-inner">
@@ -83,30 +75,6 @@ const SkillsSection = () => (
           </motion.div>
         ))}
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="card card-pad text-center"
-      >
-        <h3 className="font-semibold mb-3">Currently Deepening</h3>
-        <p className="text-sm mb-5 max-w-2xl mx-auto" style={{ color: 'var(--text-muted)' }}>
-          Ongoing deep study at frontier-lab depth — from inference internals to training-side numerics —
-          aimed at the next generation of AI accelerators.
-        </p>
-        <div className="flex flex-wrap justify-center gap-2">
-          {learningTags.map((tag) => (
-            <span
-              key={tag}
-              className="px-3 py-1.5 rounded-full text-xs font-medium"
-              style={{ backgroundColor: 'var(--accent-subtle)', color: 'var(--accent)' }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </motion.div>
     </div>
   </section>
 )
