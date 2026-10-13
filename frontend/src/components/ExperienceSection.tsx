@@ -13,11 +13,12 @@ const experiences = [
     achievements: [
       'Optimize AI workloads on Qualcomm GPU compute and define what next-generation hardware must support.',
       'Translate transformer workloads (LLM inference, ViT super-resolution) into GPU compute and matrix-path requirements: roofline by model phase, KV-cache and dequantization analysis (llama.cpp).',
+      'Paper: neural-rendering-based disocclusion, filling regions revealed by frame reprojection with a learned model.',
       'PPA sweeps over matrix-unit shape, datatypes, accumulator precision and local memory.',
       'Built GPUXR-Sim, a cross-layer GPU/system performance-power framework now foundational to Adreno architecture research.',
       'Ultra-low-power GPU compute and memory-system architecture: shader core, LLC interaction, hybrid power delivery. 4 patents filed.',
     ],
-    tags: ['LLM Inference', 'ViT Super-Resolution', 'Quantization', 'Matrix Datapaths', 'PPA Modeling', 'GPUXR-Sim'],
+    tags: ['LLM Inference', 'ViT Super-Resolution', 'Neural Disocclusion', 'Quantization', 'Matrix Datapaths', 'PPA Modeling', 'GPUXR-Sim'],
   },
   {
     id: 'meta',
