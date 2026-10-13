@@ -63,7 +63,7 @@ const AboutSection = () => (
     <div className="section-inner">
       <SectionHeader
         eyebrow="About"
-        title="AI Chip Architect — Algorithm to Silicon"
+        title="Principal Computer Architect — Algorithm to Silicon"
         description="Translating AI algorithms and numerics into compute-architecture definitions, with every tradeoff backed by models."
         className="!mb-7"
       />

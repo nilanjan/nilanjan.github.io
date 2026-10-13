@@ -40,7 +40,7 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
           >
             <h3 className="text-lg font-semibold tracking-tight mb-3" style={{ color: 'var(--text)' }}>Nilanjan Goswami</h3>
             <p className="text-sm leading-relaxed mb-5 max-w-md" style={{ color: 'var(--text-muted)' }}>
-              AI Chip Architect — algorithm–architecture co-design for AI accelerators, built on GPU and
+              Principal Computer Architect — algorithm–architecture co-design for AI accelerators, built on GPU and
               throughput-compute silicon at Apple, Samsung, Meta, and Qualcomm.
             </p>
             <div className="flex gap-3">

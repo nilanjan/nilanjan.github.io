@@ -72,7 +72,7 @@ const HeroSection = () => {
             className="space-y-6"
           >
             <div className="space-y-4">
-              <span className="hero-badge">AI Chip Architect · Ph.D.</span>
+              <span className="hero-badge">Principal Computer Architect · Ph.D.</span>
               <h1
                 className="text-[1.75rem] leading-[1.08] xs:text-3xl sm:text-4xl md:text-5xl xl:text-[3.25rem] font-semibold tracking-tight"
                 style={{ letterSpacing: '-0.03em' }}

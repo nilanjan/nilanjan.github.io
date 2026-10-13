@@ -1,6 +1,6 @@
 # Nilanjan Goswami - Professional Portfolio
 
-A modern professional portfolio for **Nilanjan Goswami** — AI Chip Architect specializing in algorithm–architecture co-design for AI accelerators: transformer inference analysis, low-precision numerics, compute and memory architecture, and PPA modeling, built on GPU and throughput-compute silicon at Apple, Samsung, Meta, and Qualcomm.
+A modern professional portfolio for **Nilanjan Goswami** — Principal Computer Architect specializing in algorithm–architecture co-design for AI accelerators: transformer inference analysis, low-precision numerics, compute and memory architecture, and PPA modeling, built on GPU and throughput-compute silicon at Apple, Samsung, Meta, and Qualcomm.
 
 ## 🚀 Features
 
