@@ -16,7 +16,7 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
 
   const quickLinks = [
     { name: 'About', href: '#about' },
-    { name: 'Architecture', href: '#architecture' },
+    { name: 'AI Focus', href: '#architecture' },
     { name: 'Experience', href: '#experience' },
     { name: 'Patents', href: '#patents' },
     { name: 'Publications', href: '#publications' },
@@ -40,8 +40,8 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
           >
             <h3 className="text-lg font-semibold tracking-tight mb-3" style={{ color: 'var(--text)' }}>Nilanjan Goswami</h3>
             <p className="text-sm leading-relaxed mb-5 max-w-md" style={{ color: 'var(--text-muted)' }}>
-              Principal Computer Architect — throughput processors, GPU design, and accelerator
-              co-design across mobile and XR programs at Apple, Meta, Samsung, and Qualcomm.
+              AI Chip Architect — algorithm–architecture co-design for AI accelerators, built on GPU and
+              throughput-compute silicon at Apple, Samsung, Meta, and Qualcomm.
             </p>
             <div className="flex gap-3">
               {socialLinks.map((social) => (

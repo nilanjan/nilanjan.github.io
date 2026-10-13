@@ -24,7 +24,7 @@ const PatentsSection = () => {
         <SectionHeader
           eyebrow="Patents"
           title="Patent Portfolio"
-          description="Granted and pending U.S. patents in throughput processors, GPU architecture, AR/VR pipelines, and power-efficient accelerator systems."
+          description="Granted and pending U.S. patents in GPU compute, memory-bandwidth compression, power-efficient accelerator pipelines, and power delivery."
         />
 
         <div className="filter-scroll">

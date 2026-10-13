@@ -1,6 +1,6 @@
 # Nilanjan Goswami - Professional Portfolio
 
-A modern professional portfolio for **Nilanjan Goswami** — Principal Computer Architect specializing in GPU and ML accelerator design, throughput processor microarchitecture, and PPA exploration, with deep mobile GPU and AR/VR product experience at Apple, Meta, Samsung, and Qualcomm.
+A modern professional portfolio for **Nilanjan Goswami** — AI Chip Architect specializing in algorithm–architecture co-design for AI accelerators: transformer inference analysis, low-precision numerics, compute and memory architecture, and PPA modeling, built on GPU and throughput-compute silicon at Apple, Samsung, Meta, and Qualcomm.
 
 ## 🚀 Features
 
@@ -230,7 +230,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ### Professional Focus
 - Graphics architecture and mobile GPU optimization
-- AR/VR rendering and real-time graphics
+- Neural rendering and GPU compute
 - Research contributions and patent innovations
 - Industry expertise and thought leadership
 

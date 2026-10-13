@@ -46,7 +46,7 @@ const PublicationsSection = () => {
         <SectionHeader
           eyebrow="Publications"
           title="Selected Papers"
-          description="Peer-reviewed work in GPGPU microarchitecture, throughput processors, and power-performance co-optimization."
+          description="Measurement-driven GPGPU research — CUDA workload characterization, simulation methodology, and power-performance co-optimization of throughput compute."
         />
 
         <div className="filter-scroll">

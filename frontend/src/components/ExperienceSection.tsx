@@ -7,17 +7,17 @@ const experiences = [
   {
     id: 'qualcomm',
     company: 'Qualcomm Technologies, Inc.',
-    position: 'Principal GPU Architect',
+    position: 'Principal Engineer, AI & GPU Compute Architecture',
     location: `${LOCATION} · Remote`,
     duration: 'February 2023 – Present',
     achievements: [
-      'GPU/compute architecture; accelerator co-design; PPA exploration for Adreno GPUs.',
-      'Ultra-low-power GPU and system architecture: shader core, foveation, compositor; XR system–GPU interaction (LLC, power, display).',
-      'Super-resolution and neural disocclusion in rendering/composition pipeline; hybrid GPU power delivery for AR SoCs.',
-      'Research framework (GPUXR-Sim) for cross-layer XR use case study; graphics XR architecture for Adreno.',
-      'Ultra-low-power GPU architecture and PPA exploration for multi-level memory SoCs.',
+      'Optimize AI workloads on Qualcomm GPU compute and define what next-generation hardware must support.',
+      'Translate transformer workloads (LLM inference, ViT super-resolution) into GPU compute and matrix-path requirements: roofline by model phase, KV-cache and dequantization analysis (llama.cpp).',
+      'PPA sweeps over matrix-unit shape, datatypes, accumulator precision and local memory.',
+      'Built GPUXR-Sim, a cross-layer GPU/system performance-power framework now foundational to Adreno architecture research.',
+      'Ultra-low-power GPU compute and memory-system architecture: shader core, LLC interaction, hybrid power delivery. 4 patents filed.',
     ],
-    tags: ['Adreno GPU', 'Accelerator Co-Design', 'AR/VR Pipeline', 'PPA Modeling', 'GPUXR-Sim'],
+    tags: ['LLM Inference', 'ViT Super-Resolution', 'Quantization', 'Matrix Datapaths', 'PPA Modeling', 'GPUXR-Sim'],
   },
   {
     id: 'meta',
@@ -26,14 +26,13 @@ const experiences = [
     location: `${LOCATION} · Remote`,
     duration: 'May 2020 – January 2023',
     achievements: [
-      'AR/VR processor and accelerator architecture; novel 2D/3D pipelines (Meta Orion).',
-      'End-to-end hardware architecture model for ultra-low-power graphics compositor pipeline.',
-      'Static and dynamic occlusion with dedicated 2D, 3D, and content pipelines; block-based random access compression.',
-      'Optimized BVH traversal for distorted-space 3D pipeline; algorithm development, modeling, and exploration.',
-      'Display driver silicon architecture; software API and driver–hardware interface definition.',
-      'Multiple patents granted from compositor and display work (blending, partial rendering, display power).',
+      'Processor and accelerator architecture for custom low-power silicon, from algorithm through HW/SW interface.',
+      'Defined accelerator architecture for novel 2D/3D processing pipelines, with end-to-end hardware architecture models used for PPA decisions on custom SoCs.',
+      'Low-power, high-throughput hardware codec with block-based random access and lossless compression to cut memory bandwidth (3 patents, 1 granted).',
+      'Algorithm–hardware co-design: optimized BVH traversal and occlusion processing; algorithm development, modeling and architecture exploration.',
+      'Defined software API and driver–hardware interface for custom silicon. 10 patents filed, 4 granted.',
     ],
-    tags: ['Meta Orion', 'AR/VR Pipeline', 'Memory Bandwidth', '2D/3D Hardware Pipelines', 'PPA Modeling'],
+    tags: ['Accelerator Architecture', 'HW/SW Interface', 'Bandwidth Compression', 'Custom Silicon', 'PPA Modeling'],
   },
   {
     id: 'samsung',
@@ -42,13 +41,11 @@ const experiences = [
     location: 'San Jose, CA',
     duration: 'March 2018 – May 2020',
     achievements: [
-      'Mobile GPU microarchitecture; PPA modeling and RTL correlation (2 patents granted).',
-      'Shader core and barrier design; hidden surface removal and multi-pass GPU architecture.',
-      'Tile-based deferred rendering: binning, color/depth cache traffic reduction, vertex/varying compression.',
-      'Vertex processing pipeline PPA optimization; graphics workload exploration and benchmark analysis.',
-      'Microarchitectural and architectural functional and performance feature exploration.',
+      'Shader-core and barrier design; multi-pass GPU architecture and hidden-surface removal to eliminate redundant shader work.',
+      'Cache-traffic reduction for tile-based deferred rendering: binning, color/depth cache, vertex/varying compression, re-reference-aware tile walk order.',
+      'PPA models and benchmark analysis via trace capture to drive architectural feature selection. 4 patents (2 granted).',
     ],
-    tags: ['Mobile GPU', 'TBDR', 'PPA Modeling', 'Compute Microarchitecture'],
+    tags: ['Shader Core', 'Cache Traffic', 'PPA Modeling', 'GPU Microarchitecture'],
   },
   {
     id: 'apple',
@@ -57,26 +54,61 @@ const experiences = [
     location: 'Orlando, FL',
     duration: 'September 2013 – January 2018',
     achievements: [
-      'Mobile GPU architecture modeling and specification for Apple Silicon.',
-      'Performance analysis and modeling of A11 Bionic GPU and beyond; fragment shader and rasterization/binning analysis.',
-      'Shader core mutual exclusion architecture; functional/performance model vs. RTL correlation.',
-      'Full-system (iOS, driver, SoC) debug and triage; microarchitectural feature exploration for performance and power.',
+      'Performance analysis and modeling of the A11 Bionic GPU and successors; fragment-shader and rasterization/binning analysis.',
+      'Shader-core mutual-exclusion architecture; functional/performance model vs. RTL correlation.',
+      'Full-system debug across iOS, driver and SoC; architectural feature exploration for performance and power.',
     ],
-    tags: ['Apple Silicon', 'A11 Bionic', 'GPU Modeling', 'Mobile GPU'],
+    tags: ['Apple Silicon', 'A11 Bionic', 'Performance Modeling', 'RTL Correlation'],
+  },
+  {
+    id: 'uf',
+    company: 'University of Florida',
+    position: 'Doctoral Researcher, GPGPU & Throughput Architecture',
+    location: 'Gainesville, FL',
+    duration: 'August 2008 – 2013',
+    achievements: [
+      'CUDA kernel characterization: microarchitecture-independent methodology (divergence, coalescing, shared-memory and register pressure, occupancy) — IISWC 2010, 2011.',
+      'Throughput-core power/performance co-optimization with resistive memory (HPCA 2013) and nanophotonic interconnect for core-to-memory bandwidth (PACT 2012).',
+      'Concurrent GPU kernel characterization for resource partitioning (IISWC 2015); GPU software transactional memory (CGO 2014, Best Paper Nominee).',
+      'Faster cycle-level GPGPU simulation via representative kernel sampling (SIGMETRICS 2013, IEEE TC 2014).',
+    ],
+    tags: ['CUDA', 'GPGPU', 'Workload Characterization', 'Simulation Methodology'],
   },
   {
     id: 'nvidia',
     company: 'NVIDIA',
-    position: 'Graduate Intern — Graphics Hardware Architecture',
+    position: 'Graduate Intern, GPU Architecture',
     location: 'Santa Clara, CA',
     duration: 'May 2012 – August 2012',
     achievements: [
-      'Graphics hardware architecture modeling and exploration.',
-      'Performance optimization of pre-rasterizer block; pipeline and throughput analysis for parallel execution.',
-      'Soft barrier design in rasterizer for synchronization across parallel primitive and fragment pipelines.',
-      'On-chip network latency and bandwidth modeling for multi-block, highly parallel SoC.',
+      'Pipeline and throughput analysis of the pre-rasterizer under many-thread parallel execution; soft barrier synchronizing parallel primitive and fragment pipelines.',
+      'On-chip network latency and bandwidth modeling for a multi-block parallel SoC.',
     ],
-    tags: ['GPU Architecture', 'Parallel Compute', 'Performance Modeling'],
+    tags: ['GPU Architecture', 'Parallel Execution', 'NoC Modeling'],
+  },
+  {
+    id: 'ti',
+    company: 'Texas Instruments',
+    position: 'Graduate Intern, Compilers & DSP',
+    location: 'Houston, TX · Germantown, MD',
+    duration: 'Summers 2009, 2010',
+    achievements: [
+      'Built the OpenMP compiler front-end for the multi-core, SIMD-capable C6000 VLIW DSP and integrated it with the runtime.',
+      'High-throughput H.264 CABAC decoder on the Tomahawk DSP, tuned for VLIW issue and SIMD execution.',
+    ],
+    tags: ['OpenMP', 'Compilers', 'VLIW/SIMD'],
+  },
+  {
+    id: 'dsp',
+    company: 'Interra Systems · Tata Elxsi',
+    position: 'Signal Processing / DSP Engineer',
+    location: 'Kolkata · Bangalore, India',
+    duration: 'November 2004 – July 2008',
+    achievements: [
+      'Hand-optimized compute kernels on TI VLIW DSPs: H.264 encoder motion-estimation and transform kernels, de-blocking filter, AAC/SBR decoder paths.',
+      'Data-level parallelism, cache-friendly memory layout and multi-threaded frame/slice partitioning.',
+    ],
+    tags: ['DSP Kernels', 'Data Parallelism', 'Codecs'],
   },
 ]
 
@@ -86,7 +118,7 @@ const ExperienceSection = () => (
       <SectionHeader
         eyebrow="Career"
         title="Professional Experience"
-        description="GPU and accelerator architecture across Apple, Meta, Samsung, and Qualcomm — throughput processors, mobile graphics, and XR systems."
+        description="From hand-tuned DSP kernels to CUDA research to GPU and AI-compute silicon at Apple, Samsung, Meta, and Qualcomm."
       />
 
       <div className="relative">

@@ -1,6 +1,6 @@
-const SITE_TITLE = 'Nilanjan Goswami — Principal Computer Architect'
+const SITE_TITLE = 'Nilanjan Goswami — AI Chip Architect'
 const SITE_DESCRIPTION =
-  'Principal Computer Architect with experience in throughput processor and GPU design, accelerator co-design, and PPA exploration. Production silicon at Apple, Meta, Qualcomm, and Samsung.'
+  'AI chip architect: algorithm–architecture co-design for AI accelerators — transformer inference analysis, low-precision numerics, compute and memory architecture, and PPA modeling. 13+ years of GPU and AI-compute silicon at Qualcomm, Meta, Samsung, and Apple.'
 
 function setMeta(name: string, content: string, property = false): void {
   const attr = property ? 'property' : 'name'
@@ -17,7 +17,7 @@ function setMeta(name: string, content: string, property = false): void {
 export function applyProtectedSeoMeta(): void {
   document.title = SITE_TITLE
   setMeta('description', SITE_DESCRIPTION)
-  setMeta('keywords', 'Computer Architecture, Throughput Processor, GPU Architect, Accelerator Design, Mobile GPU, AR VR Graphics, Hardware Architect, PPA, GEM5, Qualcomm')
+  setMeta('keywords', 'AI Chip Architect, AI Accelerator Architecture, ML Hardware, HW/SW Co-Design, Algorithm-Architecture Co-Design, LLM Inference, Quantization, FP8, MXFP, GPU Compute, Neural Rendering, PPA Modeling, Roofline, Computer Architecture')
   setMeta('og:title', SITE_TITLE, true)
   setMeta('og:description', SITE_DESCRIPTION, true)
 }

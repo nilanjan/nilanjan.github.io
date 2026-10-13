@@ -1,59 +1,61 @@
 import { motion } from 'framer-motion'
-import { GraduationCap, Award, Users, FlaskConical, Cpu } from 'lucide-react'
+import { GraduationCap, Award, Brain, FlaskConical, Cpu } from 'lucide-react'
 import SectionHeader from './SectionHeader'
 
 const pillars = [
   {
-    icon: Users,
-    label: 'Architecture Leadership',
-    detail: 'Cross-functional programs spanning architects, design, verification, and software',
+    icon: Brain,
+    label: 'Algorithm–Architecture Co-Design',
+    detail: 'AI algorithms and numerics translated into ISA, compute, memory and interconnect requirements',
   },
   {
     icon: FlaskConical,
-    label: 'Architecture Exploration',
-    detail: 'PPA modeling, workload characterization, and pathfinding for throughput systems',
+    label: 'First-Principles Modeling',
+    detail: 'Latency, throughput, utilization and scaling reasoned analytically, then validated cycle-level',
   },
   {
     icon: Cpu,
     label: 'Production Silicon',
-    detail: 'Specification through RTL correlation at Apple, Samsung, Meta, and Qualcomm',
+    detail: 'Specification through RTL correlation, verification review and silicon debug at four silicon companies',
   },
 ]
 
 const education = [
   {
-    degree: 'Ph.D., Computer Architecture',
+    degree: 'Ph.D., Electrical & Computer Engineering (Computer Architecture)',
     school: 'University of Florida',
     year: '2013',
-    focus: 'Power-Performance Co-Optimization of Throughput Architectures',
+    focus: 'Thesis: Power-Performance Co-Optimization of Throughput Architecture Using Emerging Technologies',
   },
   {
-    degree: 'M.S., Computer Architecture',
+    degree: 'M.S., Electrical & Computer Engineering (Computer Architecture)',
     school: 'University of Florida',
-    year: '',
+    year: '2010',
     focus: '',
   },
   {
-    degree: 'B.Tech, Electronics & Computer Engineering',
+    degree: 'B.Tech., Electronics & Computer Engineering',
     school: 'University of Kalyani, India',
-    year: '',
-    focus: '',
+    year: '2004',
+    focus: 'Project at Indian Statistical Institute: self-organizing neural network for the Minimum Spanning Circle problem (shape skeletonization, digit OCR)',
   },
 ]
 
 const primaryExpertise = [
-  'Accelerator Datapath and Memory',
-  'GPU/Throughput Microarchitecture',
-  'PPA Modeling and Simulation',
-  'Processor-Accelerator Co-Design',
-  'Architecture Specification and Verification',
-  'Cross-Functional Technical Leadership',
+  'Transformer Inference Workload Analysis',
+  'Low-Precision Numerics and Quantization',
+  'Matrix and SIMT/SIMD Compute Datapaths',
+  'Memory Hierarchy and Bandwidth Reduction',
+  'Analytical and Cycle-Level PPA Modeling',
+  'Architecture Specification to Silicon',
 ]
 
 const supplementaryExpertise = [
-  'Mobile GPU Architecture',
-  'AR/VR and XR Composition',
-  'Neural Rendering Pipelines',
+  'LLM Inference',
+  'Neural Rendering',
+  'GPU Compute',
+  'Low-Power SoCs',
+  'VLIW/SIMD DSP Kernels',
 ]
 
 const AboutSection = () => (
@@ -61,8 +63,8 @@ const AboutSection = () => (
     <div className="section-inner">
       <SectionHeader
         eyebrow="About"
-        title="Computer Architect and Technical Leader"
-        description="Throughput processors, accelerators, and GPU architecture — from exploration through production silicon."
+        title="AI Chip Architect — Algorithm to Silicon"
+        description="Translating AI algorithms and numerics into compute-architecture definitions, with every tradeoff backed by models."
         className="!mb-7"
       />
 
@@ -78,29 +80,30 @@ const AboutSection = () => (
             style={{ borderColor: 'var(--border)' }}
           >
             <p className="about-lead mb-6">
-              Architecture and technical leadership across GPU and accelerator programs for more than two
-              decades — spanning microarchitecture, PPA exploration, and delivery of production silicon at
-              Apple, Samsung, Meta, and Qualcomm.
+              Algorithm-to-silicon architect: 13+ years defining GPU and throughput-compute silicon at Apple,
+              Samsung, Meta and Qualcomm — now focused on what AI inference demands of the next generation of
+              hardware.
             </p>
 
             <div className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm leading-[1.75]" style={{ color: 'var(--text-muted)' }}>
               <p>
-                Technical direction is set across architecture teams with continued hands-on work in
-                specification, simulation, and correlation to RTL. Programs have moved from early
-                exploration into shipped products across mobile SoCs, XR platforms, and graphics IP.
+                At Qualcomm, the work is translating transformer workloads — LLM inference and ViT
+                super-resolution — into GPU compute and matrix-path requirements: roofline by model phase,
+                KV-cache and dequantization analysis on llama.cpp, and PPA sweeps over matrix-unit shape,
+                datatypes, accumulator precision and local memory.
               </p>
               <p>
-                Scope includes accelerator datapath and memory hierarchy, throughput processor organization,
-                and workload-driven design validated through GEM5, industrial simulators, and silicon
-                measurement. Work has covered super-resolution and disocclusion, hybrid GPU power delivery,
-                compositor architecture, and system-level optimization under mobile and XR power budgets.
+                The foundation is kernel-level. Early career hand-tuning VLIW/SIMD DSP kernels, an OpenMP
+                compiler front-end for TI&apos;s multi-core C6000 DSP, and a Ph.D. in CUDA kernel
+                characterization and GPU hardware co-optimization — followed by architecture carried from
+                specification through RTL correlation and silicon debug.
               </p>
             </div>
 
             <p className="mt-5 pt-5 text-sm leading-[1.75] border-t" style={{ color: 'var(--text-muted)', borderColor: 'var(--border)' }}>
-              Doctoral work at the University of Florida established PPA methods still applied in GPU and
-              accelerator design. That foundation sits alongside peer-reviewed publications and granted U.S.
-              patents — part of a long arc of architecture work, not the headline.
+              Fluent in low-precision numerics (INT8/INT4, FP8, MXFP microscaling) and PTQ/QAT. 18 U.S. patents
+              (granted and filed); publications at HPCA, PACT, SIGMETRICS, CGO (Best Paper Nominee), IISWC
+              and IEEE Transactions on Computers.
             </p>
           </div>
 

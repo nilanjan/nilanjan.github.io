@@ -23,7 +23,7 @@ import { applyProtectedSeoMeta, removeProtectedSeoMeta } from './utils/seo'
 const navItems = [
   { id: 'top', label: 'Home', index: '00' },
   { id: 'about', label: 'About', index: '01' },
-  { id: 'architecture', label: 'Architecture', index: '02' },
+  { id: 'architecture', label: 'AI Focus', index: '02' },
   { id: 'experience', label: 'Experience', index: '03' },
   { id: 'patents', label: 'Patents', index: '04' },
   { id: 'publications', label: 'Publications', index: '05' },

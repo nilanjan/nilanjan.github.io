@@ -1,47 +1,46 @@
 import { motion } from 'framer-motion'
-import { Cpu, Microscope, Code, Wrench, Layers, Settings } from 'lucide-react'
+import { Brain, Cpu, Microscope, Code, Wrench, Settings } from 'lucide-react'
 import SectionHeader from './SectionHeader'
 
 const skillCategories = [
   {
-    name: 'Computer Architecture and Accelerators',
+    name: 'AI Workloads and Numerics',
+    icon: Brain,
+    skills: ['Transformer Inference (Prefill/Decode)', 'KV-Cache Analysis', 'Attention / FFN / MoE', 'INT8/INT4', 'FP8', 'MXFP8/MXFP4', 'PTQ: GPTQ, AWQ, SmoothQuant', 'QAT', 'Operator Fusion'],
+  },
+  {
+    name: 'Compute Architecture',
     icon: Cpu,
-    skills: ['GPU/Compute Microarchitecture', 'Accelerator Datapath and Memory', 'Throughput Cores', 'Processor-Accelerator Interfaces', 'PPA Optimization'],
+    skills: ['Matrix/Dot-Product Datapaths', 'SIMT/SIMD Cores', 'VLIW and Vector Pipelines', 'ISA Tradeoffs', 'Memory Hierarchy', 'On-Chip Interconnect', 'Power Delivery'],
   },
   {
-    name: 'Architecture Modeling and Simulation',
+    name: 'Performance and PPA Modeling',
     icon: Microscope,
-    skills: ['GEM5', 'Sparta MAP', 'CACTI', 'In-House Simulators', 'RTL Correlation', 'Workload Characterization'],
+    skills: ['Roofline Analysis', 'Analytical Models', 'Cycle-Level Simulation', 'GEM5', 'Sparta MAP', 'CACTI', 'RTL Correlation'],
   },
   {
-    name: 'Parallel Compute and Workloads',
+    name: 'ML and Parallel Software',
     icon: Code,
-    skills: ['PyTorch', 'CUDA', 'OpenMP', 'Parallel DSP Pipelines', 'Neural Rendering'],
+    skills: ['PyTorch', 'llama.cpp', 'CUDA', 'OpenMP', 'Pthreads'],
   },
   {
     name: 'Programming',
     icon: Wrench,
-    skills: ['C++', 'C', 'Rust', 'Python', 'SystemC', 'Perl'],
+    skills: ['C++', 'C', 'Python', 'Rust', 'SystemC', 'Git'],
   },
   {
-    name: 'Architecture Delivery',
+    name: 'Silicon Delivery',
     icon: Settings,
-    skills: ['Specification Writing', 'Verification', 'Cross-Functional Leadership', 'Patent Portfolio'],
-  },
-  {
-    name: 'Mobile Graphics and XR',
-    icon: Layers,
-    supplementary: true,
-    skills: ['TBDR', 'Mobile GPU Architecture', 'AR/VR Rendering', 'Hardware-Accelerated Composition', 'Vulkan/Metal'],
+    skills: ['Architecture Specifications', 'Verification Reviews', 'Bring-up and Silicon Debug', 'HW/SW/Research Alignment', 'Patent Portfolio'],
   },
 ]
 
 const learningTags = [
-  'AI Computer Architecture',
-  'Memory-Compute Disaggregation',
-  'Inference/Training Throughput Processors',
-  'Heterogeneous SoC Integration',
-  'Mobile and Immersive Compute',
+  'KV-Cache and Attention Internals',
+  'Optimizers: SGD, Momentum, Adam',
+  'MXFP and FP8 Training Numerics',
+  'Memory–Compute Disaggregation',
+  'Inference and Training Accelerators',
 ]
 
 const SkillsSection = () => (
@@ -50,7 +49,7 @@ const SkillsSection = () => (
       <SectionHeader
         eyebrow="Capabilities"
         title="Technical Skills"
-        description="Architecture, modeling, and delivery skills across throughput processors — with supplementary depth in mobile graphics and XR."
+        description="AI workload analysis, numerics, compute architecture and performance modeling — carried through to silicon."
       />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
@@ -63,7 +62,6 @@ const SkillsSection = () => (
             viewport={{ once: true }}
             whileHover={{ y: -2 }}
             className="card card-pad"
-            style={cat.supplementary ? { borderStyle: 'dashed' } : undefined}
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--accent-subtle)' }}>
@@ -92,10 +90,10 @@ const SkillsSection = () => (
         viewport={{ once: true }}
         className="card card-pad text-center"
       >
-        <h3 className="font-semibold mb-3">Always Learning</h3>
+        <h3 className="font-semibold mb-3">Currently Deepening</h3>
         <p className="text-sm mb-5 max-w-2xl mx-auto" style={{ color: 'var(--text-muted)' }}>
-          Applying architecture principles to next-generation AI compute — scaling, memory bandwidth,
-          and heterogeneous SoC integration across mobile and immersive platforms.
+          Ongoing deep study at frontier-lab depth — from inference internals to training-side numerics —
+          aimed at the next generation of AI accelerators.
         </p>
         <div className="flex flex-wrap justify-center gap-2">
           {learningTags.map((tag) => (

@@ -2,44 +2,57 @@ import { motion } from 'framer-motion'
 import {
   ArrowRight,
   MapPin,
+  Brain,
+  Binary,
   Cpu,
-  Layers,
-  CircuitBoard,
+  Sparkles,
   Gauge,
-  Smartphone,
 } from 'lucide-react'
 import MeshBackground from './MeshBackground'
 import { LOCATION } from '../utils/contact'
+import patentsData from '../data/patents.json'
+import publicationsData from '../data/publications.json'
+import type { PatentsData, PublicationsData } from '../data/types'
 
-const architectureAreas = [
+const patentCount =
+  (patentsData as PatentsData).granted.length + (patentsData as PatentsData).pending.length
+const citations = (publicationsData as PublicationsData).scholarStats.citations
+
+const focusAreas = [
+  {
+    icon: Brain,
+    title: 'AI Workload → Architecture',
+    description: 'Transformer inference decomposed by phase — prefill vs. decode, attention vs. FFN, KV-cache residency — into compute, memory and bandwidth requirements.',
+  },
+  {
+    icon: Binary,
+    title: 'Numerics & Quantization',
+    description: 'INT8/INT4, FP8 and MXFP microscaling; PTQ/QAT; accumulator width, rounding and the datapath cost of each scaling scheme.',
+  },
   {
     icon: Cpu,
-    title: 'Throughput Processors',
-    description: 'SIMT-style cores, parallel pipelines, memory hierarchy, workload-driven microarchitecture.',
+    title: 'Compute & Memory Architecture',
+    description: 'SIMT/SIMD cores, matrix/dot-product datapaths, local-memory sizing, compression and bandwidth-per-TOP.',
   },
   {
-    icon: Layers,
-    title: 'GPU Architecture',
-    description: 'Shader/compute organization, TBDR, multi-pass scheduling, mobile GPU silicon.',
-  },
-  {
-    icon: CircuitBoard,
-    title: 'Accelerator Co-Design',
-    description: 'Datapath and memory for throughput workloads; hardware–software pipeline integration.',
+    icon: Sparkles,
+    title: 'Neural Rendering Inference',
+    description: 'ViT super-resolution and neural disocclusion as AI workloads on GPU compute — where graphics and inference share silicon.',
   },
   {
     icon: Gauge,
-    title: 'PPA and Architecture Exploration',
-    description: 'GEM5 and industrial simulators, RTL correlation, benchmark-driven power-performance tradeoffs.',
-  },
-  {
-    icon: Smartphone,
-    title: 'Mobile and Immersive Graphics',
-    description: 'AR/VR compositor pipelines, neural rendering, latency-sensitive device graphics.',
+    title: 'Performance & PPA Modeling',
+    description: 'Roofline and analytical models, cycle-level simulation, design-space sweeps and model-vs-RTL correlation.',
   },
 ]
 
-const companies = ['Qualcomm', 'Apple', 'Meta', 'Samsung', 'NVIDIA']
+const companies = ['Qualcomm', 'Meta', 'Samsung', 'Apple']
+
+const stats = [
+  { value: '13+', label: 'Years defining silicon' },
+  { value: String(patentCount), label: 'U.S. patents' },
+  { value: `${citations}+`, label: 'Citations' },
+]
 
 const HeroSection = () => {
   const scrollTo = (id: string) => {
@@ -59,28 +72,39 @@ const HeroSection = () => {
             className="space-y-6"
           >
             <div className="space-y-4">
-              <span className="hero-badge">Principal Computer Architect</span>
+              <span className="hero-badge">AI Chip Architect · Ph.D.</span>
               <h1
                 className="text-[1.75rem] leading-[1.08] xs:text-3xl sm:text-4xl md:text-5xl xl:text-[3.25rem] font-semibold tracking-tight"
                 style={{ letterSpacing: '-0.03em' }}
               >
                 <span className="block" style={{ color: 'var(--text)' }}>Nilanjan Goswami</span>
                 <span className="block mt-2 text-[0.72em] font-normal leading-[1.15]" style={{ color: 'var(--text-muted)' }}>
-                  Throughput Processors &amp; Accelerator Architecture
+                  Algorithm–Architecture Co-Design for AI Accelerators
                 </span>
               </h1>
             </div>
 
             <p className="text-base md:text-lg leading-relaxed max-w-lg" style={{ color: 'var(--text-muted)' }}>
-              Throughput processor design, GPU microarchitecture, and accelerator co-design across
-              production programs at{' '}
+              Translating AI algorithms and numerics into compute-architecture definitions. 13+ years
+              defining GPU and throughput-compute silicon at{' '}
               {companies.map((co, i) => (
                 <span key={co}>
                   {i > 0 && (i === companies.length - 1 ? ', and ' : ', ')}
                   <strong style={{ color: 'var(--text)', fontWeight: 500 }}>{co}</strong>
                 </span>
-              ))}.
+              ))}
+              , built on a Ph.D. in CUDA/GPGPU kernel–hardware co-optimization.
             </p>
+
+            <dl className="grid grid-cols-3 gap-3 max-w-md">
+              {stats.map((s) => (
+                <div key={s.label} className="rounded-xl border px-3 py-2.5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="text-xl font-semibold font-mono" style={{ color: 'var(--text)' }}>{s.value}</dd>
+                  <dd className="text-[11px] leading-tight mt-0.5" style={{ color: 'var(--text-muted)' }}>{s.label}</dd>
+                </div>
+              ))}
+            </dl>
 
             <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-muted)' }}>
               <MapPin className="w-4 h-4 shrink-0" />
@@ -88,11 +112,11 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-col xs:flex-row flex-wrap items-stretch xs:items-center gap-3 pt-1">
-              <button type="button" onClick={() => scrollTo('experience')} className="btn-primary w-full xs:w-auto">
-                Experience <ArrowRight className="w-4 h-4" />
+              <button type="button" onClick={() => scrollTo('architecture')} className="btn-primary w-full xs:w-auto">
+                AI Focus <ArrowRight className="w-4 h-4" />
               </button>
-              <button type="button" onClick={() => scrollTo('publications')} className="btn-secondary w-full xs:w-auto">
-                Publications
+              <button type="button" onClick={() => scrollTo('experience')} className="btn-secondary w-full xs:w-auto">
+                Experience
               </button>
               <button type="button" onClick={() => scrollTo('contact')} className="btn-secondary w-full xs:w-auto">
                 Contact
@@ -108,7 +132,7 @@ const HeroSection = () => {
           >
             <p className="eyebrow">Architecture Focus</p>
             <div className="space-y-2">
-              {architectureAreas.map((area, index) => (
+              {focusAreas.map((area, index) => (
                 <motion.button
                   key={area.title}
                   type="button"
