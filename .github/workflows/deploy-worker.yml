@@ -21,7 +21,7 @@ jobs:
       - name: Install worker dependencies
         run: |
           cd worker
-          npm install
+          npm ci
 
       - name: Check Cloudflare deploy secrets
         id: cf-secrets
