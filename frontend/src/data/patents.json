@@ -49,6 +49,16 @@
       ]
     },
     {
+      "id": "patent-granted-9",
+      "title": "Efficient fast random access enabled geometry attribute compression mechanism",
+      "inventors": [
+        "Nilanjan Goswami",
+        "Swati Atrish"
+      ],
+      "patentNumber": "US 11,748,839 B2",
+      "grantDate": "2023-09-05"
+    },
+    {
       "id": "patent-granted-8",
       "title": "Re-reference aware tile walk order for primitive binner",
       "patentNumber": "US 11,538,221 B2",
@@ -126,16 +136,6 @@
         "Nilanjan Goswami",
         "Kyle Durfee",
         "Sonal Pinto"
-      ]
-    },
-    {
-      "id": "patent-pending-1",
-      "title": "Efficient fast random access enabled geometry attribute compression mechanism",
-      "applicationNumber": "US 63/011,283",
-      "filingDate": "2022-04-01",
-      "inventors": [
-        "Nilanjan Goswami",
-        "Swati Atrish"
       ]
     },
     {

@@ -43,7 +43,7 @@ const experiences = [
     achievements: [
       'Shader-core and barrier design; multi-pass GPU architecture and hidden-surface removal to eliminate redundant shader work.',
       'Cache-traffic reduction for tile-based deferred rendering: binning, color/depth cache, vertex/varying compression, re-reference-aware tile walk order.',
-      'PPA models and benchmark analysis via trace capture to drive architectural feature selection. 4 patents (2 granted).',
+      'PPA models and benchmark analysis via trace capture to drive architectural feature selection. 4 patents, all granted.',
     ],
     tags: ['Shader Core', 'Cache Traffic', 'PPA Modeling', 'GPU Microarchitecture'],
   },
