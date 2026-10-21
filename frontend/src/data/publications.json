@@ -8,14 +8,14 @@
     "2015 GPU-WSC — IEEE GPU Warp Scheduling Championship Workshop (PC)"
   ],
   "scholarStats": {
-    "citations": 514,
+    "citations": 519,
     "hIndex": 8,
     "i10Index": 7
   },
   "publications": [
     {
       "id": "pub-2020",
-      "title": "Power-Performance Characterization of Concurrent GPU Kernels",
+      "title": "An Empirical-cum-Statistical Approach to Power-Performance Characterization of Concurrent GPU Kernels",
       "authors": ["Nilanjan Goswami", "Yunlong Li", "Amer Qouneh", "Chao Li", "Tao Li"],
       "venue": "arXiv preprint",
       "year": 2020,
@@ -35,8 +35,8 @@
       "type": "Conference",
       "impact": "Conference",
       "featured": true,
-      "url": "https://doi.org/10.1109/IISWC.2015.7314147",
-      "doi": "10.1109/IISWC.2015.7314147",
+      "url": "https://doi.org/10.1109/IISWC.2015.17",
+      "doi": "10.1109/IISWC.2015.17",
       "keywords": ["GPGPU", "Power Analysis", "Throughput", "Concurrent Kernels"]
     },
     {
@@ -48,8 +48,8 @@
       "type": "Journal",
       "impact": "High Impact",
       "featured": false,
-      "url": "https://doi.org/10.1145/2700234",
-      "doi": "10.1145/2700234",
+      "url": "https://doi.org/10.1145/2700238",
+      "doi": "10.1145/2700238",
       "keywords": ["Heterogeneous Computing", "NoC", "Architecture"]
     },
     {
@@ -57,12 +57,12 @@
       "title": "GPGPU-MiniBench: Accelerating GPGPU Micro-Architecture Simulation",
       "authors": ["Zhibin Yu", "Lieven Eeckhout", "Nilanjan Goswami", "Tao Li", "Lizy K. John", "Hai Jin", "Chengzhong Xu", "Jing Wu"],
       "venue": "IEEE Transactions on Computers",
-      "year": 2014,
+      "year": 2015,
       "type": "Journal",
       "impact": "High Impact",
       "featured": true,
-      "url": "https://doi.org/10.1109/TC.2014.2308183",
-      "doi": "10.1109/TC.2014.2308183",
+      "url": "https://doi.org/10.1109/TC.2015.2395427",
+      "doi": "10.1109/TC.2015.2395427",
       "keywords": ["GPGPU", "Simulation", "Benchmarking"]
     },
     {
@@ -74,8 +74,8 @@
       "type": "Conference",
       "impact": "Top Venue",
       "featured": true,
-      "url": "https://doi.org/10.1109/CGO.2014.6836120",
-      "doi": "10.1109/CGO.2014.6836120",
+      "url": "https://doi.org/10.1145/2544137.2544139",
+      "doi": "10.1145/2544137.2544139",
       "keywords": ["Transactional Memory", "GPU", "Parallel Computing"]
     },
     {
@@ -87,8 +87,8 @@
       "type": "Conference",
       "impact": "Conference",
       "featured": false,
-      "url": "https://doi.org/10.1109/MASCOTS.2014.14",
-      "doi": "10.1109/MASCOTS.2014.14",
+      "url": "https://doi.org/10.1109/MASCOTS.2014.46",
+      "doi": "10.1109/MASCOTS.2014.46",
       "keywords": ["HPC", "Cloud", "Energy Efficiency"]
     },
     {
@@ -100,8 +100,8 @@
       "type": "Journal",
       "impact": "High Impact",
       "featured": false,
-      "url": "https://doi.org/10.1109/MDAT.2014.2331233",
-      "doi": "10.1109/MDAT.2014.2331233",
+      "url": "https://doi.org/10.1109/MDAT.2014.2348312",
+      "doi": "10.1109/MDAT.2014.2348312",
       "keywords": ["Nanophotonics", "Throughput Architecture"]
     },
     {
@@ -113,8 +113,8 @@
       "type": "Conference",
       "impact": "Top Venue",
       "featured": true,
-      "url": "https://doi.org/10.1109/HPCA.2013.6522354",
-      "doi": "10.1109/HPCA.2013.6522354",
+      "url": "https://doi.org/10.1109/HPCA.2013.6522331",
+      "doi": "10.1109/HPCA.2013.6522331",
       "keywords": ["PPA", "Resistive Memory", "Throughput Architecture"]
     },
     {
@@ -126,8 +126,8 @@
       "type": "Journal",
       "impact": "High Impact",
       "featured": false,
-      "url": "https://doi.org/10.1109/LCA.2013.7",
-      "doi": "10.1109/LCA.2013.7",
+      "url": "https://doi.org/10.1109/L-CA.2013.4",
+      "doi": "10.1109/L-CA.2013.4",
       "keywords": ["Transactional Memory", "GPU"]
     },
     {
@@ -139,8 +139,8 @@
       "type": "Conference",
       "impact": "Conference",
       "featured": true,
-      "url": "https://doi.org/10.1109/ISLPED.2013.6629338",
-      "doi": "10.1109/ISLPED.2013.6629338",
+      "url": "https://doi.org/10.1109/ISLPED.2013.6629274",
+      "doi": "10.1109/ISLPED.2013.6629274",
       "keywords": ["Green Computing", "Online Learning", "Throughput"]
     },
     {
@@ -152,8 +152,8 @@
       "type": "Conference",
       "impact": "Top Venue",
       "featured": false,
-      "url": "https://doi.org/10.1145/2465529.2465533",
-      "doi": "10.1145/2465529.2465533",
+      "url": "https://doi.org/10.1145/2465529.2465540",
+      "doi": "10.1145/2465529.2465540",
       "keywords": ["GPGPU", "Simulation", "Performance Modeling"]
     },
     {
@@ -165,8 +165,8 @@
       "type": "Conference",
       "impact": "Conference",
       "featured": false,
-      "url": "https://doi.org/10.1145/2370816.2370855",
-      "doi": "10.1145/2370816.2370855",
+      "url": "https://doi.org/10.1145/2370816.2370878",
+      "doi": "10.1145/2370816.2370878",
       "keywords": ["Nanophotonics", "GPU Architecture"]
     },
     {
@@ -178,8 +178,8 @@
       "type": "Conference",
       "impact": "Conference",
       "featured": false,
-      "url": "https://doi.org/10.1109/IISWC.2011.6114174",
-      "doi": "10.1109/IISWC.2011.6114174",
+      "url": "https://doi.org/10.1109/IISWC.2011.6114182",
+      "doi": "10.1109/IISWC.2011.6114182",
       "keywords": ["Soft Errors", "GPGPU", "Reliability"]
     },
     {
@@ -191,8 +191,8 @@
       "type": "Conference",
       "impact": "Conference",
       "featured": false,
-      "url": "https://doi.org/10.1109/IISWC.2011.6114173",
-      "doi": "10.1109/IISWC.2011.6114173",
+      "url": "https://doi.org/10.1109/IISWC.2011.6114201",
+      "doi": "10.1109/IISWC.2011.6114201",
       "keywords": ["CUDA", "Workload Characterization", "GPGPU"]
     },
     {
@@ -204,8 +204,8 @@
       "type": "Conference",
       "impact": "High Impact",
       "featured": true,
-      "url": "https://doi.org/10.1109/IISWC.2010.5650274",
-      "doi": "10.1109/IISWC.2010.5650274",
+      "url": "https://doi.org/10.1109/IISWC.2010.5649549",
+      "doi": "10.1109/IISWC.2010.5649549",
       "keywords": ["GPGPU", "Workload Characterization", "Microarchitecture"]
     }
   ]

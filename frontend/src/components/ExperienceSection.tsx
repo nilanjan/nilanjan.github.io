@@ -70,7 +70,7 @@ const experiences = [
       'CUDA kernel characterization: microarchitecture-independent methodology (divergence, coalescing, shared-memory and register pressure, occupancy) — IISWC 2010, 2011.',
       'Throughput-core power/performance co-optimization with resistive memory (HPCA 2013) and nanophotonic interconnect for core-to-memory bandwidth (PACT 2012).',
       'Concurrent GPU kernel characterization for resource partitioning (IISWC 2015); GPU software transactional memory (CGO 2014, Best Paper Nominee).',
-      'Faster cycle-level GPGPU simulation via representative kernel sampling (SIGMETRICS 2013, IEEE TC 2014).',
+      'Faster cycle-level GPGPU simulation via representative kernel sampling (SIGMETRICS 2013, IEEE TC 2015).',
     ],
     tags: ['CUDA', 'GPGPU', 'Workload Characterization', 'Simulation Methodology'],
   },

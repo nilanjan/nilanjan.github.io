@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion'
 import { GraduationCap, Award, Brain, FlaskConical, Cpu } from 'lucide-react'
 import SectionHeader from './SectionHeader'
+import patentsData from '../data/patents.json'
+import type { PatentsData } from '../data/types'
+
+const { granted, pending, published } = patentsData as PatentsData
 
 const pillars = [
   {
@@ -93,8 +97,8 @@ const AboutSection = () => (
             </p>
 
             <p className="mt-5 pt-5 text-sm leading-[1.75] border-t" style={{ color: 'var(--text-muted)', borderColor: 'var(--border)' }}>
-              Fluent in low-precision numerics (INT8/INT4, FP8, MXFP microscaling) and PTQ/QAT. 18 U.S. patents
-              (granted and filed); publications at HPCA, PACT, SIGMETRICS, CGO (Best Paper Nominee), IISWC
+              Fluent in low-precision numerics (INT8/INT4, FP8, MXFP microscaling) and PTQ/QAT. {granted.length + pending.length + published.length} U.S. patent filings
+              ({granted.length} granted); publications at HPCA, PACT, SIGMETRICS, CGO (Best Paper Nominee), IISWC
               and IEEE Transactions on Computers.
             </p>
           </div>

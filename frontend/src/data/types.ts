@@ -10,6 +10,16 @@ export interface PendingPatent {
   id: string
   title: string
   applicationNumber: string
+  publicationNumber?: string
+  filingDate: string
+  inventors: string[]
+}
+
+/** Published U.S. application that did not proceed to grant. */
+export interface PublishedApplication {
+  id: string
+  title: string
+  publicationNumber: string
   filingDate: string
   inventors: string[]
 }
@@ -17,6 +27,7 @@ export interface PendingPatent {
 export interface PatentsData {
   granted: GrantedPatent[]
   pending: PendingPatent[]
+  published: PublishedApplication[]
   focusAreas: string[]
 }
 

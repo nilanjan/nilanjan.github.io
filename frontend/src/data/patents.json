@@ -16,8 +16,8 @@
     {
       "id": "patent-granted-5",
       "title": "Partial rendering and tearing avoidance",
-      "patentNumber": "US 12,067,959 B2",
-      "grantDate": "2024-08-01",
+      "patentNumber": "US 12,067,959 B1",
+      "grantDate": "2024-08-20",
       "inventors": [
         "Nilanjan Goswami",
         "Hideo Tamama",
@@ -30,7 +30,7 @@
       "id": "patent-granted-3",
       "title": "Display peak power management for artificial reality systems",
       "patentNumber": "US 11,881,143 B2",
-      "grantDate": "2024-01-01",
+      "grantDate": "2024-01-23",
       "inventors": [
         "Nilanjan Goswami",
         "Eugene Gorbatov",
@@ -42,7 +42,7 @@
       "id": "patent-granted-4",
       "title": "Low-power high throughput hardware decoder with random block access",
       "patentNumber": "US 11,882,295 B2",
-      "grantDate": "2024-01-01",
+      "grantDate": "2024-01-23",
       "inventors": [
         "Nilanjan Goswami",
         "Sonal Pinto"
@@ -72,7 +72,7 @@
       "id": "patent-granted-2",
       "title": "Enhanced early coverage discard using opportunistic bypassing and dynamic queue resizing",
       "patentNumber": "US 11,321,806 B2",
-      "grantDate": "2022-05-01",
+      "grantDate": "2022-05-03",
       "inventors": [
         "Sushant Kondguli",
         "Nilanjan Goswami"
@@ -82,7 +82,7 @@
       "id": "patent-granted-1",
       "title": "Efficient redundant coverage discard mechanism to reduce pixel shader work in a tile-based graphics rendering pipeline",
       "patentNumber": "US 11,010,954 B2",
-      "grantDate": "2021-05-01",
+      "grantDate": "2021-05-18",
       "inventors": [
         "Nilanjan Goswami",
         "Derek Lentz",
@@ -125,28 +125,8 @@
       "inventors": [
         "Nilanjan Goswami",
         "Dam Backer"
-      ]
-    },
-    {
-      "id": "patent-pending-6",
-      "title": "Block-based random access capable lossless graphics asset compression",
-      "applicationNumber": "US 17/721,700",
-      "filingDate": "2022-04-01",
-      "inventors": [
-        "Nilanjan Goswami",
-        "Kyle Durfee",
-        "Sonal Pinto"
-      ]
-    },
-    {
-      "id": "patent-pending-5",
-      "title": "Hardware encoder for color data in a 2D rendering pipeline",
-      "applicationNumber": "US 17/721,660",
-      "filingDate": "2021-08-01",
-      "inventors": [
-        "Nilanjan Goswami",
-        "Sonal Pinto"
-      ]
+      ],
+      "publicationNumber": "WO 2026/164853 A1"
     },
     {
       "id": "patent-pending-12",
@@ -158,12 +138,35 @@
         "F. Alam",
         "M. McRaven"
       ]
+    }
+  ],
+  "published": [
+    {
+      "id": "patent-published-6",
+      "title": "Block-based random access capable lossless graphics asset compression",
+      "publicationNumber": "US 2023/0334618 A1",
+      "filingDate": "2022-04-15",
+      "inventors": [
+        "Nilanjan Goswami",
+        "Kyle Durfee",
+        "Sonal Pinto"
+      ]
     },
     {
-      "id": "patent-pending-7",
+      "id": "patent-published-5",
+      "title": "Hardware encoder for color data in a 2D rendering pipeline",
+      "publicationNumber": "US 2023/0334702 A1",
+      "filingDate": "2022-04-15",
+      "inventors": [
+        "Nilanjan Goswami",
+        "Sonal Pinto"
+      ]
+    },
+    {
+      "id": "patent-published-7",
       "title": "2D rendering hardware architecture based on analytic anti-aliasing",
-      "applicationNumber": "US 17/721,635",
-      "filingDate": "2022-04-01",
+      "publicationNumber": "US 2023/0334735 A1",
+      "filingDate": "2022-04-15",
       "inventors": [
         "Nilanjan Goswami",
         "Chris Goodman",
@@ -171,10 +174,10 @@
       ]
     },
     {
-      "id": "patent-pending-8",
+      "id": "patent-published-8",
       "title": "Rasterization optimization for analytic anti-aliasing",
-      "applicationNumber": "US 17/721,653",
-      "filingDate": "2021-08-01",
+      "publicationNumber": "US 2023/0334736 A1",
+      "filingDate": "2022-04-15",
       "inventors": [
         "Nilanjan Goswami",
         "Chris Goodman",
@@ -183,9 +186,9 @@
       ]
     },
     {
-      "id": "patent-pending-3",
+      "id": "patent-published-3",
       "title": "Viewport visual effect correction",
-      "applicationNumber": "US 17/875,131",
+      "publicationNumber": "US 2022/0366820 A1",
       "filingDate": "2022-07-27",
       "inventors": [
         "Nilanjan Goswami",
@@ -201,10 +204,10 @@
       ]
     },
     {
-      "id": "patent-pending-4",
+      "id": "patent-published-4",
       "title": "Display system optimization",
-      "applicationNumber": "US 17/716,289",
-      "filingDate": "2022-04-01",
+      "publicationNumber": "US 2022/0326527 A1",
+      "filingDate": "2022-04-08",
       "inventors": [
         "Nilanjan Goswami",
         "Morgyn Taylor",

@@ -14,8 +14,8 @@ import patentsData from '../data/patents.json'
 import publicationsData from '../data/publications.json'
 import type { PatentsData, PublicationsData } from '../data/types'
 
-const patentCount =
-  (patentsData as PatentsData).granted.length + (patentsData as PatentsData).pending.length
+const { granted, pending, published } = patentsData as PatentsData
+const patentCount = granted.length + pending.length + published.length
 const citations = (publicationsData as PublicationsData).scholarStats.citations
 
 const focusAreas = [
@@ -50,7 +50,7 @@ const companies = ['Qualcomm', 'Meta', 'Samsung', 'Apple']
 
 const stats = [
   { value: '13+', label: 'Years defining silicon' },
-  { value: String(patentCount), label: `U.S. patents · ${(patentsData as PatentsData).granted.length} granted` },
+  { value: String(patentCount), label: `U.S. patent filings · ${granted.length} granted` },
   { value: `${citations}+`, label: 'Citations' },
 ]
 
