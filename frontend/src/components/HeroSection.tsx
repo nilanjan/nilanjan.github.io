@@ -36,13 +36,13 @@ const focusAreas = [
   },
   {
     icon: Sparkles,
-    title: 'Neural Rendering Inference',
-    description: 'ViT super-resolution and neural disocclusion as AI workloads on GPU compute — where graphics and inference share silicon.',
+    title: 'On-Device Vision Inference',
+    description: 'ViT super-resolution and neural disocclusion as on-device AI workloads on GPU compute, sharing silicon with graphics.',
   },
   {
     icon: Gauge,
     title: 'Performance & PPA Modeling',
-    description: 'Roofline and analytical models, cycle-level simulation, design-space sweeps and model-vs-RTL correlation.',
+    description: 'GPU performance analysis and profiling; roofline and analytical models, cycle-level simulation, design-space sweeps and model-vs-RTL correlation.',
   },
 ]
 
@@ -79,7 +79,7 @@ const HeroSection = () => {
               >
                 <span className="block" style={{ color: 'var(--text)' }}>Nilanjan Goswami</span>
                 <span className="block mt-2 text-[0.72em] font-normal leading-[1.15]" style={{ color: 'var(--text-muted)' }}>
-                  Algorithm–Architecture Co-Design for Accelerators
+                  Algorithm–Architecture Co-Design for Accelerators and GPU Compute
                 </span>
               </h1>
             </div>

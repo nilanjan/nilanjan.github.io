@@ -36,12 +36,12 @@ const cards = [
   },
   {
     icon: Sparkles,
-    title: 'Neural Rendering as AI Workload',
+    title: 'On-Device Vision Inference',
     span: 'md:col-span-2',
     bullets: [
       'ViT-based super-resolution mapped to GPU compute and matrix-path requirements',
-      'Super-resolution and neural disocclusion inside the rendering/composition pipeline',
-      'Graphics and AI inference sharing the same shader cores, LLC and power budget',
+      'Super-resolution and neural disocclusion models running alongside graphics on the same GPU',
+      'On-device inference under latency, power and thermal limits: graphics and AI sharing the same shader cores, LLC and power budget',
     ],
   },
   {

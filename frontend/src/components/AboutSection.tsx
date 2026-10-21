@@ -20,7 +20,7 @@ const pillars = [
   {
     icon: Cpu,
     label: 'Production Silicon',
-    detail: 'Specification through RTL correlation, verification review and silicon debug at four silicon companies',
+    detail: 'Specification through RTL correlation, verification review and silicon debug, working with microarchitecture, RTL and software teams at four silicon companies',
   },
 ]
 
@@ -56,7 +56,7 @@ const primaryExpertise = [
 
 const supplementaryExpertise = [
   'LLM Inference',
-  'Neural Rendering',
+  'On-Device Inference',
   'GPU Compute',
   'Low-Power SoCs',
   'VLIW/SIMD DSP Kernels',
