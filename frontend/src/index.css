@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  /* Keyboard focus: accent ring with breathing room instead of the browser's tight default. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
   :root {
     --bg: #f8f4e8;
     --bg-secondary: #ebe3cf;

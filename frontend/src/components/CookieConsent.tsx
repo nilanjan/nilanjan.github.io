@@ -61,7 +61,7 @@ const CookieConsent = ({ onOpenPrivacy }: CookieConsentProps) => {
             <p className="text-sm mb-4 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
               This site uses local storage only to remember your theme preference. No analytics or
               tracking cookies are used. See our{' '}
-              <button type="button" onClick={onOpenPrivacy} className="btn-ghost !p-0 !inline underline">
+              <button type="button" onClick={onOpenPrivacy} className="inline font-medium underline underline-offset-2 hover:opacity-80" style={{ color: 'var(--accent)' }}>
                 Privacy Policy
               </button>{' '}
               for details.

@@ -91,7 +91,12 @@ const Footer = ({ onOpenPrivacy, onOpenCookieSettings }: FooterProps) => {
             <h4 className="font-semibold mb-4 text-sm">Contact</h4>
             <div className="space-y-2 text-sm" style={{ color: 'var(--text-muted)' }}>
               <p>{LOCATION}</p>
-              <button type="button" onClick={() => scrollToSection('#contact')} className="btn-ghost !px-0">
+              <button
+                type="button"
+                onClick={() => scrollToSection('#contact')}
+                className="block font-medium underline-offset-4 hover:underline focus-visible:underline"
+                style={{ color: 'var(--accent)' }}
+              >
                 Send a Message
               </button>
             </div>
