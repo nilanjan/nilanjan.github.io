@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
-    "@fontsource/jetbrains-mono": "^5.2.8",
     "@types/node": "^24.1.0",
     "framer-motion": "^12.23.9",
     "lucide-react": "^0.526.0",

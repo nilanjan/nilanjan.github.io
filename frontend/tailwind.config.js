@@ -12,7 +12,8 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+        // Inter only, site-wide: code/pre/kbd and any font-mono use Inter too.
+        mono: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
         accent: {

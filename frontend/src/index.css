@@ -299,7 +299,7 @@
     font-weight: 600;
   }
   .mobile-nav-num {
-    @apply font-mono text-[11px] w-6 shrink-0 tabular-nums;
+    @apply text-[11px] w-6 shrink-0 tabular-nums;
     color: var(--text-muted);
   }
   .mobile-nav-item[data-active='true'] .mobile-nav-num {
@@ -340,7 +340,7 @@
   }
 
   .section-index-chip-num {
-    @apply font-mono text-[10px] tabular-nums;
+    @apply text-[10px] tabular-nums;
     opacity: 0.75;
   }
   .section-index-chip[data-active='true'] .section-index-chip-num {
@@ -373,7 +373,7 @@
     color: var(--text);
   }
   .scroll-index-num {
-    @apply font-mono text-[10px] w-6 shrink-0 tabular-nums text-right;
+    @apply text-[10px] w-6 shrink-0 tabular-nums text-right;
     color: var(--text-muted);
   }
   .scroll-index-item[data-active='true'] .scroll-index-num {

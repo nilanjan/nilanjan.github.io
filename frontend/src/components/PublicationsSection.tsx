@@ -76,7 +76,7 @@ const PublicationsSection = () => {
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="font-mono text-xs" style={{ color: 'var(--text-muted)' }}>{pub.year}</span>
+                    <span className="tabular-nums text-xs" style={{ color: 'var(--text-muted)' }}>{pub.year}</span>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${impactColors[pub.impact] ?? ''}`}>
                       {pub.impact}
                     </span>
@@ -93,7 +93,7 @@ const PublicationsSection = () => {
                     {pub.keywords.map((kw) => (
                       <span
                         key={kw}
-                        className="px-2 py-0.5 rounded text-xs font-mono"
+                        className="px-2 py-0.5 rounded text-xs"
                         style={{ backgroundColor: 'var(--surface-elevated)', color: 'var(--text-muted)' }}
                       >
                         {kw}
@@ -130,7 +130,7 @@ const PublicationsSection = () => {
               { label: 'Publications', value: publications.length },
             ].map((stat) => (
               <div key={stat.label}>
-                <div className="text-2xl font-semibold font-mono" style={{ color: 'var(--text)' }}>{stat.value}</div>
+                <div className="text-2xl font-semibold tabular-nums" style={{ color: 'var(--text)' }}>{stat.value}</div>
                 <div className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
               </div>
             ))}

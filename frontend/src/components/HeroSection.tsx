@@ -100,7 +100,7 @@ const HeroSection = () => {
               {stats.map((s) => (
                 <div key={s.label} className="rounded-xl border px-3 py-2.5" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}>
                   <dt className="sr-only">{s.label}</dt>
-                  <dd className="text-xl font-semibold font-mono" style={{ color: 'var(--text)' }}>{s.value}</dd>
+                  <dd className="text-xl font-semibold tabular-nums" style={{ color: 'var(--text)' }}>{s.value}</dd>
                   <dd className="text-[11px] leading-tight mt-0.5" style={{ color: 'var(--text-muted)' }}>{s.label}</dd>
                 </div>
               ))}

@@ -171,7 +171,7 @@ const ExperienceSection = () => (
                   {exp.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 rounded-lg text-xs font-mono"
+                      className="px-2.5 py-1 rounded-lg text-xs"
                       style={{ backgroundColor: 'var(--surface-elevated)', color: 'var(--text-muted)' }}
                     >
                       {tag}

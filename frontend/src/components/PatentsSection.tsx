@@ -128,7 +128,7 @@ const PatentsSection = () => {
                     className={`card card-pad border-l-2 ${g.border}`}
                   >
                     <h4 className="font-medium mb-2 leading-snug">{patent.title}</h4>
-                    <p className={`font-mono text-xs mb-3 ${g.text}`}>
+                    <p className={`tabular-nums text-xs mb-3 ${g.text}`}>
                       {patent.linkNumber ? (
                         <a
                           href={googlePatentsUrl(patent.linkNumber)}
